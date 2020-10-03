@@ -1,5 +1,4 @@
 schema: "server/src/graphql/typeDefs.ts"
-documents: "client/src/graphql/*.gql"
 generates:
   server/src/graphql/__generated__/typeDefs.ts:
     plugins:
@@ -7,6 +6,7 @@ generates:
     config:
       withHooks: true
   client/src/graphql/__generated__/typeDefs.ts:
+    documents: "client/src/graphql/*.gql"
     plugins:
       - "typescript"
       - "typescript-operations"
@@ -15,3 +15,7 @@ generates:
       withHooks: true
       withHOC: false
       withComponent: false
+  server/src/graphql/graphql.schema.json:
+    plugins:
+      - "introspection"
+
