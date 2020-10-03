@@ -1,0 +1,10 @@
+#dependencies
+node_modules
+
+# production
+dist
+
+
+#others
+schema.graphql
+.DS_Store

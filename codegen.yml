@@ -1,0 +1,17 @@
+schema: "server/src/graphql/typeDefs.ts"
+documents: "client/src/graphql/*.gql"
+generates:
+  server/src/graphql/__generated__/typeDefs.ts:
+    plugins:
+      - "typescript"
+    config:
+      withHooks: true
+  client/src/graphql/__generated__/typeDefs.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHooks: true
+      withHOC: false
+      withComponent: false
