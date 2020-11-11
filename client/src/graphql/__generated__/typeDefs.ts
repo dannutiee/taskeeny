@@ -1,7 +1,9 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { gql } from "@apollo/client";
+import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -12,35 +14,29 @@ export type Scalars = {
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   me?: Maybe<User>;
 };
 
 export type User = {
-  __typename?: 'User';
-  username: Scalars['String'];
-  age?: Maybe<Scalars['Int']>;
+  __typename?: "User";
+  username: Scalars["String"];
+  age?: Maybe<Scalars["Int"]>;
 };
 
-export type GetNameExampleQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetNameExampleQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetNameExampleQuery = (
-  { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'username'>
-  )> }
-);
-
+export type GetNameExampleQuery = { __typename?: "Query" } & {
+  me?: Maybe<{ __typename?: "User" } & Pick<User, "username">>;
+};
 
 export const GetNameExampleDocument = gql`
-    query getNameExample {
-  me {
-    username
+  query getNameExample {
+    me {
+      username
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetNameExampleQuery__
@@ -57,12 +53,35 @@ export const GetNameExampleDocument = gql`
  *   },
  * });
  */
-export function useGetNameExampleQuery(baseOptions?: Apollo.QueryHookOptions<GetNameExampleQuery, GetNameExampleQueryVariables>) {
-        return Apollo.useQuery<GetNameExampleQuery, GetNameExampleQueryVariables>(GetNameExampleDocument, baseOptions);
-      }
-export function useGetNameExampleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNameExampleQuery, GetNameExampleQueryVariables>) {
-          return Apollo.useLazyQuery<GetNameExampleQuery, GetNameExampleQueryVariables>(GetNameExampleDocument, baseOptions);
-        }
-export type GetNameExampleQueryHookResult = ReturnType<typeof useGetNameExampleQuery>;
-export type GetNameExampleLazyQueryHookResult = ReturnType<typeof useGetNameExampleLazyQuery>;
-export type GetNameExampleQueryResult = Apollo.QueryResult<GetNameExampleQuery, GetNameExampleQueryVariables>;
+export function useGetNameExampleQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetNameExampleQuery,
+    GetNameExampleQueryVariables
+  >
+) {
+  return Apollo.useQuery<GetNameExampleQuery, GetNameExampleQueryVariables>(
+    GetNameExampleDocument,
+    baseOptions
+  );
+}
+export function useGetNameExampleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetNameExampleQuery,
+    GetNameExampleQueryVariables
+  >
+) {
+  return Apollo.useLazyQuery<GetNameExampleQuery, GetNameExampleQueryVariables>(
+    GetNameExampleDocument,
+    baseOptions
+  );
+}
+export type GetNameExampleQueryHookResult = ReturnType<
+  typeof useGetNameExampleQuery
+>;
+export type GetNameExampleLazyQueryHookResult = ReturnType<
+  typeof useGetNameExampleLazyQuery
+>;
+export type GetNameExampleQueryResult = Apollo.QueryResult<
+  GetNameExampleQuery,
+  GetNameExampleQueryVariables
+>;
