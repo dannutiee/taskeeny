@@ -1,23 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createGlobalStyle } from "styled-components";
-import { ApolloClient } from "apollo-client";
-import { ApolloProvider } from "react-apollo";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
+import { ApolloProvider } from "@apollo/client";
 
 import AppRouter from "./routers/AppRouter";
 import AppContextProvider from "./contexts/AppContext";
 import globalStyles from "./themes/globalStyle";
-
-const link = new HttpLink({ uri: "https://localhost:8001" });
-
-const cache = new InMemoryCache({});
-
-const client = new ApolloClient({
-  link,
-  cache,
-});
+import GraphQLClient from "./graphql";
 
 const GlobalStyle = createGlobalStyle`
   ${globalStyles}
@@ -34,7 +23,7 @@ export default function App(): JSX.Element {
 
 const root = document.getElementById("app-root");
 ReactDOM.render(
-  <ApolloProvider client={client}>
+  <ApolloProvider client={GraphQLClient}>
     <App />
   </ApolloProvider>,
   root

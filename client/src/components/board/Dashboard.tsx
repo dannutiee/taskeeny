@@ -10,6 +10,8 @@ import { InitialData } from "./interfaces";
 import { reorder, move } from "./utils";
 import DroppableColumn from "./DroppableColumn";
 
+import { useGetNameExampleQuery } from "../../graphql";
+
 //MOCK DATA
 
 const items1 = [
@@ -62,6 +64,11 @@ const initialData = {
 
 export const Dashboard: React.FC = () => {
   const [boardData, setBoardData] = useState<InitialData>(initialData);
+
+  // TODO remove this example of graphql usage
+  const { data, error, loading } = useGetNameExampleQuery();
+
+  console.log("data", data);
 
   const updateInSingleColumn = (
     source: DraggableLocation,
