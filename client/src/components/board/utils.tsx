@@ -1,4 +1,4 @@
-import { TaskData } from "./interfaces";
+import { TaskData } from "../task/interfaces";
 
 export const reorder = (
   list: TaskData[],

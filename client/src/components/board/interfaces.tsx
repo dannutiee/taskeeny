@@ -1,7 +1,4 @@
-export interface TaskData {
-  id: string;
-  content: string;
-}
+import { TaskData } from "../task/interfaces";
 
 export interface ColumnData {
   title: string;

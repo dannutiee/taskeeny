@@ -17,4 +17,7 @@ export const lightTheme = {
     bg: COLORS.WHITE,
     shadow: "0px 0px 9px 2px rgb(34 36 38 / 6%)",
   },
+  task: {
+    bg: COLORS.WHITE,
+  },
 };

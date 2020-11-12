@@ -2,26 +2,38 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import {
   DragDropContext,
-  Droppable,
-  Draggable,
   DropResult,
   DraggableLocation,
 } from "react-beautiful-dnd";
 
 import { InitialData } from "./interfaces";
 import { reorder, move } from "./utils";
+import DroppableColumn from "./DroppableColumn";
 
 //MOCK DATA
 const items1 = [
-  { id: "five", content: "5" },
-  { id: "four", content: "4" },
-  { id: "one", content: "1" },
+  { id: "five", content: "Pick up the passport from the city hall" },
+  {
+    id: "four",
+    content: "Complete a Udemy course about the Node.js technology",
+  },
+  {
+    id: "one",
+    content:
+      "Create the new component for top nav and adjust it to the new design as well",
+  },
 ];
 
 const items2 = [
   { id: "six", content: "6" },
   { id: "ten", content: "10" },
   { id: "seven", content: "7" },
+];
+
+const items3 = [
+  { id: "a", content: "a" },
+  { id: "b", content: "b" },
+  { id: "c", content: "c" },
 ];
 
 const initialData = {
@@ -32,6 +44,10 @@ const initialData = {
   "column-in-progress": {
     title: "In progress",
     items: items2,
+  },
+  "column-done": {
+    title: "Done",
+    items: items3,
   },
 };
 
@@ -99,34 +115,16 @@ export const Dashboard: React.FC = () => {
   };
 
   console.log("items state", tasks);
+
   return (
     <DashboardWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
         {Object.keys(tasks).map((column, id) => (
-          <Droppable droppableId={column} key={id}>
-            {(provided) => (
-              <div
-                className={"droppable-column"}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {tasks[column].items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {item.content}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+          <DroppableColumn
+            column={column}
+            tasks={tasks[column].items}
+            key={column}
+          />
         ))}
       </DragDropContext>
     </DashboardWrapper>
