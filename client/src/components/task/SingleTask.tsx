@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import { TaskData } from "./interfaces";
 import { getBarHeight } from "./utils";
@@ -18,6 +18,20 @@ interface SingleTaskProps {
 }
 
 const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
+  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+
+  const onEditClick = () => {
+    //TODO   open edit modal
+  };
+
+  const onDeleteClick = () => {
+    // TODO   delete the task
+  };
+
+  const onTagClick = () => {
+    // TODO  filter tags by choosen one
+  };
+
   return (
     <Fragment>
       <TagBorderWrapper>
@@ -34,11 +48,17 @@ const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
       <TaskFooter>
         <TagsWrapper>
           {task.tags.map((tag, index) => (
-            <TagLink href={"#"} key={index}>{`#${tag}`}</TagLink>
+            <TagLink onClick={onTagClick} key={index}>{`#${tag}`}</TagLink>
           ))}
         </TagsWrapper>
-        <MoreButton>
+        <MoreButton onClick={() => setDropdownVisible(!dropdownVisible)}>
           <span className="material-icons">more_vert</span>
+          {dropdownVisible && (
+            <Dropdown>
+              <DropdownItem onClick={onEditClick}>Edit</DropdownItem>
+              <DropdownItem onClick={onDeleteClick}>Delete</DropdownItem>
+            </Dropdown>
+          )}
         </MoreButton>
       </TaskFooter>
     </Fragment>
@@ -88,19 +108,47 @@ const TaskFooter = styled.div`
 `;
 
 const MoreButton = styled.button`
-  padding: 5px 10px;
+  width: 40px;
   background: white;
   border: none;
   cursor: pointer;
+  position: relative;
   color: ${(p) => p.theme.task.button.color};
 `;
 
 const TagLink = styled.a`
   text-decoration: none;
-  margin-right: 6px;
+  margin-right: 10px;
   font-size: 14px;
   color: ${(p) => p.theme.task.link.color};
   &:hover {
     color: ${(p) => p.theme.task.link.hover};
   }
+`;
+
+const Dropdown = styled.div`
+  position: absolute;
+  background: white;
+  padding: 15px 20px;
+  right: 40px;
+  top: 8px;
+  border-radius: 5px;
+  z-index: 1;
+  box-shadow: ${(p) => p.theme.task.shadow};
+`;
+
+const DropdownItem = styled.div`
+  padding: 6px 0;
+  text-align: left;
+  font-family: "Open Sans";
+  &:first-child {
+    padding-top: 0px;
+  }
+  &:last-child {
+    padding-bottom: 0px;
+  }
+  &:hover {
+    color: ${(p) => p.theme.task.dropdown.textHover};
+  }
+  color: ${(p) => p.theme.task.dropdown.text};
 `;

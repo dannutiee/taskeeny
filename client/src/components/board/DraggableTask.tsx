@@ -40,7 +40,7 @@ const DraggableTaskWrapper = styled.div`
     border: none;
     border-radius: 10px;
     min-height: 120px;
-    box-shadow: 1px 2px 5px 2px rgb(34 36 38 / 6%);
+    box-shadow: ${(p) => p.theme.task.shadow};
     position: relative;
     display: flex;
     flex-direction: column;

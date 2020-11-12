@@ -28,12 +28,17 @@ export const lightTheme = {
   },
   task: {
     bg: COLORS.WHITE,
+    shadow: " 1px 2px 5px 2px rgb(34 36 38 / 6%)",
     button: {
       color: COLORS.BLUE,
     },
     link: {
       color: COLORS.GREY,
       hover: COLORS.BLUE,
+    },
+    dropdown: {
+      text: COLORS.GREY,
+      textHover: COLORS.BLUE,
     },
   },
 };
