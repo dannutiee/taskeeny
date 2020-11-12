@@ -12,7 +12,11 @@ interface SingleTaskProps {
 
 const DraggableTask: React.FC<SingleTaskProps> = ({ task, index }) => {
   return (
-    <Draggable draggableId={task.id} index={index}>
+    <Draggable
+      draggableId={task.id}
+      index={index}
+      disableInteractiveElementBlocking={true}
+    >
       {(provided) => (
         <DraggableTaskWrapper
           className={"draggable-task"}
@@ -37,5 +41,9 @@ const DraggableTaskWrapper = styled.div`
     border-radius: 10px;
     min-height: 120px;
     box-shadow: 1px 2px 5px 2px rgb(34 36 38 / 6%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;

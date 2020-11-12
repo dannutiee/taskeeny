@@ -11,29 +11,36 @@ import { reorder, move } from "./utils";
 import DroppableColumn from "./DroppableColumn";
 
 //MOCK DATA
+
 const items1 = [
-  { id: "five", content: "Pick up the passport from the city hall" },
+  {
+    id: "five",
+    content: "Pick up the passport from the city hall",
+    tags: ["home", "dana", "learn"],
+  },
   {
     id: "four",
     content: "Complete a Udemy course about the Node.js technology",
+    tags: ["home", "learn"],
   },
   {
     id: "one",
     content:
-      "Create the new component for top nav and adjust it to the new design as well",
+      "Create the new component for top nav Create the new component for top nav and adjust it to the new design as well Create the new component for top nav and adjust it to the new design as well Create the new component for top nav and adjust it to the new design as well adjust it to the new design as well",
+    tags: ["home", "dana", "learn"],
   },
 ];
 
 const items2 = [
-  { id: "six", content: "6" },
-  { id: "ten", content: "10" },
-  { id: "seven", content: "7" },
+  { id: "six", content: "6", tags: ["home"] },
+  { id: "ten", content: "10", tags: ["learn"] },
+  { id: "seven", content: "7", tags: ["learn"] },
 ];
 
 const items3 = [
-  { id: "a", content: "a" },
-  { id: "b", content: "b" },
-  { id: "c", content: "c" },
+  { id: "a", content: "a", tags: ["home", "dana"] },
+  { id: "b", content: "b", tags: ["home", "dana", "learn"] },
+  { id: "c", content: "c", tags: ["learn"] },
 ];
 
 const initialData = {
@@ -54,19 +61,19 @@ const initialData = {
 // END - MOCK DATA
 
 export const Dashboard: React.FC = () => {
-  const [tasks, setTasks] = useState<InitialData>(initialData);
+  const [boardData, setBoardData] = useState<InitialData>(initialData);
 
   const updateInSingleColumn = (
     source: DraggableLocation,
     destination: DraggableLocation
   ): void => {
     const reorderedItems = reorder(
-      tasks[source.droppableId].items,
+      boardData[source.droppableId].items,
       source.index,
       destination.index
     );
 
-    setTasks((prevTasks) => ({
+    setBoardData((prevTasks) => ({
       ...prevTasks,
       [source.droppableId]: {
         ...prevTasks[source.droppableId],
@@ -80,20 +87,20 @@ export const Dashboard: React.FC = () => {
     destination: DraggableLocation
   ): void => {
     const updatedColumns = move(
-      tasks[source.droppableId].items,
-      tasks[destination.droppableId].items,
+      boardData[source.droppableId].items,
+      boardData[destination.droppableId].items,
       source.index,
       destination.index
     );
 
-    setTasks((prevTasks) => ({
+    setBoardData((prevTasks) => ({
       ...prevTasks,
       [source.droppableId]: {
         ...prevTasks[source.droppableId],
         items: updatedColumns.sourceList,
       },
       [destination.droppableId]: {
-        ...prevTasks[source.droppableId],
+        ...prevTasks[destination.droppableId],
         items: updatedColumns.destinationList,
       },
     }));
@@ -114,15 +121,16 @@ export const Dashboard: React.FC = () => {
     }
   };
 
-  console.log("items state", tasks);
+  console.log("items state", boardData);
 
   return (
     <DashboardWrapper>
       <DragDropContext onDragEnd={onDragEnd}>
-        {Object.keys(tasks).map((column, id) => (
+        {Object.keys(boardData).map((column, id) => (
           <DroppableColumn
-            column={column}
-            tasks={tasks[column].items}
+            columnId={column}
+            tasks={boardData[column].items}
+            columnName={boardData[column].title}
             key={column}
           />
         ))}
@@ -138,4 +146,5 @@ const DashboardWrapper = styled.div`
   background: ${(p) => p.theme.dashboard.bg};
   display: flex;
   justify-content: space-around;
+  font-family: "Open Sans";
 `;

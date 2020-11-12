@@ -7,6 +7,8 @@ export default `
   html, body {
     height: 100%;
     margin: 0px;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   }
+
 
 `;
