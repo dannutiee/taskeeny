@@ -1,10 +1,14 @@
-// Todo make an index file only for export partial resolvers
+const Users = require("../../models/Users");
+
 export const resolvers = {
   Query: {
-    me: () => {
-      return {
-        username: "Robin Wieruch",
-      };
+    async users() {
+      try {
+        const users = await Users.find();
+        return users;
+      } catch (err) {
+        throw new Error(err);
+      }
     },
   },
 };

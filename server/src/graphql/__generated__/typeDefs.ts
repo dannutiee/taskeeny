@@ -13,11 +13,16 @@ export type Scalars = {
 
 export type Query = {
   __typename?: "Query";
-  me?: Maybe<User>;
+  users?: Maybe<Array<Maybe<User>>>;
 };
 
 export type User = {
   __typename?: "User";
+  id: Scalars["ID"];
   username: Scalars["String"];
-  age?: Maybe<Scalars["Int"]>;
+  name: Scalars["String"];
+  surname: Scalars["String"];
+  password: Scalars["String"];
+  email: Scalars["String"];
+  createdAt: Scalars["String"];
 };

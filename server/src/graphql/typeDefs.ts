@@ -2,11 +2,16 @@ import { gql } from "apollo-server-express";
 
 export default gql`
   type Query {
-    me: User
+    users: [User]
   }
 
   type User {
+    id: ID!
     username: String!
-    age: Int
+    name: String!
+    surname: String!
+    password: String!
+    email: String!
+    createdAt: String!
   }
 `;

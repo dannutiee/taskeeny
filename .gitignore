@@ -8,3 +8,4 @@ dist
 #others
 schema.graphql
 .DS_Store
+config.ts

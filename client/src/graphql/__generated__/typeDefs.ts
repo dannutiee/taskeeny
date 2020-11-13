@@ -15,73 +15,86 @@ export type Scalars = {
 
 export type Query = {
   __typename?: "Query";
-  me?: Maybe<User>;
+  users?: Maybe<Array<Maybe<User>>>;
 };
 
 export type User = {
   __typename?: "User";
+  id: Scalars["ID"];
   username: Scalars["String"];
-  age?: Maybe<Scalars["Int"]>;
+  name: Scalars["String"];
+  surname: Scalars["String"];
+  password: Scalars["String"];
+  email: Scalars["String"];
+  createdAt: Scalars["String"];
 };
 
-export type GetNameExampleQueryVariables = Exact<{ [key: string]: never }>;
+export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetNameExampleQuery = { __typename?: "Query" } & {
-  me?: Maybe<{ __typename?: "User" } & Pick<User, "username">>;
+export type GetUsersQuery = { __typename?: "Query" } & {
+  users?: Maybe<
+    Array<
+      Maybe<
+        { __typename?: "User" } & Pick<
+          User,
+          "id" | "name" | "surname" | "email" | "createdAt"
+        >
+      >
+    >
+  >;
 };
 
-export const GetNameExampleDocument = gql`
-  query getNameExample {
-    me {
-      username
+export const GetUsersDocument = gql`
+  query getUsers {
+    users {
+      id
+      name
+      surname
+      email
+      createdAt
     }
   }
 `;
 
 /**
- * __useGetNameExampleQuery__
+ * __useGetUsersQuery__
  *
- * To run a query within a React component, call `useGetNameExampleQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetNameExampleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetNameExampleQuery({
+ * const { data, loading, error } = useGetUsersQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetNameExampleQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetNameExampleQuery,
-    GetNameExampleQueryVariables
-  >
+export function useGetUsersQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>
 ) {
-  return Apollo.useQuery<GetNameExampleQuery, GetNameExampleQueryVariables>(
-    GetNameExampleDocument,
+  return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(
+    GetUsersDocument,
     baseOptions
   );
 }
-export function useGetNameExampleLazyQuery(
+export function useGetUsersLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetNameExampleQuery,
-    GetNameExampleQueryVariables
+    GetUsersQuery,
+    GetUsersQueryVariables
   >
 ) {
-  return Apollo.useLazyQuery<GetNameExampleQuery, GetNameExampleQueryVariables>(
-    GetNameExampleDocument,
+  return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(
+    GetUsersDocument,
     baseOptions
   );
 }
-export type GetNameExampleQueryHookResult = ReturnType<
-  typeof useGetNameExampleQuery
+export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
+export type GetUsersLazyQueryHookResult = ReturnType<
+  typeof useGetUsersLazyQuery
 >;
-export type GetNameExampleLazyQueryHookResult = ReturnType<
-  typeof useGetNameExampleLazyQuery
->;
-export type GetNameExampleQueryResult = Apollo.QueryResult<
-  GetNameExampleQuery,
-  GetNameExampleQueryVariables
+export type GetUsersQueryResult = Apollo.QueryResult<
+  GetUsersQuery,
+  GetUsersQueryVariables
 >;

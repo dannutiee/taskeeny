@@ -10,7 +10,7 @@ import { InitialData } from "./interfaces";
 import { reorder, move } from "./utils";
 import DroppableColumn from "./DroppableColumn";
 
-import { useGetNameExampleQuery } from "../../graphql";
+import { useGetUsersQuery } from "../../graphql";
 
 //MOCK DATA
 
@@ -66,7 +66,7 @@ export const Dashboard: React.FC = () => {
   const [boardData, setBoardData] = useState<InitialData>(initialData);
 
   // TODO remove this example of graphql usage
-  const { data, error, loading } = useGetNameExampleQuery();
+  const { data, error, loading } = useGetUsersQuery();
 
   console.log("data", data);
 
