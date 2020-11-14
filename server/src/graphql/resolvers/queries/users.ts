@@ -1,6 +1,6 @@
-const Users = require("../../models/Users");
+const Users = require("../../../models/Users");
 
-export const resolvers = {
+export const usersResolver = {
   Query: {
     async users() {
       try {

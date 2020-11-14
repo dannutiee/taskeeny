@@ -1,5 +1,5 @@
 import { ApolloServerExpressConfig } from "apollo-server-express";
-import { resolvers } from "./resolvers/resolvers";
+import { resolvers } from "./resolvers";
 import typeDefs from "./typeDefs";
 
 const schema: ApolloServerExpressConfig = {

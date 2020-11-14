@@ -1,6 +1,6 @@
 const { model, Schema } = require("mongoose");
 
-const userSchema = new Schema({
+export const userSchema = new Schema({
   username: String,
   name: String,
   surname: String,
