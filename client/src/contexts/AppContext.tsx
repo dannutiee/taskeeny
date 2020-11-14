@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 
 const initialState = {
   user: {
@@ -14,7 +14,7 @@ export interface AppProps {
   user: User;
 }
 
-export const AppContext = React.createContext<AppProps>(initialState);
+export const AppContext = createContext<AppProps>(initialState);
 
 const myValue = {
   user: {

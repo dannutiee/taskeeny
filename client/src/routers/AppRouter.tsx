@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { lightTheme } from "../themes/lightTheme";
 import App from "../components/app/App";
+import { AuthContextProvider } from "../contexts/auth";
 
 const AppBody = styled.div`
   font-family: "Montserrat", sans-serif;
@@ -15,13 +16,15 @@ export const history = createBrowserHistory();
 
 const AppRouter = () => (
   <ThemeProvider theme={lightTheme}>
-    <Router history={history}>
-      <AppBody>
-        <Switch>
-          <Route path="/" component={App} exact={true} />
-        </Switch>
-      </AppBody>
-    </Router>
+    <AuthContextProvider>
+      <Router history={history}>
+        <AppBody>
+          <Switch>
+            <Route path="/" component={App} exact={true} />
+          </Switch>
+        </AppBody>
+      </Router>
+    </AuthContextProvider>
   </ThemeProvider>
 );
 
