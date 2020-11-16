@@ -1,8 +1,8 @@
-import { resolveUsers } from "./users";
+import { resolveRegisterUser } from "./users";
 import { Resolvers } from "../../__generated__/typeDefs";
 
 export const resolvers: Resolvers = {
-  Query: {
-    users: resolveUsers,
+  Mutation: {
+    registerUser: resolveRegisterUser,
   },
 };

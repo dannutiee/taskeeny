@@ -4,7 +4,7 @@ import typeDefs from "./typeDefs";
 
 const schema: ApolloServerExpressConfig = {
   typeDefs,
-  resolvers,
+  resolvers: resolvers as any, // workaround
   introspection: true,
   context: async ({ req, connection, payload }: any) => {
     if (connection) {

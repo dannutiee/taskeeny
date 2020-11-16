@@ -1,14 +1,13 @@
-const Users = require("../../../models/Users");
+import { Users } from "../../../models";
+import { QueryResolvers } from "../../__generated__/typeDefs";
 
-export const usersResolver = {
-  Query: {
-    async users() {
-      try {
-        const users = await Users.find();
-        return users;
-      } catch (err) {
-        throw new Error(err);
-      }
-    },
-  },
+type ResolveUser = QueryResolvers["users"];
+
+export const resolveUsers: ResolveUser = async () => {
+  try {
+    const users = await Users.find();
+    return users;
+  } catch (err) {
+    throw new Error(err);
+  }
 };

@@ -3,6 +3,7 @@ generates:
   server/src/graphql/__generated__/typeDefs.ts:
     plugins:
       - "typescript"
+      - "typescript-resolvers"
     config:
       withHooks: true
   client/src/graphql/__generated__/typeDefs.ts:

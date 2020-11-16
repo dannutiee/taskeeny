@@ -1,9 +1,7 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -13,48 +11,65 @@ export type Scalars = {
   Float: number;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  registerUser: User;
+};
+
+
+export type MutationRegisterUserArgs = {
+  input: RegisterInput;
+};
+
 export type Query = {
-  __typename?: "Query";
+  __typename?: 'Query';
   users?: Maybe<Array<Maybe<User>>>;
 };
 
+export type RegisterInput = {
+  username: Scalars['String'];
+  password: Scalars['String'];
+  confirmPassword: Scalars['String'];
+  email: Scalars['String'];
+  name: Scalars['String'];
+  surname: Scalars['String'];
+};
+
 export type User = {
-  __typename?: "User";
-  id: Scalars["ID"];
-  username: Scalars["String"];
-  name: Scalars["String"];
-  surname: Scalars["String"];
-  password: Scalars["String"];
-  email: Scalars["String"];
-  createdAt: Scalars["String"];
+  __typename?: 'User';
+  id: Scalars['ID'];
+  username: Scalars['String'];
+  name: Scalars['String'];
+  surname: Scalars['String'];
+  password: Scalars['String'];
+  email: Scalars['String'];
+  createdAt: Scalars['String'];
+  token: Scalars['String'];
 };
 
-export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetUsersQuery = { __typename?: "Query" } & {
-  users?: Maybe<
-    Array<
-      Maybe<
-        { __typename?: "User" } & Pick<
-          User,
-          "id" | "name" | "surname" | "email" | "createdAt"
-        >
-      >
-    >
-  >;
-};
+
+export type GetUsersQuery = (
+  { __typename?: 'Query' }
+  & { users?: Maybe<Array<Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'surname' | 'email' | 'createdAt'>
+  )>>> }
+);
+
 
 export const GetUsersDocument = gql`
-  query getUsers {
-    users {
-      id
-      name
-      surname
-      email
-      createdAt
-    }
+    query getUsers {
+  users {
+    id
+    name
+    surname
+    email
+    createdAt
   }
-`;
+}
+    `;
 
 /**
  * __useGetUsersQuery__
@@ -71,30 +86,12 @@ export const GetUsersDocument = gql`
  *   },
  * });
  */
-export function useGetUsersQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>
-) {
-  return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(
-    GetUsersDocument,
-    baseOptions
-  );
-}
-export function useGetUsersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUsersQuery,
-    GetUsersQueryVariables
-  >
-) {
-  return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(
-    GetUsersDocument,
-    baseOptions
-  );
-}
+export function useGetUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, baseOptions);
+      }
+export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, baseOptions);
+        }
 export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
-export type GetUsersLazyQueryHookResult = ReturnType<
-  typeof useGetUsersLazyQuery
->;
-export type GetUsersQueryResult = Apollo.QueryResult<
-  GetUsersQuery,
-  GetUsersQueryVariables
->;
+export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
+export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
