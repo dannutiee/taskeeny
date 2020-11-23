@@ -13,10 +13,30 @@ export type Scalars = {
   Float: number;
 };
 
+export type AuthPayload = {
+  __typename?: "AuthPayload";
+  token: Scalars["String"];
+  user: User;
+};
+
+export type AuthtenticatedUser = {
+  __typename?: "AuthtenticatedUser";
+  id: Scalars["ID"];
+  username: Scalars["String"];
+  name: Scalars["String"];
+  surname: Scalars["String"];
+  password: Scalars["String"];
+  email: Scalars["String"];
+  createdAt: Scalars["String"];
+  token: Scalars["String"];
+  tasks?: Maybe<Array<Maybe<Task>>>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
-  registerUser: User;
-  login: User;
+  registerUser?: Maybe<AuthPayload>;
+  login?: Maybe<AuthPayload>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -31,6 +51,7 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: "Query";
   users?: Maybe<Array<Maybe<User>>>;
+  user: AuthtenticatedUser;
 };
 
 export type RegisterInput = {
@@ -40,6 +61,20 @@ export type RegisterInput = {
   email: Scalars["String"];
   name: Scalars["String"];
   surname: Scalars["String"];
+};
+
+export type Tag = {
+  __typename?: "Tag";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  color: Scalars["String"];
+};
+
+export type Task = {
+  __typename?: "Task";
+  id: Scalars["ID"];
+  content: Scalars["String"];
+  tags: Array<Maybe<Tag>>;
 };
 
 export type User = {

@@ -16,10 +16,30 @@ export type Scalars = {
   Float: number;
 };
 
+export type AuthPayload = {
+  __typename?: "AuthPayload";
+  token: Scalars["String"];
+  user: User;
+};
+
+export type AuthtenticatedUser = {
+  __typename?: "AuthtenticatedUser";
+  id: Scalars["ID"];
+  username: Scalars["String"];
+  name: Scalars["String"];
+  surname: Scalars["String"];
+  password: Scalars["String"];
+  email: Scalars["String"];
+  createdAt: Scalars["String"];
+  token: Scalars["String"];
+  tasks?: Maybe<Array<Maybe<Task>>>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
-  registerUser: User;
-  login: User;
+  registerUser?: Maybe<AuthPayload>;
+  login?: Maybe<AuthPayload>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -34,6 +54,7 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: "Query";
   users?: Maybe<Array<Maybe<User>>>;
+  user: AuthtenticatedUser;
 };
 
 export type RegisterInput = {
@@ -43,6 +64,20 @@ export type RegisterInput = {
   email: Scalars["String"];
   name: Scalars["String"];
   surname: Scalars["String"];
+};
+
+export type Tag = {
+  __typename?: "Tag";
+  id: Scalars["ID"];
+  name: Scalars["String"];
+  color: Scalars["String"];
+};
+
+export type Task = {
+  __typename?: "Task";
+  id: Scalars["ID"];
+  content: Scalars["String"];
+  tags: Array<Maybe<Tag>>;
 };
 
 export type User = {
@@ -177,8 +212,12 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
+  AuthtenticatedUser: ResolverTypeWrapper<AuthtenticatedUser>;
+  Task: ResolverTypeWrapper<Task>;
+  Tag: ResolverTypeWrapper<Tag>;
   Mutation: ResolverTypeWrapper<{}>;
   RegisterInput: RegisterInput;
+  AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
 };
 
@@ -188,9 +227,47 @@ export type ResolversParentTypes = {
   User: User;
   ID: Scalars["ID"];
   String: Scalars["String"];
+  AuthtenticatedUser: AuthtenticatedUser;
+  Task: Task;
+  Tag: Tag;
   Mutation: {};
   RegisterInput: RegisterInput;
+  AuthPayload: AuthPayload;
   Boolean: Scalars["Boolean"];
+};
+
+export type AuthPayloadResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AuthPayload"] = ResolversParentTypes["AuthPayload"]
+> = {
+  token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AuthtenticatedUserResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["AuthtenticatedUser"] = ResolversParentTypes["AuthtenticatedUser"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  surname?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  password?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  tasks?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Task"]>>>,
+    ParentType,
+    ContextType
+  >;
+  tags?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Tag"]>>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<
@@ -198,13 +275,13 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
 > = {
   registerUser?: Resolver<
-    ResolversTypes["User"],
+    Maybe<ResolversTypes["AuthPayload"]>,
     ParentType,
     ContextType,
     RequireFields<MutationRegisterUserArgs, "input">
   >;
   login?: Resolver<
-    ResolversTypes["User"],
+    Maybe<ResolversTypes["AuthPayload"]>,
     ParentType,
     ContextType,
     RequireFields<MutationLoginArgs, "email" | "password">
@@ -220,6 +297,31 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  user?: Resolver<
+    ResolversTypes["AuthtenticatedUser"],
+    ParentType,
+    ContextType
+  >;
+};
+
+export type TagResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Tag"] = ResolversParentTypes["Tag"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  color?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TaskResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Task"] = ResolversParentTypes["Task"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  tags?: Resolver<Array<Maybe<ResolversTypes["Tag"]>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<
@@ -238,8 +340,12 @@ export type UserResolvers<
 };
 
 export type Resolvers<ContextType = any> = {
+  AuthPayload?: AuthPayloadResolvers<ContextType>;
+  AuthtenticatedUser?: AuthtenticatedUserResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Tag?: TagResolvers<ContextType>;
+  Task?: TaskResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

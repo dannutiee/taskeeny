@@ -2,16 +2,14 @@ import { ApolloServerExpressConfig } from "apollo-server-express";
 import { resolvers } from "./resolvers";
 import typeDefs from "./typeDefs";
 
+import { createContext } from "./context";
+
 const schema: ApolloServerExpressConfig = {
   typeDefs,
   resolvers: resolvers as any, // workaround
+  // context: ({req})=>({req}),
+  context: createContext,
   introspection: true,
-  context: async ({ req, connection, payload }: any) => {
-    if (connection) {
-      return { isAuth: payload.authToken };
-    }
-    return { isAuth: req.isAuth };
-  },
   playground: true,
 };
 
