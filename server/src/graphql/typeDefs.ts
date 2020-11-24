@@ -24,6 +24,7 @@ export default gql`
   type Task {
     id: ID!
     content: String!
+    status: String!
     tags: [Tag]!
   }
   type Tag {
