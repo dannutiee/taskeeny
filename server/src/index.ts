@@ -1,7 +1,7 @@
-import express from "express";
-import { ApolloServer } from "apollo-server-express";
+const express = require("express");
 const mongoose = require("mongoose");
 
+import { ApolloServer } from "apollo-server-express";
 import { MONGODB } from "./config";
 import schema from "./graphql/schema";
 

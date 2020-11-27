@@ -1,4 +1,5 @@
-import { Tag } from "../../../models/Tag";
+// import { Tag } from "../../../models/Tag";
+import { Account } from "../../../models";
 import {
   TaskResolvers,
   AuthtenticatedUserResolvers,
@@ -7,14 +8,15 @@ import {
 type ResolveTagsForTask = TaskResolvers["tags"];
 
 export const resolveTagsForTask: ResolveTagsForTask = async (
-  { id },
+  { id, tags },
   _args,
-  { isAuth }
+  { isAuth, user }
 ) => {
   if (isAuth) {
     try {
-      const tags = await Tag.find({ task_id: id });
-      return tags;
+      const account = await Account.findOne({ user_id: user.id });
+      let task = account.tasks.find((el: any) => el.id === id);
+      return task.tags;
     } catch (err) {
       throw new Error(err);
     }
@@ -29,8 +31,8 @@ export const resolveTagsForUser: ResolveTagsForUser = async (
 ) => {
   if (isAuth) {
     try {
-      const tags = await Tag.find({ user_id: user.id });
-      return tags;
+      const account = await Account.findOne({ user_id: user.id });
+      return account.tags;
     } catch (err) {
       throw new Error(err);
     }

@@ -14,8 +14,8 @@ interface User {
 }
 
 async function getUser(token: string) {
-  const { username } = jwt.verify(token, SECRET_KEY) as User;
-  return await User.findOne({ username });
+  const { email } = jwt.verify(token, SECRET_KEY) as User;
+  return await User.findOne({ email });
 }
 
 type ContextFunction = Extract<ApolloServerExpressConfig["context"], Function>;
@@ -26,6 +26,7 @@ export const createContext: ContextFunction = async ({ req }) => {
   const authorization = req.headers.authorization;
 
   if (authorization) {
+    console.log("auth ok", authorization);
     const token = authorization.replace("Bearer ", "");
 
     // try to retrieve a user with the token
@@ -39,6 +40,7 @@ export const createContext: ContextFunction = async ({ req }) => {
       throw new AuthenticationError("Invalid/Expired token");
     }
   } else {
+    console.log("auth failed");
     return null;
   }
 };

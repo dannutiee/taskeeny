@@ -1,16 +1,7 @@
 import { gql } from "apollo-server-express";
 
 export default gql`
-  type User {
-    id: ID!
-    username: String!
-    name: String!
-    surname: String!
-    password: String!
-    email: String!
-    createdAt: String!
-    token: String!
-  }
+  # Inputs  -----------------------------------
 
   input RegisterInput {
     username: String!
@@ -21,11 +12,23 @@ export default gql`
     surname: String!
   }
 
+  input TagInput {
+    name: String!
+    color: String!
+  }
+
+  input AddTaskInput {
+    content: String!
+    tags: [TagInput!]!
+  }
+
+  # Queries   --------------------------------------
+
   type Task {
     id: ID!
     content: String!
     status: String!
-    tags: [Tag]!
+    tags: [String]
   }
   type Tag {
     id: ID!
@@ -33,9 +36,18 @@ export default gql`
     color: String!
   }
 
+  type User {
+    id: ID!
+    name: String!
+    surname: String!
+    password: String!
+    email: String!
+    createdAt: String!
+    token: String!
+  }
+
   type AuthtenticatedUser {
     id: ID!
-    username: String!
     name: String!
     surname: String!
     password: String!
@@ -46,18 +58,29 @@ export default gql`
     tags: [Tag]
   }
 
+  # Mutations   -----------------------------
+
+  interface MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
+  type AddTaskResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
+  # Root for mutation and query  ----------------------
+
+  type Mutation {
+    registerUser(input: RegisterInput!): User
+    login(email: String!, password: String!): User
+    addTask(input: AddTaskInput!): AddTaskResponse
+  }
   type Query {
     users: [User]
     user: AuthtenticatedUser!
-  }
-
-  type AuthPayload {
-    token: String!
-    user: User!
-  }
-
-  type Mutation {
-    registerUser(input: RegisterInput!): AuthPayload
-    login(email: String!, password: String!): AuthPayload
   }
 `;

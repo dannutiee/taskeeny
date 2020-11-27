@@ -1,10 +1,11 @@
 const { model, Schema } = require("mongoose");
 
 export const taskSchema = new Schema({
-  user_id: String,
+  _id: Schema.Types.ObjectId,
   content: String,
   status: String,
   createdAt: String,
+  tags: [String],
 });
 
 export const Task = model("Task", taskSchema);

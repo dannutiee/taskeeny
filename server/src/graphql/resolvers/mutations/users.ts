@@ -1,8 +1,10 @@
+const mongoose = require("mongoose");
+
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UserInputError } from "apollo-server";
 
-import { User } from "../../../models";
+import { User, Account } from "../../../models";
 import { MutationResolvers } from "../../__generated__/typeDefs";
 import { SECRET_KEY } from "../../../config";
 import {
@@ -21,7 +23,7 @@ const generateToken = (user: any) =>
       username: user.username,
     },
     SECRET_KEY,
-    { expiresIn: "1h" }
+    { expiresIn: "3h" }
   );
 
 export const resolveRegisterUser: ResolveRegisterUser = async (
@@ -33,6 +35,7 @@ export const resolveRegisterUser: ResolveRegisterUser = async (
   const hashedPassword = await bcrypt.hash(password, 12);
 
   const newUser = new User({
+    _id: new mongoose.Types.ObjectId(),
     username,
     name,
     surname,
@@ -62,8 +65,21 @@ export const resolveRegisterUser: ResolveRegisterUser = async (
     });
   }
 
+  // save new user and create an account
+  const result = newUser.save((err: any) => {
+    if (err) throw new Error(err);
+
+    const newAccount = new Account({
+      _id: new mongoose.Types.ObjectId(),
+      user_id: newUser._id.toString(),
+    });
+
+    newAccount.save((err: any) => {
+      if (err) throw new Error(err);
+    });
+  });
+
   // hash password and create an auth token
-  const result = await newUser.save();
   const token = generateToken(result);
 
   return {
