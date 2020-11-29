@@ -34,6 +34,7 @@ export default gql`
     id: ID!
     name: String!
     color: String!
+    tasks: [String!]!
   }
 
   type User {
@@ -71,6 +72,11 @@ export default gql`
     success: Boolean!
     message: String!
   }
+  type DeleteTaskResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
 
   # Root for mutation and query  ----------------------
 
@@ -78,6 +84,7 @@ export default gql`
     registerUser(input: RegisterInput!): User
     login(email: String!, password: String!): User
     addTask(input: AddTaskInput!): AddTaskResponse
+    deleteTask(taskId: ID!): DeleteTaskResponse
   }
   type Query {
     users: [User]

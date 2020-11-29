@@ -28,10 +28,8 @@ const generateToken = (user: any) =>
 
 export const resolveRegisterUser: ResolveRegisterUser = async (
   _parent,
-  { input }
+  { input: { username, email, password, confirmPassword, name, surname } }
 ) => {
-  const { username, email, password, confirmPassword, name, surname } = input;
-
   const hashedPassword = await bcrypt.hash(password, 12);
 
   const newUser = new User({
@@ -114,7 +112,7 @@ export const resolveLogin: ResolveLoginUser = async (
   const token = generateToken(user);
   return {
     ...user._doc,
-    id: user.id,
+    id: user._id,
     token,
   };
 };

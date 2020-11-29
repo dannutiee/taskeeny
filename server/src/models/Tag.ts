@@ -4,6 +4,7 @@ export const tagSchema = new Schema({
   _id: Schema.Types.ObjectId,
   name: String,
   color: String,
+  tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
 });
 
 export const Tag = model("Tag", tagSchema);
