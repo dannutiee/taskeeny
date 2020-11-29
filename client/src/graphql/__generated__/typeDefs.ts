@@ -51,6 +51,7 @@ export type Mutation = {
   login?: Maybe<User>;
   addTask?: Maybe<AddTaskResponse>;
   deleteTask?: Maybe<DeleteTaskResponse>;
+  updateTask?: Maybe<UpdateTaskResponse>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -68,6 +69,10 @@ export type MutationAddTaskArgs = {
 
 export type MutationDeleteTaskArgs = {
   taskId: Scalars["ID"];
+};
+
+export type MutationUpdateTaskArgs = {
+  input: UpdateTaskInput;
 };
 
 export type MutationResponseInterface = {
@@ -110,6 +115,20 @@ export type Task = {
   content: Scalars["String"];
   status: Scalars["String"];
   tags?: Maybe<Array<Maybe<Scalars["String"]>>>;
+};
+
+export type UpdateTaskInput = {
+  taskId: Scalars["ID"];
+  content?: Maybe<Scalars["String"]>;
+  tags?: Maybe<Array<TagInput>>;
+  status?: Maybe<Scalars["String"]>;
+};
+
+export type UpdateTaskResponse = MutationResponseInterface & {
+  __typename?: "UpdateTaskResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
 };
 
 export type User = {

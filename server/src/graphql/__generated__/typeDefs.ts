@@ -54,6 +54,7 @@ export type Mutation = {
   login?: Maybe<User>;
   addTask?: Maybe<AddTaskResponse>;
   deleteTask?: Maybe<DeleteTaskResponse>;
+  updateTask?: Maybe<UpdateTaskResponse>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -71,6 +72,10 @@ export type MutationAddTaskArgs = {
 
 export type MutationDeleteTaskArgs = {
   taskId: Scalars["ID"];
+};
+
+export type MutationUpdateTaskArgs = {
+  input: UpdateTaskInput;
 };
 
 export type MutationResponseInterface = {
@@ -113,6 +118,20 @@ export type Task = {
   content: Scalars["String"];
   status: Scalars["String"];
   tags?: Maybe<Array<Maybe<Scalars["String"]>>>;
+};
+
+export type UpdateTaskInput = {
+  taskId: Scalars["ID"];
+  content?: Maybe<Scalars["String"]>;
+  tags?: Maybe<Array<TagInput>>;
+  status?: Maybe<Scalars["String"]>;
+};
+
+export type UpdateTaskResponse = MutationResponseInterface & {
+  __typename?: "UpdateTaskResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
 };
 
 export type User = {
@@ -256,9 +275,12 @@ export type ResolversTypes = {
   AddTaskResponse: ResolverTypeWrapper<AddTaskResponse>;
   MutationResponseInterface:
     | ResolversTypes["AddTaskResponse"]
-    | ResolversTypes["DeleteTaskResponse"];
+    | ResolversTypes["DeleteTaskResponse"]
+    | ResolversTypes["UpdateTaskResponse"];
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   DeleteTaskResponse: ResolverTypeWrapper<DeleteTaskResponse>;
+  UpdateTaskInput: UpdateTaskInput;
+  UpdateTaskResponse: ResolverTypeWrapper<UpdateTaskResponse>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -277,9 +299,12 @@ export type ResolversParentTypes = {
   AddTaskResponse: AddTaskResponse;
   MutationResponseInterface:
     | ResolversParentTypes["AddTaskResponse"]
-    | ResolversParentTypes["DeleteTaskResponse"];
+    | ResolversParentTypes["DeleteTaskResponse"]
+    | ResolversParentTypes["UpdateTaskResponse"];
   Boolean: Scalars["Boolean"];
   DeleteTaskResponse: DeleteTaskResponse;
+  UpdateTaskInput: UpdateTaskInput;
+  UpdateTaskResponse: UpdateTaskResponse;
 };
 
 export type AddTaskResponseResolvers<
@@ -354,6 +379,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationDeleteTaskArgs, "taskId">
   >;
+  updateTask?: Resolver<
+    Maybe<ResolversTypes["UpdateTaskResponse"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateTaskArgs, "input">
+  >;
 };
 
 export type MutationResponseInterfaceResolvers<
@@ -361,7 +392,7 @@ export type MutationResponseInterfaceResolvers<
   ParentType extends ResolversParentTypes["MutationResponseInterface"] = ResolversParentTypes["MutationResponseInterface"]
 > = {
   __resolveType: TypeResolveFn<
-    "AddTaskResponse" | "DeleteTaskResponse",
+    "AddTaskResponse" | "DeleteTaskResponse" | "UpdateTaskResponse",
     ParentType,
     ContextType
   >;
@@ -412,6 +443,16 @@ export type TaskResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UpdateTaskResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UpdateTaskResponse"] = ResolversParentTypes["UpdateTaskResponse"]
+> = {
+  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
@@ -435,6 +476,7 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
+  UpdateTaskResponse?: UpdateTaskResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

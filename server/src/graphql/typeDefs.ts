@@ -22,6 +22,13 @@ export default gql`
     tags: [TagInput!]!
   }
 
+  input UpdateTaskInput {
+    taskId: ID!
+    content: String
+    tags: [TagInput!]
+    status: String
+  }
+
   # Queries   --------------------------------------
 
   type Task {
@@ -72,6 +79,13 @@ export default gql`
     success: Boolean!
     message: String!
   }
+
+  type UpdateTaskResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
   type DeleteTaskResponse implements MutationResponseInterface {
     code: String!
     success: Boolean!
@@ -85,6 +99,7 @@ export default gql`
     login(email: String!, password: String!): User
     addTask(input: AddTaskInput!): AddTaskResponse
     deleteTask(taskId: ID!): DeleteTaskResponse
+    updateTask(input: UpdateTaskInput!): UpdateTaskResponse
   }
   type Query {
     users: [User]

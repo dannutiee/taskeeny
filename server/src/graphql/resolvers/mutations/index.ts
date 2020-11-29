@@ -1,5 +1,5 @@
 import { resolveRegisterUser, resolveLogin } from "./users";
-import { resolveAddTask, resolveDeleteTask } from "./tasks";
+import { resolveAddTask, resolveDeleteTask, resolveUpdateTask } from "./tasks";
 import { Resolvers } from "../../__generated__/typeDefs";
 
 export const resolvers: Resolvers = {
@@ -8,5 +8,6 @@ export const resolvers: Resolvers = {
     login: resolveLogin,
     addTask: resolveAddTask,
     deleteTask: resolveDeleteTask,
+    updateTask: resolveUpdateTask,
   },
 };

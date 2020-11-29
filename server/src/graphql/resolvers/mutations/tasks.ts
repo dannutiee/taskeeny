@@ -6,15 +6,19 @@ import {
   MutationResolvers,
   TagInput,
   Tag as TagInterface,
+  AddTaskInput,
 } from "../../__generated__/typeDefs";
-import { getOnlyNewTags, getArrOfTagNames } from "../../../utils/tasks";
+import {
+  getOnlyNewTags,
+  getArrOfTagNames,
+  getTagsWithUpdatedTasksIds,
+  getTagsUpdatedWithNewItems,
+  getTagsWithRemovedTaskId,
+} from "../../../utils/tasks";
 
 type ResolveAddTask = MutationResolvers["addTask"];
 type ResolveDeleteTask = MutationResolvers["deleteTask"];
-
-interface NewTag extends TagInput {
-  tasks?: string[];
-}
+type ResolveUpdateTask = MutationResolvers["updateTask"];
 
 export const resolveAddTask: ResolveAddTask = async (
   _parent,
@@ -35,25 +39,19 @@ export const resolveAddTask: ResolveAddTask = async (
     currentAccount.tasks.push(newTask);
 
     // update  existing tags with new task id
-    for (let i = 0; i < currentAccount.tags.length; i++) {
-      if (tags.find((el) => el.name === currentAccount.tags[i].name)) {
-        currentAccount.tags[i].tasks.push(newTask._id);
-      }
-    }
+    currentAccount.tags = getTagsWithUpdatedTasksIds(
+      tags,
+      currentAccount.tags,
+      newTask._id
+    );
 
     // add tags to account - only these which are not created yet
     const newTags = getOnlyNewTags(tags, currentAccount.tags);
-    if (newTags.length > 0) {
-      newTags.forEach((newTag: NewTag) => {
-        const newTagObject = new Tag({
-          name: newTag.name,
-          color: newTag.color,
-          tasks: [newTask._id],
-        });
-
-        currentAccount.tags.push(newTagObject);
-      });
-    }
+    currentAccount.tags = getTagsUpdatedWithNewItems(
+      newTags,
+      currentAccount.tags,
+      newTask._id
+    );
 
     const result = await currentAccount.save((err: any) => {
       if (err) {
@@ -91,12 +89,10 @@ export const resolveDeleteTask: ResolveDeleteTask = async (
     }
 
     // remove task id from all tags it belong to
-    for (let tag of currentAccount.tags) {
-      const taskIdIndex = tag.tasks.indexOf(taskToRemove.id);
-      if (taskIdIndex !== -1) {
-        tag.tasks.splice(taskIdIndex, 1);
-      }
-    }
+    currentAccount.tags = getTagsWithRemovedTaskId(
+      currentAccount.tags,
+      taskToRemove.id
+    );
 
     // remov tags when there is no tasks connected
     currentAccount.tags = currentAccount.tags.filter(
@@ -122,6 +118,79 @@ export const resolveDeleteTask: ResolveDeleteTask = async (
       code: "200",
       success: true,
       message: "Task succesfully deleted",
+    };
+  }
+};
+
+export const resolveUpdateTask: ResolveUpdateTask = async (
+  _parent,
+  { input: { taskId, content, tags, status } },
+  { isAuth, user }
+) => {
+  if (isAuth) {
+    const currentAccount = await Account.findOne({ user_id: user.id });
+    // find task to update
+    const taskToUpdate = currentAccount.tasks.find((task: TagInterface) => {
+      return task.id === taskId;
+    });
+
+    if (!taskToUpdate) {
+      throw new UserInputError("Task is not exist");
+    }
+
+    if (content) {
+      taskToUpdate.content = content;
+    }
+
+    if (status) {
+      taskToUpdate.status = status;
+    }
+
+    if (tags) {
+      // remove task id from all tags it belong to
+      currentAccount.tags = getTagsWithRemovedTaskId(
+        currentAccount.tags,
+        taskToUpdate.id
+      );
+
+      // update  existing tags with new task id
+      currentAccount.tags = getTagsWithUpdatedTasksIds(
+        tags,
+        currentAccount.tags,
+        taskId
+      );
+
+      // add tags to account - only these which are not created yet
+      const newTags = getOnlyNewTags(tags, currentAccount.tags);
+      currentAccount.tags = getTagsUpdatedWithNewItems(
+        newTags,
+        currentAccount.tags,
+        taskId
+      );
+
+      // remov tags when there is no tasks connected
+      currentAccount.tags = currentAccount.tags.filter(
+        (tag: TagInterface) => tag.tasks.length !== 0
+      );
+
+      // update array of tag names in task
+      taskToUpdate.tags = getArrOfTagNames(tags);
+    }
+
+    const result = await currentAccount.save((err: any) => {
+      if (err) {
+        return {
+          success: false,
+          message: err.errors.message,
+        };
+      }
+    });
+
+    return {
+      ...result,
+      code: "200",
+      success: true,
+      message: "Task succesfully updated",
     };
   }
 };
