@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { lightTheme } from "../themes/lightTheme";
 import App from "../components/app/App";
+import { Login } from "../components/signin";
 import { AuthContextProvider } from "../contexts/auth";
 
 const AppBody = styled.div`
@@ -20,7 +21,8 @@ const AppRouter = () => (
       <Router history={history}>
         <AppBody>
           <Switch>
-            <Route path="/" component={App} exact={true} />
+            <Route path="/" component={App} exact />
+            <Route path="/login" component={Login} />
           </Switch>
         </AppBody>
       </Router>

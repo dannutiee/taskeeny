@@ -18,7 +18,9 @@ module.exports = {
   module: { rules },
   resolve: { extensions: [".ts", ".tsx", ".js", ".css"] },
   devServer: {
-    contentBase: "./",
+    contentBase: path.join(__dirname, "public"),
+    historyApiFallback: true,
     port: 3000,
+    publicPath: "/dist/",
   },
 };

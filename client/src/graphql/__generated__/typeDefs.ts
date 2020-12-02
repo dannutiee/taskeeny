@@ -142,6 +142,19 @@ export type User = {
   token: Scalars["String"];
 };
 
+export type AddTaskMutationVariables = Exact<{
+  input: AddTaskInput;
+}>;
+
+export type AddTaskMutation = { __typename?: "Mutation" } & {
+  addTask?: Maybe<
+    { __typename?: "AddTaskResponse" } & Pick<
+      AddTaskResponse,
+      "code" | "success" | "message"
+    >
+  >;
+};
+
 export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUsersQuery = { __typename?: "Query" } & {
@@ -157,6 +170,54 @@ export type GetUsersQuery = { __typename?: "Query" } & {
   >;
 };
 
+export const AddTaskDocument = gql`
+  mutation addTask($input: AddTaskInput!) {
+    addTask(input: $input) {
+      code
+      success
+      message
+    }
+  }
+`;
+export type AddTaskMutationFn = Apollo.MutationFunction<
+  AddTaskMutation,
+  AddTaskMutationVariables
+>;
+
+/**
+ * __useAddTaskMutation__
+ *
+ * To run a mutation, you first call `useAddTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTaskMutation, { data, loading, error }] = useAddTaskMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddTaskMutation,
+    AddTaskMutationVariables
+  >
+) {
+  return Apollo.useMutation<AddTaskMutation, AddTaskMutationVariables>(
+    AddTaskDocument,
+    baseOptions
+  );
+}
+export type AddTaskMutationHookResult = ReturnType<typeof useAddTaskMutation>;
+export type AddTaskMutationResult = Apollo.MutationResult<AddTaskMutation>;
+export type AddTaskMutationOptions = Apollo.BaseMutationOptions<
+  AddTaskMutation,
+  AddTaskMutationVariables
+>;
 export const GetUsersDocument = gql`
   query getUsers {
     users {

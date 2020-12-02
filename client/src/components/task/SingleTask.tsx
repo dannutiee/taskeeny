@@ -29,7 +29,7 @@ const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   };
 
   const onTagClick = () => {
-    // TODO  filter tags by choosen one
+    // TODO  filter task by choosen tags
   };
 
   return (

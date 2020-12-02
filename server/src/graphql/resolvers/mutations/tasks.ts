@@ -1,12 +1,10 @@
 const mongoose = require("mongoose");
 import { UserInputError } from "apollo-server";
 
-import { Account, Task, Tag } from "../../../models";
+import { Account, Task } from "../../../models";
 import {
   MutationResolvers,
-  TagInput,
   Tag as TagInterface,
-  AddTaskInput,
 } from "../../__generated__/typeDefs";
 import {
   getOnlyNewTags,
@@ -153,7 +151,7 @@ export const resolveUpdateTask: ResolveUpdateTask = async (
         taskToUpdate.id
       );
 
-      // update  existing tags with new task id
+      // update  existing tags with new task ids
       currentAccount.tags = getTagsWithUpdatedTasksIds(
         tags,
         currentAccount.tags,
