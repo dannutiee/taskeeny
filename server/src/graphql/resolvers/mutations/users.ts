@@ -115,9 +115,10 @@ export const resolveLogin: ResolveLoginUser = async (
     id: user.id,
     name: user.name,
     surnmae: user.surname,
-    email: user.surname,
+    email: user.email,
     createdAt: user.createdAt,
   });
+
   return {
     ...user,
     code: "200",

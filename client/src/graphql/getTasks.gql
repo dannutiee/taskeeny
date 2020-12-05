@@ -1,0 +1,12 @@
+query getTasks{
+  user{
+    id
+    tasks{
+        id
+        content
+        status
+        tags
+        
+  }
+  }
+}

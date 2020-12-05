@@ -15,6 +15,7 @@ interface User {
 
 async function getUser(token: string) {
   const { email } = jwt.verify(token, SECRET_KEY) as User;
+  console.log("email----------", jwt.verify(token, SECRET_KEY));
   return await User.findOne({ email });
 }
 
@@ -25,6 +26,9 @@ export const createContext: ContextFunction = async ({ req }) => {
   // get the user token from the headers
   const authorization = req.headers.authorization;
 
+  console.log("headers", req.headers);
+  console.log("authorization", authorization);
+
   if (authorization) {
     console.log("auth ok", authorization);
     const token = authorization.replace("Bearer ", "");
@@ -32,6 +36,7 @@ export const createContext: ContextFunction = async ({ req }) => {
     // try to retrieve a user with the token
     try {
       user = await getUser(token);
+      console.log("user-----------", user, jwt.verify(token, SECRET_KEY));
       if (user) isAuth = true;
       // add authorization status and the user to the context
       console.log("auth", isAuth, user);
