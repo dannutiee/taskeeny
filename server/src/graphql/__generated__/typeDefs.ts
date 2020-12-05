@@ -48,10 +48,18 @@ export type DeleteTaskResponse = MutationResponseInterface & {
   message: Scalars["String"];
 };
 
+export type LoginResponse = MutationResponseInterface & {
+  __typename?: "LoginResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  user: User;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   registerUser?: Maybe<User>;
-  login?: Maybe<User>;
+  login?: Maybe<LoginResponse>;
   addTask?: Maybe<AddTaskResponse>;
   deleteTask?: Maybe<DeleteTaskResponse>;
   updateTask?: Maybe<UpdateTaskResponse>;
@@ -139,7 +147,6 @@ export type User = {
   id: Scalars["ID"];
   name: Scalars["String"];
   surname: Scalars["String"];
-  password: Scalars["String"];
   email: Scalars["String"];
   createdAt: Scalars["String"];
   token: Scalars["String"];
@@ -270,14 +277,16 @@ export type ResolversTypes = {
   Tag: ResolverTypeWrapper<Tag>;
   Mutation: ResolverTypeWrapper<{}>;
   RegisterInput: RegisterInput;
-  AddTaskInput: AddTaskInput;
-  TagInput: TagInput;
-  AddTaskResponse: ResolverTypeWrapper<AddTaskResponse>;
+  LoginResponse: ResolverTypeWrapper<LoginResponse>;
   MutationResponseInterface:
+    | ResolversTypes["LoginResponse"]
     | ResolversTypes["AddTaskResponse"]
     | ResolversTypes["DeleteTaskResponse"]
     | ResolversTypes["UpdateTaskResponse"];
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  AddTaskInput: AddTaskInput;
+  TagInput: TagInput;
+  AddTaskResponse: ResolverTypeWrapper<AddTaskResponse>;
   DeleteTaskResponse: ResolverTypeWrapper<DeleteTaskResponse>;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskResponse: ResolverTypeWrapper<UpdateTaskResponse>;
@@ -294,14 +303,16 @@ export type ResolversParentTypes = {
   Tag: Tag;
   Mutation: {};
   RegisterInput: RegisterInput;
-  AddTaskInput: AddTaskInput;
-  TagInput: TagInput;
-  AddTaskResponse: AddTaskResponse;
+  LoginResponse: LoginResponse;
   MutationResponseInterface:
+    | ResolversParentTypes["LoginResponse"]
     | ResolversParentTypes["AddTaskResponse"]
     | ResolversParentTypes["DeleteTaskResponse"]
     | ResolversParentTypes["UpdateTaskResponse"];
   Boolean: Scalars["Boolean"];
+  AddTaskInput: AddTaskInput;
+  TagInput: TagInput;
+  AddTaskResponse: AddTaskResponse;
   DeleteTaskResponse: DeleteTaskResponse;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskResponse: UpdateTaskResponse;
@@ -351,6 +362,17 @@ export type DeleteTaskResponseResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type LoginResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["LoginResponse"] = ResolversParentTypes["LoginResponse"]
+> = {
+  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
@@ -362,7 +384,7 @@ export type MutationResolvers<
     RequireFields<MutationRegisterUserArgs, "input">
   >;
   login?: Resolver<
-    Maybe<ResolversTypes["User"]>,
+    Maybe<ResolversTypes["LoginResponse"]>,
     ParentType,
     ContextType,
     RequireFields<MutationLoginArgs, "email" | "password">
@@ -392,7 +414,10 @@ export type MutationResponseInterfaceResolvers<
   ParentType extends ResolversParentTypes["MutationResponseInterface"] = ResolversParentTypes["MutationResponseInterface"]
 > = {
   __resolveType: TypeResolveFn<
-    "AddTaskResponse" | "DeleteTaskResponse" | "UpdateTaskResponse",
+    | "LoginResponse"
+    | "AddTaskResponse"
+    | "DeleteTaskResponse"
+    | "UpdateTaskResponse",
     ParentType,
     ContextType
   >;
@@ -460,7 +485,6 @@ export type UserResolvers<
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   surname?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  password?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -471,6 +495,7 @@ export type Resolvers<ContextType = any> = {
   AddTaskResponse?: AddTaskResponseResolvers<ContextType>;
   AuthtenticatedUser?: AuthtenticatedUserResolvers<ContextType>;
   DeleteTaskResponse?: DeleteTaskResponseResolvers<ContextType>;
+  LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   MutationResponseInterface?: MutationResponseInterfaceResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

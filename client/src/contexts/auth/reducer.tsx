@@ -1,8 +1,5 @@
 import { AuthActionType, AuthState, AuthReducerAction } from "./interfaces";
-
-export const initialAuthState: AuthState = {
-  user: null,
-};
+import { initialAuthState } from "./AuthContext";
 
 const reducer = (
   state = initialAuthState,

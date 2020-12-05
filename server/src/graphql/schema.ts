@@ -7,7 +7,6 @@ import { createContext } from "./context";
 const schema: ApolloServerExpressConfig = {
   typeDefs,
   resolvers: resolvers as any, // workaround
-  // context: ({req})=>({req}),
   context: createContext,
   introspection: true,
   playground: true,

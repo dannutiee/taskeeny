@@ -48,7 +48,6 @@ export default gql`
     id: ID!
     name: String!
     surname: String!
-    password: String!
     email: String!
     createdAt: String!
     token: String!
@@ -92,11 +91,18 @@ export default gql`
     message: String!
   }
 
+  type LoginResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User!
+  }
+
   # Root for mutation and query  ----------------------
 
   type Mutation {
     registerUser(input: RegisterInput!): User
-    login(email: String!, password: String!): User
+    login(email: String!, password: String!): LoginResponse
     addTask(input: AddTaskInput!): AddTaskResponse
     deleteTask(taskId: ID!): DeleteTaskResponse
     updateTask(input: UpdateTaskInput!): UpdateTaskResponse

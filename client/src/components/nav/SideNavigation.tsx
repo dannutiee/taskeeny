@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
+import { AuthContext } from "../../contexts/auth";
+
 export const SideNavigation: React.FC = () => {
-  return <SideNavWrapper>navigation</SideNavWrapper>;
+  const authContext = useContext(AuthContext);
+
+  return (
+    <SideNavWrapper>
+      navigation
+      <button onClick={() => authContext.logout()}>Logout</button>
+    </SideNavWrapper>
+  );
 };
 
 export default SideNavigation;

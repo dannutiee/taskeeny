@@ -1,32 +1,37 @@
 import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import styled from "styled-components";
 
 import { ThemeProvider } from "styled-components";
 import { lightTheme } from "../themes/lightTheme";
 import App from "../components/app/App";
-import { Login } from "../components/signin";
+import { Login } from "../pages/Login";
+import { Register } from "../pages/Register";
 import { AuthContextProvider } from "../contexts/auth";
+import { AuthRoute } from "./AuthRoute";
 
 const AppBody = styled.div`
   font-family: "Montserrat", sans-serif;
 `;
 
-export const history = createBrowserHistory();
-
 const AppRouter = () => (
   <ThemeProvider theme={lightTheme}>
-    <AuthContextProvider>
-      <Router history={history}>
+    <Router>
+      <AuthContextProvider>
         <AppBody>
           <Switch>
             <Route path="/" component={App} exact />
-            <Route path="/login" component={Login} />
+            <AuthRoute path="/login" component={Login} exact />
+            <AuthRoute path="/register" component={Register} exact />
           </Switch>
         </AppBody>
-      </Router>
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </Router>
   </ThemeProvider>
 );
 

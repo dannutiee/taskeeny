@@ -20,7 +20,9 @@ const generateToken = (user: any) =>
     {
       id: user.id,
       email: user.email,
-      username: user.username,
+      name: user.name,
+      surname: user.surname,
+      createdAt: user.createdAt,
     },
     SECRET_KEY,
     { expiresIn: "3h" }
@@ -109,10 +111,25 @@ export const resolveLogin: ResolveLoginUser = async (
     throw new UserInputError("Wrong credentials", { errors });
   }
 
-  const token = generateToken(user);
+  const token = generateToken({
+    id: user.id,
+    name: user.name,
+    surnmae: user.surname,
+    email: user.surname,
+    createdAt: user.createdAt,
+  });
   return {
-    ...user._doc,
-    id: user._id,
-    token,
+    ...user,
+    code: "200",
+    success: true,
+    message: "Tasks succesfully created",
+    user: {
+      id: user.id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      createdAt: user.createdAt,
+      token: token,
+    },
   };
 };
