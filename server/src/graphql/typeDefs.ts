@@ -35,7 +35,7 @@ export default gql`
     id: ID!
     content: String!
     status: String!
-    tags: [String]
+    tags: [String!]!
   }
   type Tag {
     id: ID!
@@ -61,8 +61,8 @@ export default gql`
     email: String!
     createdAt: String!
     token: String!
-    tasks: [Task]
-    tags: [Tag]
+    tasks: [Task!]!
+    tags: [Tag!]!
   }
 
   # Mutations   -----------------------------

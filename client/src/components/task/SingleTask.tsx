@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import styled from "styled-components";
-import { TaskData } from "./interfaces";
 import { getBarHeight } from "./utils";
+import { Task } from "../../graphql/__generated__/typeDefs";
 
 // MOCK DATA
 
@@ -14,7 +14,7 @@ const tags: { [key: string]: string } = {
 // END MOCK DATA
 
 interface SingleTaskProps {
-  task: TaskData;
+  task: Task;
 }
 
 const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
@@ -38,7 +38,7 @@ const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
         {task.tags.map((tag, index) => (
           <TagBorder
             key={index}
-            color={tags[tag]}
+            color={tags[tag as string]}
             height={getBarHeight(task.tags)}
           />
         ))}

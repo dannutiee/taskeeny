@@ -37,8 +37,8 @@ export type AuthtenticatedUser = {
   email: Scalars["String"];
   createdAt: Scalars["String"];
   token: Scalars["String"];
-  tasks?: Maybe<Array<Maybe<Task>>>;
-  tags?: Maybe<Array<Maybe<Tag>>>;
+  tasks: Array<Task>;
+  tags: Array<Tag>;
 };
 
 export type DeleteTaskResponse = MutationResponseInterface & {
@@ -125,7 +125,7 @@ export type Task = {
   id: Scalars["ID"];
   content: Scalars["String"];
   status: Scalars["String"];
-  tags?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  tags: Array<Scalars["String"]>;
 };
 
 export type UpdateTaskInput = {
@@ -339,16 +339,8 @@ export type AuthtenticatedUserResolvers<
   email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  tasks?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Task"]>>>,
-    ParentType,
-    ContextType
-  >;
-  tags?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Tag"]>>>,
-    ParentType,
-    ContextType
-  >;
+  tasks?: Resolver<Array<ResolversTypes["Task"]>, ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes["Tag"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -460,11 +452,7 @@ export type TaskResolvers<
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   status?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  tags?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
+  tags?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -34,8 +34,8 @@ export type AuthtenticatedUser = {
   email: Scalars["String"];
   createdAt: Scalars["String"];
   token: Scalars["String"];
-  tasks?: Maybe<Array<Maybe<Task>>>;
-  tags?: Maybe<Array<Maybe<Tag>>>;
+  tasks: Array<Task>;
+  tags: Array<Tag>;
 };
 
 export type DeleteTaskResponse = MutationResponseInterface & {
@@ -122,7 +122,7 @@ export type Task = {
   id: Scalars["ID"];
   content: Scalars["String"];
   status: Scalars["String"];
-  tags?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  tags: Array<Scalars["String"]>;
 };
 
 export type UpdateTaskInput = {
@@ -169,14 +169,10 @@ export type GetTasksQuery = { __typename?: "Query" } & {
     AuthtenticatedUser,
     "id"
   > & {
-      tasks?: Maybe<
-        Array<
-          Maybe<
-            { __typename?: "Task" } & Pick<
-              Task,
-              "id" | "content" | "status" | "tags"
-            >
-          >
+      tasks: Array<
+        { __typename?: "Task" } & Pick<
+          Task,
+          "id" | "content" | "status" | "tags"
         >
       >;
     };

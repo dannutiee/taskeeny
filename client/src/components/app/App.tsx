@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 
 import SideNavigation from "../nav/SideNavigation";
-import Dashboard from "../board/Dashboard";
+import { Dashboard } from "../board/Dashboard";
 import { AuthContext, initialAuthState } from "../../contexts/auth";
 
 const App: React.FC = () => {

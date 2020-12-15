@@ -1,152 +1,58 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import {
-  DragDropContext,
-  DropResult,
-  DraggableLocation,
-} from "react-beautiful-dnd";
 
+import { useGetTasksQuery, Task } from "../../graphql";
+import DroppableArea from "./DroppableArea";
 import { InitialData } from "./interfaces";
-import { reorder, move } from "./utils";
-import DroppableColumn from "./DroppableColumn";
+import { getTasksFilteredByStatus } from "./utils";
+import { taskStatus } from "../task/utils";
 
-import { useGetTasksQuery } from "../../graphql";
+interface DashboardComponentProps {
+  tasks?: Task[];
+}
 
-//MOCK DATA
-
-const items1 = [
-  {
-    id: "five",
-    content: "Pick up the passport from the city hall",
-    tags: ["home", "dana", "learn"],
-  },
-  {
-    id: "four",
-    content: "Complete a Udemy course about the Node.js technology",
-    tags: ["home", "learn"],
-  },
-  {
-    id: "one",
-    content:
-      "Create the new component for top nav Create the new component for top nav and adjust it to the new design as well Create the new component for top nav and adjust it to the new design as well Create the new component for top nav and adjust it to the new design as well adjust it to the new design as well",
-    tags: ["home", "dana", "learn"],
-  },
-];
-
-const items2 = [
-  { id: "six", content: "6", tags: ["home"] },
-  { id: "ten", content: "10", tags: ["learn"] },
-  { id: "seven", content: "7", tags: ["learn"] },
-];
-
-const items3 = [
-  { id: "a", content: "a", tags: ["home", "dana"] },
-  { id: "b", content: "b", tags: ["home", "dana", "learn"] },
-  { id: "c", content: "c", tags: ["learn"] },
-];
-
-const initialData = {
-  "column-todo": {
-    title: "To do",
-    items: items1,
-  },
-  "column-in-progress": {
-    title: "In progress",
-    items: items2,
-  },
-  "column-done": {
-    title: "Done",
-    items: items3,
-  },
-};
-
-// END - MOCK DATA
-
-export const Dashboard: React.FC = () => {
-  const [boardData, setBoardData] = useState<InitialData>(initialData);
-
-  // TODO remove this example of graphql usage
+export const DashboardContainer: React.FC = () => {
   const { data, error, loading } = useGetTasksQuery();
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
+  if (error) {
+    return null;
+  }
 
   console.log("data", data?.user.tasks);
 
-  const updateInSingleColumn = (
-    source: DraggableLocation,
-    destination: DraggableLocation
-  ): void => {
-    const reorderedItems = reorder(
-      boardData[source.droppableId].items,
-      source.index,
-      destination.index
-    );
+  return <DashboardComponent tasks={data?.user.tasks} />;
+};
 
-    setBoardData((prevTasks) => ({
-      ...prevTasks,
-      [source.droppableId]: {
-        ...prevTasks[source.droppableId],
-        items: reorderedItems,
-      },
-    }));
+export const DashboardComponent: React.FC<DashboardComponentProps> = ({
+  tasks,
+}) => {
+  const boardInitialData: InitialData = {
+    todo: {
+      title: taskStatus.todo.label,
+      items: getTasksFilteredByStatus(tasks, taskStatus.todo.value),
+    },
+    in_progress: {
+      title: taskStatus.in_progress.label,
+      items: getTasksFilteredByStatus(tasks, taskStatus.in_progress.value),
+    },
+    done: {
+      title: taskStatus.done.label,
+      items: getTasksFilteredByStatus(tasks, taskStatus.done.value),
+    },
   };
-
-  const updateBetweenTwoColumns = (
-    source: DraggableLocation,
-    destination: DraggableLocation
-  ): void => {
-    const updatedColumns = move(
-      boardData[source.droppableId].items,
-      boardData[destination.droppableId].items,
-      source.index,
-      destination.index
-    );
-
-    setBoardData((prevTasks) => ({
-      ...prevTasks,
-      [source.droppableId]: {
-        ...prevTasks[source.droppableId],
-        items: updatedColumns.sourceList,
-      },
-      [destination.droppableId]: {
-        ...prevTasks[destination.droppableId],
-        items: updatedColumns.destinationList,
-      },
-    }));
-  };
-
-  const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-    const isTaskChangedColumn = source.droppableId !== destination?.droppableId;
-
-    if (!destination) {
-      return;
-    }
-
-    if (isTaskChangedColumn) {
-      updateBetweenTwoColumns(source, destination);
-    } else {
-      updateInSingleColumn(source, destination);
-    }
-  };
-
-  console.log("items state", boardData);
 
   return (
     <DashboardWrapper>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {Object.keys(boardData).map((column, id) => (
-          <DroppableColumn
-            columnId={column}
-            tasks={boardData[column].items}
-            columnName={boardData[column].title}
-            key={column}
-          />
-        ))}
-      </DragDropContext>
+      <DroppableArea data={boardInitialData} />
     </DashboardWrapper>
   );
 };
 
-export default Dashboard;
+export const Dashboard = DashboardContainer;
 
 const DashboardWrapper = styled.div`
   width: calc(100% - 240px);

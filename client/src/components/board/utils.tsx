@@ -24,3 +24,7 @@ export const move = (
     destinationList,
   };
 };
+
+export const getTasksFilteredByStatus = (tasks: any, status: string) => {
+  return tasks.filter((el: any) => el.status === status);
+};
