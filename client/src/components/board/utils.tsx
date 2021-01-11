@@ -26,5 +26,6 @@ export const move = (
 };
 
 export const getTasksFilteredByStatus = (tasks: any, status: string) => {
+  console.log("tasks", tasks, status);
   return tasks.filter((el: any) => el.status === status);
 };

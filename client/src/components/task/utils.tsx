@@ -6,7 +6,7 @@ export const getBarHeight = (taskTags: string[]): string => {
 export enum Status {
   todo = "TODO",
   in_progress = "IN_PROGRESS",
-  done = "DONE",
+  completed = "COMPLETED",
 }
 
 export const taskStatus = {
@@ -18,8 +18,8 @@ export const taskStatus = {
     value: Status.in_progress,
     label: "In Progress",
   },
-  done: {
-    value: Status.done,
-    label: "Done",
+  completed: {
+    value: Status.completed,
+    label: "Completed",
   },
 };

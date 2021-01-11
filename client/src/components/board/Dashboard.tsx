@@ -30,6 +30,10 @@ export const DashboardContainer: React.FC = () => {
 export const DashboardComponent: React.FC<DashboardComponentProps> = ({
   tasks,
 }) => {
+  console.log(
+    " getTasksFilteredByStatus(tasks, taskStatus.todo.value)",
+    getTasksFilteredByStatus(tasks, taskStatus.todo.value)
+  );
   const boardInitialData: InitialData = {
     todo: {
       title: taskStatus.todo.label,
@@ -39,9 +43,9 @@ export const DashboardComponent: React.FC<DashboardComponentProps> = ({
       title: taskStatus.in_progress.label,
       items: getTasksFilteredByStatus(tasks, taskStatus.in_progress.value),
     },
-    done: {
-      title: taskStatus.done.label,
-      items: getTasksFilteredByStatus(tasks, taskStatus.done.value),
+    completed: {
+      title: taskStatus.completed.label,
+      items: getTasksFilteredByStatus(tasks, taskStatus.completed.value),
     },
   };
 

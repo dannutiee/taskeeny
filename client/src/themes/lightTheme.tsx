@@ -11,6 +11,15 @@ export const COLORS = {
   GREY,
 };
 
+const SHADOWS = {
+  primary: "1px 2px 5px 2px rgb(34 36 38 / 6%)",
+};
+
+const FONTS = {
+  primary: "",
+  headers: "Poppins, sans-serif",
+};
+
 //Light theme
 
 export const lightTheme = {
@@ -19,16 +28,21 @@ export const lightTheme = {
   },
   nav: {
     bg: COLORS.WHITE,
-    shadow: "0px 0px 9px 2px rgb(34 36 38 / 6%)",
+    shadow: SHADOWS.primary,
   },
   column: {
-    titleFont: "Poppins, sans-serif",
+    titleFont: FONTS.headers,
     titleWeight: 600,
     titleSize: "20px",
   },
+  button: {
+    borderRadius: "5px",
+    color: COLORS.BLUE,
+    shadow: SHADOWS.primary,
+  },
   task: {
     bg: COLORS.WHITE,
-    shadow: " 1px 2px 5px 2px rgb(34 36 38 / 6%)",
+    shadow: SHADOWS.primary,
     button: {
       color: COLORS.BLUE,
     },
