@@ -8,6 +8,7 @@ import {
 import { InitialData } from "./interfaces";
 import { reorder, move } from "./utils";
 import DroppableColumn from "./DroppableColumn";
+import { useUpdateTaskMutation } from "../../graphql/__generated__/typeDefs";
 
 interface DroppableAreaProps {
   data: InitialData;
@@ -15,6 +16,8 @@ interface DroppableAreaProps {
 
 export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   const [boardData, setBoardData] = useState(data);
+
+  const [updateTaskMutation] = useUpdateTaskMutation({});
 
   const updateInSingleColumn = (
     source: DraggableLocation,
@@ -60,7 +63,7 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   };
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
+    const { source, destination, draggableId } = result;
     const isTaskChangedColumn = source.droppableId !== destination?.droppableId;
 
     if (!destination) {
@@ -69,6 +72,14 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
 
     if (isTaskChangedColumn) {
       updateBetweenTwoColumns(source, destination);
+      updateTaskMutation({
+        variables: {
+          input: {
+            taskId: draggableId,
+            status: destination.droppableId,
+          },
+        },
+      });
     } else {
       updateInSingleColumn(source, destination);
     }

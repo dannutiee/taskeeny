@@ -1,2 +1,5 @@
-export { AuthContextProvider, AuthContext } from "./AuthContext";
-export { initialAuthState } from "./reducer";
+export {
+  AuthContextProvider,
+  AuthContext,
+  initialAuthState,
+} from "./AuthContext";
