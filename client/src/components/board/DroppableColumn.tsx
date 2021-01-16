@@ -17,7 +17,6 @@ const DroppableColumn: React.FC<DroppableColumn> = ({
   tasks,
   columnName,
 }) => {
-  console.log("columnname", columnName === taskStatus.todo.label);
   const displayAddButton = columnName === taskStatus.todo.label;
   return (
     <Droppable droppableId={columnId}>

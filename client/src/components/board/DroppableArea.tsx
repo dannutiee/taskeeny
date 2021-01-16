@@ -3,6 +3,7 @@ import {
   DragDropContext,
   DropResult,
   DraggableLocation,
+  DraggableId,
 } from "react-beautiful-dnd";
 
 import { InitialData } from "./interfaces";
@@ -17,7 +18,30 @@ interface DroppableAreaProps {
 export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   const [boardData, setBoardData] = useState(data);
 
-  const [updateTaskMutation] = useUpdateTaskMutation({});
+  const [
+    updateTaskMutation,
+    { error, data: updateData, loading: updateLoading },
+  ] = useUpdateTaskMutation({});
+
+  const updateTaskStatus = async (
+    taskId: string,
+    status: string
+  ): Promise<void> => {
+    await updateTaskMutation({
+      variables: {
+        input: {
+          taskId,
+          status,
+        },
+      },
+    });
+  };
+
+  // TODO - need to be used as a info messages  e.g popup
+  const success = updateData?.updateTask?.success || false;
+  const errorMessage = updateData?.updateTask?.message || error?.name || "";
+
+  console.log("boardData", boardData);
 
   const updateInSingleColumn = (
     source: DraggableLocation,
@@ -40,7 +64,8 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
 
   const updateBetweenTwoColumns = (
     source: DraggableLocation,
-    destination: DraggableLocation
+    destination: DraggableLocation,
+    draggableId: DraggableId
   ): void => {
     const updatedColumns = move(
       boardData[source.droppableId].items,
@@ -60,6 +85,8 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
         items: updatedColumns.destinationList,
       },
     }));
+
+    updateTaskStatus(draggableId, destination.droppableId);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -71,15 +98,7 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
     }
 
     if (isTaskChangedColumn) {
-      updateBetweenTwoColumns(source, destination);
-      updateTaskMutation({
-        variables: {
-          input: {
-            taskId: draggableId,
-            status: destination.droppableId,
-          },
-        },
-      });
+      updateBetweenTwoColumns(source, destination, draggableId);
     } else {
       updateInSingleColumn(source, destination);
     }
