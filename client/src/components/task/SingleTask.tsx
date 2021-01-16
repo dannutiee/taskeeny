@@ -1,14 +1,18 @@
 import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import { getBarHeight } from "./utils";
-import { Task } from "../../graphql/__generated__/typeDefs";
+import {
+  Task,
+  useDeleteTaskMutation,
+} from "../../graphql/__generated__/typeDefs";
 
-// MOCK DATA
+// MOCK DATA - Real tag list should be get here from context
 
 const tags: { [key: string]: string } = {
-  home: "#B998F7",
-  dana: "#EF31BC",
-  learn: "#FFBB6C",
+  hobby: "#B998F7",
+  nowy: "#EF31BC",
+  zupelnienowy: "#FFBB6C",
+  homeoffice: "#dedede",
 };
 
 // END MOCK DATA
@@ -20,12 +24,22 @@ interface SingleTaskProps {
 const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
+  const [deleteTaskMutation] = useDeleteTaskMutation({});
+
+  const deleteTask = (id: string): void => {
+    deleteTaskMutation({
+      variables: {
+        taskId: id,
+      },
+    });
+  };
+
   const onEditClick = () => {
     //TODO   open edit modal
   };
 
   const onDeleteClick = () => {
-    // TODO   delete the task
+    deleteTask(task.id);
   };
 
   const onTagClick = () => {

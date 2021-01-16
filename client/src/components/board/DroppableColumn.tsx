@@ -5,6 +5,10 @@ import { Droppable } from "react-beautiful-dnd";
 import SingleTask from "./DraggableTask";
 import { TaskData } from "../task/interfaces";
 import { taskStatus } from "../task/utils";
+import {
+  useAddTaskMutation,
+  TagInput,
+} from "../../graphql/__generated__/typeDefs";
 
 interface DroppableColumn {
   columnId: string;
@@ -18,6 +22,28 @@ const DroppableColumn: React.FC<DroppableColumn> = ({
   columnName,
 }) => {
   const displayAddButton = columnName === taskStatus.todo.label;
+  const [addTaskMutation] = useAddTaskMutation({});
+
+  const addNewTask = async (
+    content: string,
+    tags: TagInput[]
+  ): Promise<void> => {
+    await addTaskMutation({
+      variables: {
+        input: {
+          content,
+          tags,
+        },
+      },
+    });
+  };
+
+  //TODO - set real data from user input to the database
+  const handleAddTask = () => {
+    const testTags = [{ name: "homeoffice", color: "#734567" }];
+    addNewTask("test z frontu", testTags);
+  };
+
   return (
     <Droppable droppableId={columnId}>
       {(provided) => (
@@ -29,7 +55,7 @@ const DroppableColumn: React.FC<DroppableColumn> = ({
           <ColumnTitle>
             {columnName}
             {displayAddButton && (
-              <AddButton>
+              <AddButton onClick={handleAddTask}>
                 <span className="material-icons">add</span>
               </AddButton>
             )}
