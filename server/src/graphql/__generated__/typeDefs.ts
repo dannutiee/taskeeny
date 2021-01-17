@@ -39,6 +39,7 @@ export type AuthtenticatedUser = {
   token: Scalars["String"];
   tasks: Array<Task>;
   tags: Array<Tag>;
+  positions?: Maybe<Array<Position>>;
 };
 
 export type DeleteTaskResponse = MutationResponseInterface & {
@@ -61,6 +62,7 @@ export type Mutation = {
   registerUser?: Maybe<User>;
   login?: Maybe<LoginResponse>;
   addTask?: Maybe<AddTaskResponse>;
+  updatePositions?: Maybe<UpdatePositionsResponse>;
   deleteTask?: Maybe<DeleteTaskResponse>;
   updateTask?: Maybe<UpdateTaskResponse>;
 };
@@ -78,6 +80,10 @@ export type MutationAddTaskArgs = {
   input: AddTaskInput;
 };
 
+export type MutationUpdatePositionsArgs = {
+  input: UpdatePositionsInput;
+};
+
 export type MutationDeleteTaskArgs = {
   taskId: Scalars["ID"];
 };
@@ -90,6 +96,12 @@ export type MutationResponseInterface = {
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
+};
+
+export type Position = {
+  __typename?: "Position";
+  status: Scalars["String"];
+  tasksOrder: Array<Maybe<Scalars["String"]>>;
 };
 
 export type Query = {
@@ -126,6 +138,18 @@ export type Task = {
   content: Scalars["String"];
   status: Scalars["String"];
   tags: Array<Scalars["String"]>;
+};
+
+export type UpdatePositionsInput = {
+  status: Scalars["String"];
+  tasksOrder: Array<Scalars["String"]>;
+};
+
+export type UpdatePositionsResponse = MutationResponseInterface & {
+  __typename?: "UpdatePositionsResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
 };
 
 export type UpdateTaskInput = {
@@ -275,18 +299,22 @@ export type ResolversTypes = {
   AuthtenticatedUser: ResolverTypeWrapper<AuthtenticatedUser>;
   Task: ResolverTypeWrapper<Task>;
   Tag: ResolverTypeWrapper<Tag>;
+  Position: ResolverTypeWrapper<Position>;
   Mutation: ResolverTypeWrapper<{}>;
   RegisterInput: RegisterInput;
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
   MutationResponseInterface:
     | ResolversTypes["LoginResponse"]
     | ResolversTypes["AddTaskResponse"]
+    | ResolversTypes["UpdatePositionsResponse"]
     | ResolversTypes["DeleteTaskResponse"]
     | ResolversTypes["UpdateTaskResponse"];
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: ResolverTypeWrapper<AddTaskResponse>;
+  UpdatePositionsInput: UpdatePositionsInput;
+  UpdatePositionsResponse: ResolverTypeWrapper<UpdatePositionsResponse>;
   DeleteTaskResponse: ResolverTypeWrapper<DeleteTaskResponse>;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskResponse: ResolverTypeWrapper<UpdateTaskResponse>;
@@ -301,18 +329,22 @@ export type ResolversParentTypes = {
   AuthtenticatedUser: AuthtenticatedUser;
   Task: Task;
   Tag: Tag;
+  Position: Position;
   Mutation: {};
   RegisterInput: RegisterInput;
   LoginResponse: LoginResponse;
   MutationResponseInterface:
     | ResolversParentTypes["LoginResponse"]
     | ResolversParentTypes["AddTaskResponse"]
+    | ResolversParentTypes["UpdatePositionsResponse"]
     | ResolversParentTypes["DeleteTaskResponse"]
     | ResolversParentTypes["UpdateTaskResponse"];
   Boolean: Scalars["Boolean"];
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: AddTaskResponse;
+  UpdatePositionsInput: UpdatePositionsInput;
+  UpdatePositionsResponse: UpdatePositionsResponse;
   DeleteTaskResponse: DeleteTaskResponse;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskResponse: UpdateTaskResponse;
@@ -341,6 +373,11 @@ export type AuthtenticatedUserResolvers<
   token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   tasks?: Resolver<Array<ResolversTypes["Task"]>, ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes["Tag"]>, ParentType, ContextType>;
+  positions?: Resolver<
+    Maybe<Array<ResolversTypes["Position"]>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -387,6 +424,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationAddTaskArgs, "input">
   >;
+  updatePositions?: Resolver<
+    Maybe<ResolversTypes["UpdatePositionsResponse"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdatePositionsArgs, "input">
+  >;
   deleteTask?: Resolver<
     Maybe<ResolversTypes["DeleteTaskResponse"]>,
     ParentType,
@@ -408,6 +451,7 @@ export type MutationResponseInterfaceResolvers<
   __resolveType: TypeResolveFn<
     | "LoginResponse"
     | "AddTaskResponse"
+    | "UpdatePositionsResponse"
     | "DeleteTaskResponse"
     | "UpdateTaskResponse",
     ParentType,
@@ -416,6 +460,19 @@ export type MutationResponseInterfaceResolvers<
   code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+};
+
+export type PositionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Position"] = ResolversParentTypes["Position"]
+> = {
+  status?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  tasksOrder?: Resolver<
+    Array<Maybe<ResolversTypes["String"]>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<
@@ -456,6 +513,16 @@ export type TaskResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UpdatePositionsResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UpdatePositionsResponse"] = ResolversParentTypes["UpdatePositionsResponse"]
+> = {
+  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UpdateTaskResponseResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["UpdateTaskResponse"] = ResolversParentTypes["UpdateTaskResponse"]
@@ -486,9 +553,11 @@ export type Resolvers<ContextType = any> = {
   LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   MutationResponseInterface?: MutationResponseInterfaceResolvers<ContextType>;
+  Position?: PositionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
+  UpdatePositionsResponse?: UpdatePositionsResponseResolvers<ContextType>;
   UpdateTaskResponse?: UpdateTaskResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

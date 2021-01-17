@@ -78,9 +78,11 @@ export const resolveDeleteTask: ResolveDeleteTask = async (
     const currentAccount = await Account.findOne({ user_id: user.id });
 
     // find task to remove
-    const taskToRemove = currentAccount.tasks.find((task: TagInterface) => {
-      return task.id === taskId;
-    });
+    const taskToRemove = await currentAccount.tasks.find(
+      (task: TagInterface) => {
+        return task.id === taskId;
+      }
+    );
 
     if (!taskToRemove) {
       throw new UserInputError("Task is not exist");
@@ -127,68 +129,73 @@ export const resolveUpdateTask: ResolveUpdateTask = async (
 ) => {
   if (isAuth) {
     const currentAccount = await Account.findOne({ user_id: user.id });
-    // find task to update
-    const taskToUpdate = currentAccount.tasks.find((task: TagInterface) => {
-      return task.id === taskId;
-    });
 
-    if (!taskToUpdate) {
-      throw new UserInputError("Task is not exist");
-    }
+    if (currentAccount) {
+      // find task to update
+      const taskToUpdate = currentAccount.tasks.find((task: TagInterface) => {
+        return task.id === taskId;
+      });
 
-    if (content) {
-      taskToUpdate.content = content;
-    }
-
-    if (status) {
-      taskToUpdate.status = status;
-    }
-
-    if (tags) {
-      // remove task id from all tags it belong to
-      currentAccount.tags = getTagsWithRemovedTaskId(
-        currentAccount.tags,
-        taskToUpdate.id
-      );
-
-      // update  existing tags with new task ids
-      currentAccount.tags = getTagsWithUpdatedTasksIds(
-        tags,
-        currentAccount.tags,
-        taskId
-      );
-
-      // add tags to account - only these which are not created yet
-      const newTags = getOnlyNewTags(tags, currentAccount.tags);
-      currentAccount.tags = getTagsUpdatedWithNewItems(
-        newTags,
-        currentAccount.tags,
-        taskId
-      );
-
-      // remov tags when there is no tasks connected
-      currentAccount.tags = currentAccount.tags.filter(
-        (tag: TagInterface) => tag.tasks.length !== 0
-      );
-
-      // update array of tag names in task
-      taskToUpdate.tags = getArrOfTagNames(tags);
-    }
-
-    const result = await currentAccount.save((err: any) => {
-      if (err) {
-        return {
-          success: false,
-          message: err.errors.message,
-        };
+      if (!taskToUpdate) {
+        throw new UserInputError("Task is not exist");
       }
-    });
 
-    return {
-      ...result,
-      code: "200",
-      success: true,
-      message: "Task succesfully updated",
-    };
+      if (content) {
+        taskToUpdate.content = content;
+      }
+
+      if (status) {
+        taskToUpdate.status = status;
+      }
+
+      if (tags) {
+        // remove task id from all tags it belong to
+        currentAccount.tags = getTagsWithRemovedTaskId(
+          currentAccount.tags,
+          taskToUpdate.id
+        );
+
+        // update  existing tags with new task ids
+        currentAccount.tags = getTagsWithUpdatedTasksIds(
+          tags,
+          currentAccount.tags,
+          taskId
+        );
+
+        // add tags to account - only these which are not created yet
+        const newTags = getOnlyNewTags(tags, currentAccount.tags);
+        currentAccount.tags = getTagsUpdatedWithNewItems(
+          newTags,
+          currentAccount.tags,
+          taskId
+        );
+
+        // remov tags when there is no tasks connected
+        currentAccount.tags = currentAccount.tags.filter(
+          (tag: TagInterface) => tag.tasks.length !== 0
+        );
+
+        // update array of tag names in task
+        taskToUpdate.tags = getArrOfTagNames(tags);
+      }
+
+      // TODO - sometimes it crashes in the backbground - it needs to be change to update() propably
+      const result = await currentAccount.save((err: any) => {
+        if (err) {
+          console.log("errrrorrr in task", err);
+          return {
+            success: false,
+            message: err.errors,
+          };
+        }
+      });
+
+      return {
+        ...result,
+        code: "200",
+        success: true,
+        message: "Task succesfully updated",
+      };
+    }
   }
 };

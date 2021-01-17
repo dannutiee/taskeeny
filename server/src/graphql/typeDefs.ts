@@ -22,6 +22,11 @@ export default gql`
     tags: [TagInput!]!
   }
 
+  input UpdatePositionsInput {
+    status: String!
+    tasksOrder: [String!]!
+  }
+
   input UpdateTaskInput {
     taskId: ID!
     content: String
@@ -53,6 +58,11 @@ export default gql`
     token: String!
   }
 
+  type Position {
+    status: String!
+    tasksOrder: [String]!
+  }
+
   type AuthtenticatedUser {
     id: ID!
     name: String!
@@ -63,6 +73,7 @@ export default gql`
     token: String!
     tasks: [Task!]!
     tags: [Tag!]!
+    positions: [Position!]
   }
 
   # Mutations   -----------------------------
@@ -74,6 +85,12 @@ export default gql`
   }
 
   type AddTaskResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
+  type UpdatePositionsResponse implements MutationResponseInterface {
     code: String!
     success: Boolean!
     message: String!
@@ -104,6 +121,7 @@ export default gql`
     registerUser(input: RegisterInput!): User
     login(email: String!, password: String!): LoginResponse
     addTask(input: AddTaskInput!): AddTaskResponse
+    updatePositions(input: UpdatePositionsInput!): UpdatePositionsResponse
     deleteTask(taskId: ID!): DeleteTaskResponse
     updateTask(input: UpdateTaskInput!): UpdateTaskResponse
   }

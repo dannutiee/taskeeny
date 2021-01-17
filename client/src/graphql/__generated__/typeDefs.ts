@@ -36,6 +36,7 @@ export type AuthtenticatedUser = {
   token: Scalars["String"];
   tasks: Array<Task>;
   tags: Array<Tag>;
+  positions?: Maybe<Array<Position>>;
 };
 
 export type DeleteTaskResponse = MutationResponseInterface & {
@@ -58,6 +59,7 @@ export type Mutation = {
   registerUser?: Maybe<User>;
   login?: Maybe<LoginResponse>;
   addTask?: Maybe<AddTaskResponse>;
+  updatePositions?: Maybe<UpdatePositionsResponse>;
   deleteTask?: Maybe<DeleteTaskResponse>;
   updateTask?: Maybe<UpdateTaskResponse>;
 };
@@ -75,6 +77,10 @@ export type MutationAddTaskArgs = {
   input: AddTaskInput;
 };
 
+export type MutationUpdatePositionsArgs = {
+  input: UpdatePositionsInput;
+};
+
 export type MutationDeleteTaskArgs = {
   taskId: Scalars["ID"];
 };
@@ -87,6 +93,12 @@ export type MutationResponseInterface = {
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
+};
+
+export type Position = {
+  __typename?: "Position";
+  status: Scalars["String"];
+  tasksOrder: Array<Maybe<Scalars["String"]>>;
 };
 
 export type Query = {
@@ -123,6 +135,18 @@ export type Task = {
   content: Scalars["String"];
   status: Scalars["String"];
   tags: Array<Scalars["String"]>;
+};
+
+export type UpdatePositionsInput = {
+  status: Scalars["String"];
+  tasksOrder: Array<Scalars["String"]>;
+};
+
+export type UpdatePositionsResponse = MutationResponseInterface & {
+  __typename?: "UpdatePositionsResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
 };
 
 export type UpdateTaskInput = {
@@ -188,6 +212,11 @@ export type GetTasksQuery = { __typename?: "Query" } & {
           "id" | "content" | "status" | "tags"
         >
       >;
+      positions?: Maybe<
+        Array<
+          { __typename?: "Position" } & Pick<Position, "status" | "tasksOrder">
+        >
+      >;
     };
 };
 
@@ -222,6 +251,19 @@ export type LoginMutation = { __typename?: "Mutation" } & {
           "id" | "name" | "surname" | "email" | "createdAt" | "token"
         >;
       }
+  >;
+};
+
+export type UpdatePositionsMutationVariables = Exact<{
+  input: UpdatePositionsInput;
+}>;
+
+export type UpdatePositionsMutation = { __typename?: "Mutation" } & {
+  updatePositions?: Maybe<
+    { __typename?: "UpdatePositionsResponse" } & Pick<
+      UpdatePositionsResponse,
+      "code" | "success" | "message"
+    >
   >;
 };
 
@@ -347,6 +389,10 @@ export const GetTasksDocument = gql`
         content
         status
         tags
+      }
+      positions {
+        status
+        tasksOrder
       }
     }
   }
@@ -504,6 +550,58 @@ export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<
   LoginMutation,
   LoginMutationVariables
+>;
+export const UpdatePositionsDocument = gql`
+  mutation updatePositions($input: UpdatePositionsInput!) {
+    updatePositions(input: $input) {
+      code
+      success
+      message
+    }
+  }
+`;
+export type UpdatePositionsMutationFn = Apollo.MutationFunction<
+  UpdatePositionsMutation,
+  UpdatePositionsMutationVariables
+>;
+
+/**
+ * __useUpdatePositionsMutation__
+ *
+ * To run a mutation, you first call `useUpdatePositionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePositionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePositionsMutation, { data, loading, error }] = useUpdatePositionsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdatePositionsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdatePositionsMutation,
+    UpdatePositionsMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    UpdatePositionsMutation,
+    UpdatePositionsMutationVariables
+  >(UpdatePositionsDocument, baseOptions);
+}
+export type UpdatePositionsMutationHookResult = ReturnType<
+  typeof useUpdatePositionsMutation
+>;
+export type UpdatePositionsMutationResult = Apollo.MutationResult<
+  UpdatePositionsMutation
+>;
+export type UpdatePositionsMutationOptions = Apollo.BaseMutationOptions<
+  UpdatePositionsMutation,
+  UpdatePositionsMutationVariables
 >;
 export const UpdateTaskDocument = gql`
   mutation updateTask($input: UpdateTaskInput!) {

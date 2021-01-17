@@ -8,5 +8,9 @@ query getTasks{
         tags
         
   }
+  positions{
+    status
+    tasksOrder
+  }
   }
 }

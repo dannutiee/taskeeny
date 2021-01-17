@@ -4,6 +4,7 @@ import { getBarHeight } from "./utils";
 import {
   Task,
   useDeleteTaskMutation,
+  GetTasksDocument,
 } from "../../graphql/__generated__/typeDefs";
 
 // MOCK DATA - Real tag list should be get here from context
@@ -31,6 +32,14 @@ const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
       variables: {
         taskId: id,
       },
+      refetchQueries: [
+        {
+          query: GetTasksDocument,
+        },
+      ],
+    }).then((resp) => {
+      //TODO - add notification
+      console.log("delete success", resp.data?.deleteTask?.success);
     });
   };
 

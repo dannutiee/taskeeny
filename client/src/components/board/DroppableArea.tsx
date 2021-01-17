@@ -9,7 +9,10 @@ import {
 import { InitialData } from "./interfaces";
 import { reorder, move } from "./utils";
 import DroppableColumn from "./DroppableColumn";
-import { useUpdateTaskMutation } from "../../graphql/__generated__/typeDefs";
+import {
+  useUpdateTaskMutation,
+  useUpdatePositionsMutation,
+} from "../../graphql/__generated__/typeDefs";
 
 interface DroppableAreaProps {
   data: InitialData;
@@ -17,6 +20,11 @@ interface DroppableAreaProps {
 
 export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   const [boardData, setBoardData] = useState(data);
+
+  const [
+    updatePositionsMutation,
+    { error: errorUpdatePositions, loading: updatePositionsLoading },
+  ] = useUpdatePositionsMutation({});
 
   const [
     updateTaskMutation,
@@ -32,6 +40,20 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
         input: {
           taskId,
           status,
+        },
+      },
+    });
+  };
+
+  const onTasksPositionsUpdate = async (
+    columnName: string,
+    tasksOrder: string[]
+  ): Promise<void> => {
+    await updatePositionsMutation({
+      variables: {
+        input: {
+          status: columnName,
+          tasksOrder,
         },
       },
     });
@@ -89,6 +111,11 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
     updateTaskStatus(draggableId, destination.droppableId);
   };
 
+  // TODO should be in utils
+  const getTasksIdsFromColumn = (columnName: string) => {
+    return boardData[columnName].items.map((task) => task.id);
+  };
+
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     const isTaskChangedColumn = source.droppableId !== destination?.droppableId;
@@ -99,22 +126,32 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
 
     if (isTaskChangedColumn) {
       updateBetweenTwoColumns(source, destination, draggableId);
+      onTasksPositionsUpdate(
+        destination.droppableId,
+        getTasksIdsFromColumn(destination.droppableId)
+      );
     } else {
       updateInSingleColumn(source, destination);
+      onTasksPositionsUpdate(
+        source.droppableId,
+        getTasksIdsFromColumn(source.droppableId)
+      );
     }
   };
 
   return (
     <React.Fragment>
       <DragDropContext onDragEnd={onDragEnd}>
-        {Object.keys(boardData).map((column, id) => (
-          <DroppableColumn
-            columnId={column}
-            tasks={boardData[column].items}
-            columnName={boardData[column].title}
-            key={column}
-          />
-        ))}
+        {Object.keys(boardData).map((column, id) => {
+          return (
+            <DroppableColumn
+              columnId={column}
+              tasks={boardData[column].items}
+              columnName={boardData[column].title}
+              key={column}
+            />
+          );
+        })}
       </DragDropContext>
     </React.Fragment>
   );

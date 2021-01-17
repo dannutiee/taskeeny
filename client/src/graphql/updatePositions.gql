@@ -1,0 +1,9 @@
+mutation updatePositions(
+ $input: UpdatePositionsInput!
+) {
+  updatePositions(input: $input) {
+    code
+    success
+    message
+  }
+}
