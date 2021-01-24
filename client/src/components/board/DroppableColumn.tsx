@@ -24,11 +24,8 @@ const DroppableColumn: React.FC<DroppableColumn> = ({
   const displayAddButton = columnName === taskStatus.todo.label;
   const [addTaskMutation] = useAddTaskMutation({});
 
-  const addNewTask = async (
-    content: string,
-    tags: TagInput[]
-  ): Promise<void> => {
-    await addTaskMutation({
+  const addNewTask = (content: string, tags: TagInput[]): void => {
+    addTaskMutation({
       variables: {
         input: {
           content,

@@ -7,7 +7,7 @@ import {
 } from "react-beautiful-dnd";
 
 import { InitialData } from "./interfaces";
-import { reorder, move } from "./utils";
+import { reorder, move, getTasksIdsFromColumn } from "./utils";
 import DroppableColumn from "./DroppableColumn";
 import {
   useUpdateTaskMutation,
@@ -111,11 +111,6 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
     updateTaskStatus(draggableId, destination.droppableId);
   };
 
-  // TODO should be in utils
-  const getTasksIdsFromColumn = (columnName: string) => {
-    return boardData[columnName].items.map((task) => task.id);
-  };
-
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     const isTaskChangedColumn = source.droppableId !== destination?.droppableId;
@@ -128,13 +123,13 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
       updateBetweenTwoColumns(source, destination, draggableId);
       onTasksPositionsUpdate(
         destination.droppableId,
-        getTasksIdsFromColumn(destination.droppableId)
+        getTasksIdsFromColumn(destination.droppableId, boardData)
       );
     } else {
       updateInSingleColumn(source, destination);
       onTasksPositionsUpdate(
         source.droppableId,
-        getTasksIdsFromColumn(source.droppableId)
+        getTasksIdsFromColumn(source.droppableId, boardData)
       );
     }
   };

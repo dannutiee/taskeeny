@@ -1,4 +1,7 @@
 import { TaskData } from "../task/interfaces";
+import { InitialData, TaskWithPosition } from "./interfaces";
+import { Task, Position } from "../../graphql";
+
 
 export const reorder = (
   list: TaskData[],
@@ -25,7 +28,25 @@ export const move = (
   };
 };
 
-export const getTasksFilteredByStatus = (tasks: any, status: string) => {
-  console.log("tasks", tasks, status);
-  return tasks.filter((el: any) => el.status === status);
+export const getTasksFilteredByStatus = (tasks: Task[] , status: string) => {
+  return tasks.filter((task: Task) => task.status === status);
 };
+
+export const getTasksInOrder = (tasks: Task[], column: string, positions: Position[]) => {
+  const orderedTasks = JSON.parse(JSON.stringify(tasks));
+  orderedTasks.forEach((task: TaskWithPosition) => {
+    const columnData = positions.find((position: Position) => position.status === column);
+    if (columnData) {
+      return (task.position = columnData.tasksOrder.indexOf(task.id));
+    }
+  });
+  orderedTasks.sort((a: TaskWithPosition, b: TaskWithPosition) =>(
+    a.position > b.position ? 1 : b.position > a.position ? -1 : 0
+  )
+  );
+  return orderedTasks;
+};
+
+  export const getTasksIdsFromColumn = (columnName: string, boardData: InitialData) => {
+    return boardData[columnName].items.map((task) => task.id);
+  };

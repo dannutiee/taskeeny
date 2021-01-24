@@ -3,13 +3,12 @@ import styled from "styled-components";
 
 import { useGetTasksQuery, Task, Position } from "../../graphql";
 import DroppableArea from "./DroppableArea";
-import { InitialData } from "./interfaces";
-import { getTasksFilteredByStatus } from "./utils";
+import { getTasksInOrder, getTasksFilteredByStatus } from "./utils";
 import { taskStatus } from "../task/utils";
 
 interface DashboardComponentProps {
-  tasks?: Task[];
-  positions: any; // TODO fix this
+  tasks: Task[];
+  positions: Position[];
 }
 
 export const DashboardContainer: React.FC = () => {
@@ -27,8 +26,8 @@ export const DashboardContainer: React.FC = () => {
 
   return (
     <DashboardComponent
-      tasks={data?.user.tasks}
-      positions={data?.user.positions}
+      tasks={data?.user.tasks || []}
+      positions={data?.user.positions || []}
     />
   );
 };
@@ -37,44 +36,29 @@ export const DashboardComponent: React.FC<DashboardComponentProps> = ({
   tasks,
   positions,
 }) => {
-  //TODO  refactor and move to utils
-  const getTasksInOrder = (tasks: any, column: string) => {
-    const orderedTasks = JSON.parse(JSON.stringify(tasks));
-    orderedTasks.forEach((task: any) => {
-      // task.position = positions[0].elements.indexOf(task.id);
-
-      const columnData = positions.find((el: any) => el.status === column);
-      //console.log('columnData', columnData, column)
-      if (columnData) {
-        return (task.position = columnData.tasksOrder.indexOf(task.id));
-      }
-    });
-    orderedTasks.sort((a: any, b: any) =>
-      a.position > b.position ? 1 : b.position > a.position ? -1 : 0
-    );
-    return orderedTasks;
-  };
-
-  const boardInitialData: InitialData = {
+  const boardInitialData = {
     todo: {
       title: taskStatus.todo.label,
       items: getTasksInOrder(
         getTasksFilteredByStatus(tasks, taskStatus.todo.value),
-        taskStatus.todo.value
+        taskStatus.todo.value,
+        positions
       ),
     },
     in_progress: {
       title: taskStatus.in_progress.label,
       items: getTasksInOrder(
         getTasksFilteredByStatus(tasks, taskStatus.in_progress.value),
-        taskStatus.in_progress.value
+        taskStatus.in_progress.value,
+        positions
       ),
     },
     completed: {
       title: taskStatus.completed.label,
       items: getTasksInOrder(
         getTasksFilteredByStatus(tasks, taskStatus.completed.value),
-        taskStatus.completed.value
+        taskStatus.completed.value,
+        positions
       ),
     },
   };
