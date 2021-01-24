@@ -8,7 +8,7 @@ import {
 
 import { InitialData } from "./interfaces";
 import { reorder, move, getTasksIdsFromColumn } from "./utils";
-import DroppableColumn from "./DroppableColumn";
+import { DroppableColumn } from "../board";
 import {
   useUpdateTaskMutation,
   useUpdatePositionsMutation,
@@ -151,5 +151,3 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
     </React.Fragment>
   );
 };
-
-export default DroppableArea;

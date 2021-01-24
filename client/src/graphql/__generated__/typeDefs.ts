@@ -199,6 +199,14 @@ export type DeleteTaskMutation = { __typename?: "Mutation" } & {
   >;
 };
 
+export type GetTagsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTagsQuery = { __typename?: "Query" } & {
+  user: { __typename?: "AuthtenticatedUser" } & {
+    tags: Array<{ __typename?: "Tag" } & Pick<Tag, "name" | "color" | "tasks">>;
+  };
+};
+
 export type GetTasksQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetTasksQuery = { __typename?: "Query" } & {
@@ -379,6 +387,55 @@ export type DeleteTaskMutationResult = Apollo.MutationResult<
 export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<
   DeleteTaskMutation,
   DeleteTaskMutationVariables
+>;
+export const GetTagsDocument = gql`
+  query getTags {
+    user {
+      tags {
+        name
+        color
+        tasks
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetTagsQuery__
+ *
+ * To run a query within a React component, call `useGetTagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTagsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTagsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetTagsQuery, GetTagsQueryVariables>
+) {
+  return Apollo.useQuery<GetTagsQuery, GetTagsQueryVariables>(
+    GetTagsDocument,
+    baseOptions
+  );
+}
+export function useGetTagsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetTagsQuery, GetTagsQueryVariables>
+) {
+  return Apollo.useLazyQuery<GetTagsQuery, GetTagsQueryVariables>(
+    GetTagsDocument,
+    baseOptions
+  );
+}
+export type GetTagsQueryHookResult = ReturnType<typeof useGetTagsQuery>;
+export type GetTagsLazyQueryHookResult = ReturnType<typeof useGetTagsLazyQuery>;
+export type GetTagsQueryResult = Apollo.QueryResult<
+  GetTagsQuery,
+  GetTagsQueryVariables
 >;
 export const GetTasksDocument = gql`
   query getTasks {

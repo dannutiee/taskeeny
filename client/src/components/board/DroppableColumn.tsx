@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Droppable } from "react-beautiful-dnd";
-import SingleTask from "./DraggableTask";
+import { DraggableTask } from "../board";
 import { TaskData } from "../task/interfaces";
 import { taskStatus } from "../task/utils";
 import {
@@ -16,7 +16,7 @@ interface DroppableColumn {
   columnName: string;
 }
 
-const DroppableColumn: React.FC<DroppableColumn> = ({
+export const DroppableColumn: React.FC<DroppableColumn> = ({
   columnId,
   tasks,
   columnName,
@@ -58,7 +58,7 @@ const DroppableColumn: React.FC<DroppableColumn> = ({
             )}
           </ColumnTitle>
           {tasks.map((item, index) => (
-            <SingleTask task={item} key={item.id} index={index} />
+            <DraggableTask task={item} key={item.id} index={index} />
           ))}
           {provided.placeholder}
         </DroppableColumnWrapper>
@@ -66,8 +66,6 @@ const DroppableColumn: React.FC<DroppableColumn> = ({
     </Droppable>
   );
 };
-
-export default DroppableColumn;
 
 const DroppableColumnWrapper = styled.div`
   &.droppable-column {

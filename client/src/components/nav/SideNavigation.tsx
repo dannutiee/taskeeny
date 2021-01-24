@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { AuthContext } from "../../contexts/auth";
+import { CategoriesList } from "../categories";
 
 export const SideNavigation: React.FC = () => {
   const authContext = useContext(AuthContext);
@@ -10,6 +11,7 @@ export const SideNavigation: React.FC = () => {
     <SideNavWrapper>
       navigation
       <button onClick={() => authContext.logout()}>Logout</button>
+      <CategoriesList />
     </SideNavWrapper>
   );
 };

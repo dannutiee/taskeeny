@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { useGetTasksQuery, Task, Position } from "../../graphql";
-import DroppableArea from "./DroppableArea";
+import { DroppableArea } from "../board";
 import { getTasksInOrder, getTasksFilteredByStatus } from "./utils";
 import { taskStatus } from "../task/utils";
 
@@ -74,8 +74,8 @@ export const Dashboard = DashboardContainer;
 
 const DashboardWrapper = styled.div`
   width: calc(100% - 240px);
-  background: ${(p) => p.theme.dashboard.bg};
   display: flex;
   justify-content: space-around;
   font-family: "Open Sans";
+  background: ${(p) => p.theme.dashboard.bg};
 `;

@@ -22,7 +22,7 @@ interface SingleTaskProps {
   task: Task;
 }
 
-const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
+export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const [deleteTaskMutation] = useDeleteTaskMutation({});
@@ -87,8 +87,6 @@ const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     </Fragment>
   );
 };
-
-export default SingleTask;
 
 const TagBorderWrapper = styled.div`
   position: absolute;

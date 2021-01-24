@@ -30,6 +30,11 @@ export const lightTheme = {
     bg: COLORS.WHITE,
     shadow: SHADOWS.primary,
   },
+  categories: {
+    titleFont: FONTS.headers,
+    titleWeight: 600,
+    titleSize: "18px",
+  },
   column: {
     titleFont: FONTS.headers,
     titleWeight: 600,
