@@ -1,3 +1,5 @@
+import { Tag } from "../../graphql/__generated__/typeDefs";
+
 export const getBarHeight = (taskTags: string[]): string => {
   let barsCount = taskTags.length;
   return (100 / barsCount).toString() + "%";
@@ -22,4 +24,8 @@ export const taskStatus = {
     value: Status.completed,
     label: "Completed",
   },
+};
+
+export const getTagBorderColor = (tags: any, tagName: string): string => {
+  return tags.find((tag: Tag) => tag.name === tagName).color;
 };

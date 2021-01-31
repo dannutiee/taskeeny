@@ -5,6 +5,7 @@ import styled from "styled-components";
 import SideNavigation from "../nav/SideNavigation";
 import { Dashboard } from "../board/Dashboard";
 import { AuthContext, initialAuthState } from "../../contexts/auth";
+import { TagsContextProvider } from "../../contexts/tags";
 
 const App: React.FC = () => {
   const authContext = useContext(AuthContext);
@@ -16,10 +17,12 @@ const App: React.FC = () => {
   console.log("authContext", authContext, "initialAuthState", initialAuthState);
 
   return (
-    <AppWrapper>
-      <SideNavigation />
-      <Dashboard />
-    </AppWrapper>
+    <TagsContextProvider>
+      <AppWrapper>
+        <SideNavigation />
+        <Dashboard />
+      </AppWrapper>
+    </TagsContextProvider>
   );
 };
 

@@ -22,7 +22,8 @@ const SideNavWrapper = styled.div`
   width: 240px;
   background: red;
   height: 100%;
+  z-index: 1;
+  padding: 25px;
   background: ${(p) => p.theme.nav.bg};
   box-shadow: ${(p) => p.theme.nav.shadow};
-  z-index: 1;
 `;

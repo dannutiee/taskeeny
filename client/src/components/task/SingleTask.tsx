@@ -1,22 +1,12 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import styled from "styled-components";
-import { getBarHeight } from "./utils";
+import { getBarHeight, getTagBorderColor } from "./utils";
 import {
   Task,
   useDeleteTaskMutation,
   GetTasksDocument,
 } from "../../graphql/__generated__/typeDefs";
-
-// MOCK DATA - Real tag list should be get here from context
-
-const tags: { [key: string]: string } = {
-  hobby: "#B998F7",
-  nowy: "#EF31BC",
-  zupelnienowy: "#FFBB6C",
-  homeoffice: "#dedede",
-};
-
-// END MOCK DATA
+import { TagsContext } from "../../contexts/tags";
 
 interface SingleTaskProps {
   task: Task;
@@ -24,6 +14,7 @@ interface SingleTaskProps {
 
 export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
+  const tagsContext = useContext(TagsContext);
 
   const [deleteTaskMutation] = useDeleteTaskMutation({});
 
@@ -61,7 +52,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
         {task.tags.map((tag, index) => (
           <TagBorder
             key={index}
-            color={tags[tag as string]}
+            color={getTagBorderColor(tagsContext.tags, tag)}
             height={getBarHeight(task.tags)}
           />
         ))}
