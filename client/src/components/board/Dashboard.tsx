@@ -77,5 +77,6 @@ const DashboardWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   font-family: "Open Sans";
+  position: relative;
   background: ${(p) => p.theme.dashboard.bg};
 `;
