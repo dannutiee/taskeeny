@@ -1,15 +1,14 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-import { getBarHeight, getTagBorderColor } from "./utils";
 import {
   Task,
   useDeleteTaskMutation,
   GetTasksDocument,
 } from "../../graphql/__generated__/typeDefs";
-import { TagsContext } from "../../contexts/tags";
 import { useModal } from "../../hooks/useModal";
-import { Modal } from "../modal";
+import { EditModal } from "../modal";
+import { TagBorder } from "./TagBorder";
 
 interface SingleTaskProps {
   task: Task;
@@ -17,7 +16,7 @@ interface SingleTaskProps {
 
 export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
-  const tagsContext = useContext(TagsContext);
+
   const { isShowing, toggle } = useModal();
 
   const [deleteTaskMutation] = useDeleteTaskMutation({});
@@ -38,11 +37,6 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     });
   };
 
-  const onEditClick = () => {
-    toggle();
-    //TODO   open edit modal
-  };
-
   const onDeleteClick = () => {
     deleteTask(task.id);
   };
@@ -52,17 +46,8 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   };
 
   return (
-    <Fragment>
-      <TagBorderWrapper>
-        {task.tags.map((tag, index) => (
-          <TagBorder
-            key={index}
-            color={getTagBorderColor(tagsContext.tags, tag)}
-            height={getBarHeight(task.tags)}
-          />
-        ))}
-      </TagBorderWrapper>
-
+    <>
+      <TagBorder tags={task.tags} />
       <TaskContent>{task.content}</TaskContent>
       <TaskFooter>
         <TagsWrapper>
@@ -74,39 +59,21 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
           <span className="material-icons">more_vert</span>
           {dropdownVisible && (
             <Dropdown>
-              <DropdownItem onClick={onEditClick}>Edit</DropdownItem>
+              <DropdownItem onClick={toggle}>Edit</DropdownItem>
               <DropdownItem onClick={onDeleteClick}>Delete</DropdownItem>
             </Dropdown>
           )}
         </MoreButton>
       </TaskFooter>
-      <Modal isShowing={isShowing} hide={toggle} />
-    </Fragment>
+      <EditModal
+        isShowing={isShowing}
+        hide={toggle}
+        tags={task.tags}
+        content={task.content}
+      />
+    </>
   );
 };
-
-const TagBorderWrapper = styled.div`
-  position: absolute;
-  height: calc(100% - 10px);
-  width: 10px;
-  left: 5px;
-  top: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-interface TagBorderProps {
-  color: string;
-  height: string;
-}
-
-const TagBorder = styled.div<TagBorderProps>`
-  border-radius: 10px;
-  margin: 3px 0;
-  background: ${(p) => p.color};
-  height: ${(p) => p.height};
-`;
 
 const TaskContent = styled.div`
   margin-left: 10px;

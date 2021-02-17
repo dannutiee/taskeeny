@@ -7,18 +7,17 @@ interface ModalProps {
   hide?: () => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isShowing, hide }) =>
+export const Modal: React.FC<ModalProps> = ({ isShowing, hide, children }) =>
   isShowing
     ? ReactDOM.createPortal(
         <ModalWrapper>
           <ModalContent>
-            <TagBorderWrapper />
             <CloseButtonWrapper>
               <CloseIcon className="material-icons" onClick={hide}>
                 close
               </CloseIcon>
             </CloseButtonWrapper>
-            //TODO addTask modal
+            {children}
           </ModalContent>
         </ModalWrapper>,
         document.body
@@ -57,15 +56,4 @@ const ModalContent = styled.div`
   position: relative;
   padding: 20px;
   box-shadow: ${(p) => p.theme.modal.shadow};
-`;
-
-const TagBorderWrapper = styled.div`
-  position: absolute;
-  height: calc(100% - 10px);
-  width: 10px;
-  left: 5px;
-  top: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;

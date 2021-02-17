@@ -135,7 +135,7 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <DragDropContext onDragEnd={onDragEnd}>
         {Object.keys(boardData).map((column, id) => {
           return (
@@ -148,6 +148,6 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
           );
         })}
       </DragDropContext>
-    </React.Fragment>
+    </>
   );
 };
