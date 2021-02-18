@@ -114,7 +114,6 @@ const TagLink = styled.a`
 const Dropdown = styled.div`
   position: absolute;
   background: white;
-  padding: 15px 20px;
   right: 40px;
   top: 8px;
   border-radius: 5px;
@@ -123,17 +122,12 @@ const Dropdown = styled.div`
 `;
 
 const DropdownItem = styled.div`
-  padding: 6px 0;
+  padding: 10px 20px;
   text-align: left;
   font-family: "Open Sans";
-  &:first-child {
-    padding-top: 0px;
-  }
-  &:last-child {
-    padding-bottom: 0px;
-  }
+  font-size: 14px;
+  color: ${(p) => p.theme.task.dropdown.text};
   &:hover {
     color: ${(p) => p.theme.task.dropdown.textHover};
   }
-  color: ${(p) => p.theme.task.dropdown.text};
 `;

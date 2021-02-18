@@ -28,10 +28,9 @@ export const EditModal: React.FC<ModalProps> = ({
       <EditContent>
         {tags.map((tag, key) => (
           <TagName key={key} color={getTagBorderColor(tagsContext.tags, tag)}>
-            {" "}
-            {`#${tag}`}{" "}
+            {` #${tag} `}
           </TagName>
-        ))}
+        ))}{" "}
         {content}
       </EditContent>
     </Modal>
