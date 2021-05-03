@@ -25,9 +25,9 @@ const AppRouter = () => (
       <AuthContextProvider>
         <AppBody>
           <Switch>
-            <Route path="/" component={App} exact />
             <AuthRoute path="/login" component={Login} exact />
             <AuthRoute path="/register" component={Register} exact />
+            <Route path="/" component={App} />
           </Switch>
         </AppBody>
       </AuthContextProvider>

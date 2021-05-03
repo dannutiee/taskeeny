@@ -21,11 +21,11 @@ export const Modal: React.FC<ModalProps> = ({ isShowing, hide, children }) =>
             <ModalHeader>
               <StatusWrapper>
                 <Label>Status: </Label>
-                <select>
+                <SelectDropdown>
                   <option value="TO DO">TO DO</option>
                   <option value="IN PROGRESS">N PROGRESS</option>
                   <option value="COMPLETED">COMPLETED</option>
-                </select>
+                </SelectDropdown>
               </StatusWrapper>
               <DateInfoWrapper>
                 <DateItem>
@@ -55,6 +55,11 @@ const Label = styled.span`
 
 const DateItem = styled.span`
   margin-left: 25px;
+`;
+
+const SelectDropdown = styled.select`
+  border-color: #79a7ff;
+  border-radius: 3px;
 `;
 
 const DateInfoWrapper = styled.div``;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import {
   Task,
@@ -9,16 +10,18 @@ import {
 import { useModal } from "../../hooks/useModal";
 import { EditModal } from "../modal";
 import { TagBorder } from "./TagBorder";
+import { isEditModalOpend } from "./utils";
 
 interface SingleTaskProps {
   task: Task;
 }
 
 export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
+  const history = useHistory();
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
-
-  const { isShowing, toggle } = useModal();
-
+  const { toggle, isShowing } = useModal(
+    isEditModalOpend(task.id, history.location.search)
+  );
   const [deleteTaskMutation] = useDeleteTaskMutation({});
 
   const deleteTask = (id: string): void => {
@@ -41,8 +44,18 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     deleteTask(task.id);
   };
 
+  const onClickEdit = () => {
+    history.push(`/edit?id=${task.id}`);
+    toggle();
+  };
+
   const onTagClick = () => {
     // TODO  filter task by choosen tags
+  };
+
+  const onHideModal = () => {
+    history.push(`/`);
+    toggle();
   };
 
   return (
@@ -59,7 +72,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
           <span className="material-icons">more_vert</span>
           {dropdownVisible && (
             <Dropdown>
-              <DropdownItem onClick={toggle}>Edit</DropdownItem>
+              <DropdownItem onClick={onClickEdit}>Edit</DropdownItem>
               <DropdownItem onClick={onDeleteClick}>Delete</DropdownItem>
             </Dropdown>
           )}
@@ -67,7 +80,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
       </TaskFooter>
       <EditModal
         isShowing={isShowing}
-        hide={toggle}
+        hide={onHideModal}
         tags={task.tags}
         content={task.content}
       />
