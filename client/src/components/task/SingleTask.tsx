@@ -78,12 +78,15 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
           )}
         </MoreButton>
       </TaskFooter>
-      <EditModal
-        isShowing={isShowing}
-        hide={onHideModal}
-        tags={task.tags}
-        content={task.content}
-      />
+      {isShowing && (
+        <EditModal
+          hide={onHideModal}
+          tags={task.tags}
+          content={task.content}
+          status={task.status}
+          taskId={task.id}
+        />
+      )}
     </>
   );
 };

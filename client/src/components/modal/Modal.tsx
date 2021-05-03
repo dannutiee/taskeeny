@@ -1,61 +1,92 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 
+import { taskStatus } from "../task/utils";
+
 interface ModalProps {
-  isShowing: boolean;
+  status: string;
+  shareCurrentStatus?: (status: string) => void;
   hide?: () => void;
   onSave?: () => void;
 }
 // TODO this component requires refactor
 
 export const Modal: React.FC<ModalProps> = ({
-  isShowing,
   hide,
   children,
   onSave,
-}) =>
-  isShowing
-    ? ReactDOM.createPortal(
-        <ModalWrapper>
-          <ModalBody>
-            <CloseButtonWrapper>
-              <CloseIcon className="material-icons" onClick={hide}>
-                close
-              </CloseIcon>
-            </CloseButtonWrapper>
-            <ModalHeader>
-              <StatusWrapper>
-                <Label>Status: </Label>
-                <SelectDropdown>
-                  <option value="TO DO">TO DO</option>
-                  <option value="IN PROGRESS">N PROGRESS</option>
-                  <option value="COMPLETED">COMPLETED</option>
-                </SelectDropdown>
-              </StatusWrapper>
-              <DateInfoWrapper>
-                <DateItem>
-                  <Label>Created:</Label> 19.02.1996
-                </DateItem>
-                <DateItem>
-                  <Label>Completed:</Label> -
-                </DateItem>
-              </DateInfoWrapper>
-            </ModalHeader>
-            <ModalContent>{children}</ModalContent>
-            <ModalFooter>
-              <ActionButtonsWrapper>
-                <ActionButton>Delete</ActionButton>
-                <ActionButton primary onClick={onSave}>
-                  Save
-                </ActionButton>
-              </ActionButtonsWrapper>
-            </ModalFooter>
-          </ModalBody>
-        </ModalWrapper>,
-        document.body
-      )
-    : null;
+  status,
+  shareCurrentStatus,
+}) => {
+  const [currentStatus, setCurrentStatus] = useState(status);
+
+  useEffect(() => {
+    if (shareCurrentStatus) {
+      shareCurrentStatus(currentStatus);
+    }
+  }, [currentStatus]);
+
+  const onSelectNewStatus = (e: React.FormEvent<HTMLSelectElement>) => {
+    const value: string = e.currentTarget.value;
+    setCurrentStatus(value);
+  };
+
+  return ReactDOM.createPortal(
+    <ModalWrapper>
+      <ModalBody>
+        <CloseButtonWrapper>
+          <CloseIcon className="material-icons" onClick={hide}>
+            close
+          </CloseIcon>
+        </CloseButtonWrapper>
+        <ModalHeader>
+          <StatusWrapper>
+            <Label>Status: </Label>
+            <SelectDropdown onChange={onSelectNewStatus}>
+              <option
+                value={taskStatus.todo.value}
+                selected={taskStatus.todo.value === currentStatus}
+              >
+                {taskStatus.todo.label}
+              </option>
+              <option
+                value={taskStatus.in_progress.value}
+                selected={taskStatus.in_progress.value === currentStatus}
+              >
+                {taskStatus.in_progress.label}
+              </option>
+              <option
+                value={taskStatus.completed.value}
+                selected={taskStatus.completed.value === currentStatus}
+              >
+                {taskStatus.completed.label}
+              </option>
+            </SelectDropdown>
+          </StatusWrapper>
+          <DateInfoWrapper>
+            <DateItem>
+              <Label>Created:</Label> 19.02.1996
+            </DateItem>
+            <DateItem>
+              <Label>Completed:</Label> -
+            </DateItem>
+          </DateInfoWrapper>
+        </ModalHeader>
+        <ModalContent>{children}</ModalContent>
+        <ModalFooter>
+          <ActionButtonsWrapper>
+            <ActionButton>Delete</ActionButton>
+            <ActionButton primary onClick={onSave}>
+              Save
+            </ActionButton>
+          </ActionButtonsWrapper>
+        </ModalFooter>
+      </ModalBody>
+    </ModalWrapper>,
+    document.body
+  );
+};
 
 const Label = styled.span`
   font-weight: 600;

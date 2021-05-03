@@ -49,7 +49,7 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
     });
   };
 
-  const onTasksPositionsUpdate = async (
+  const updateTasksPositions = async (
     columnName: string,
     tasksOrder: string[]
   ): Promise<void> => {
@@ -125,13 +125,13 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
 
     if (isTaskChangedColumn) {
       updateBetweenTwoColumns(source, destination, draggableId);
-      onTasksPositionsUpdate(
+      updateTasksPositions(
         destination.droppableId,
         getTasksIdsFromColumn(destination.droppableId, boardData)
       );
     } else {
       updateInSingleColumn(source, destination);
-      onTasksPositionsUpdate(
+      updateTasksPositions(
         source.droppableId,
         getTasksIdsFromColumn(source.droppableId, boardData)
       );

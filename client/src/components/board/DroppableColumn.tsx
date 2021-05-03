@@ -50,7 +50,7 @@ export const DroppableColumn: React.FC<DroppableColumn> = ({
                 <AddButton onClick={handleAddTask}>
                   <span className="material-icons">add</span>
                 </AddButton>
-                <AddTaskModal isShowing={isShowing} hide={onHideModal} />
+                {isShowing && <AddTaskModal hide={onHideModal} />}
               </>
             )}
           </ColumnTitle>

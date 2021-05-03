@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
@@ -11,14 +11,13 @@ import {
 } from "../../graphql/__generated__/typeDefs";
 
 interface ModalProps {
-  isShowing: boolean;
   hide: () => void;
 }
 
-export const AddTaskModal: React.FC<ModalProps> = ({ isShowing, hide }) => {
+export const AddTaskModal: React.FC<ModalProps> = ({ hide }) => {
   const history = useHistory();
 
-  const [addTaskMutation, { data }] = useAddTaskMutation({
+  const [addTaskMutation] = useAddTaskMutation({
     refetchQueries: [{ query: GetTasksDocument }],
     awaitRefetchQueries: true,
   });
@@ -43,7 +42,7 @@ export const AddTaskModal: React.FC<ModalProps> = ({ isShowing, hide }) => {
   };
 
   return (
-    <Modal isShowing={isShowing} hide={hide} onSave={onCickSave}>
+    <Modal hide={hide} onSave={onCickSave} status={"todo"}>
       <TagBorder tags={[]} isModalMode={true} />
 
       <EditContent>"add here some text"</EditContent>
