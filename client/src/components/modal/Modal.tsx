@@ -5,10 +5,16 @@ import styled from "styled-components";
 interface ModalProps {
   isShowing: boolean;
   hide?: () => void;
+  onSave?: () => void;
 }
 // TODO this component requires refactor
 
-export const Modal: React.FC<ModalProps> = ({ isShowing, hide, children }) =>
+export const Modal: React.FC<ModalProps> = ({
+  isShowing,
+  hide,
+  children,
+  onSave,
+}) =>
   isShowing
     ? ReactDOM.createPortal(
         <ModalWrapper>
@@ -40,7 +46,9 @@ export const Modal: React.FC<ModalProps> = ({ isShowing, hide, children }) =>
             <ModalFooter>
               <ActionButtonsWrapper>
                 <ActionButton>Delete</ActionButton>
-                <ActionButton primary>Save</ActionButton>
+                <ActionButton primary onClick={onSave}>
+                  Save
+                </ActionButton>
               </ActionButtonsWrapper>
             </ModalFooter>
           </ModalBody>

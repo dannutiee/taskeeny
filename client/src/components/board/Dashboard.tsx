@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { useGetTasksQuery, Task, Position } from "../../graphql";
 import { DroppableArea } from "../board";
-import { getTasksInOrder, getTasksFilteredByStatus } from "./utils";
-import { taskStatus } from "../task/utils";
+import { getBoardInitialData } from "./initialData";
 
 interface DashboardComponentProps {
   tasks: Task[];
@@ -36,36 +35,21 @@ export const DashboardComponent: React.FC<DashboardComponentProps> = ({
   tasks,
   positions,
 }) => {
-  const boardInitialData = {
-    todo: {
-      title: taskStatus.todo.label,
-      items: getTasksInOrder(
-        getTasksFilteredByStatus(tasks, taskStatus.todo.value),
-        taskStatus.todo.value,
-        positions
-      ),
-    },
-    in_progress: {
-      title: taskStatus.in_progress.label,
-      items: getTasksInOrder(
-        getTasksFilteredByStatus(tasks, taskStatus.in_progress.value),
-        taskStatus.in_progress.value,
-        positions
-      ),
-    },
-    completed: {
-      title: taskStatus.completed.label,
-      items: getTasksInOrder(
-        getTasksFilteredByStatus(tasks, taskStatus.completed.value),
-        taskStatus.completed.value,
-        positions
-      ),
-    },
-  };
+  const [boardInitialDataState, setInitial] = useState({});
+
+  useEffect(() => {
+    setInitial(getBoardInitialData(tasks, positions));
+  }, [tasks]);
+
+  useEffect(() => {
+    setInitial(getBoardInitialData(tasks, positions));
+  }, []);
+
+  const hasDataPrepared = Object.keys(boardInitialDataState).length > 0;
 
   return (
     <DashboardWrapper>
-      <DroppableArea data={boardInitialData} />
+      {hasDataPrepared && <DroppableArea data={boardInitialDataState} />}
     </DashboardWrapper>
   );
 };

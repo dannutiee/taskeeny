@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import { Droppable } from "react-beautiful-dnd";
 import { DraggableTask } from "../board";
 import { TaskData } from "../task/interfaces";
 import { taskStatus } from "../task/utils";
-import {
-  useAddTaskMutation,
-  TagInput,
-} from "../../graphql/__generated__/typeDefs";
+import { AddTaskModal } from "../modal/AddTaskModal";
+import { useModal } from "../../hooks/useModal";
 
 interface DroppableColumn {
   columnId: string;
@@ -21,24 +20,19 @@ export const DroppableColumn: React.FC<DroppableColumn> = ({
   tasks,
   columnName,
 }) => {
-  const displayAddButton = columnName === taskStatus.todo.label;
-  const [addTaskMutation] = useAddTaskMutation({});
+  const history = useHistory();
+  const { toggle, isShowing } = useModal();
 
-  const addNewTask = (content: string, tags: TagInput[]): void => {
-    addTaskMutation({
-      variables: {
-        input: {
-          content,
-          tags,
-        },
-      },
-    });
+  const displayAddButton = columnName === taskStatus.todo.label;
+
+  const handleAddTask = () => {
+    history.push(`/new`);
+    toggle();
   };
 
-  //TODO - set real data from user input to the database
-  const handleAddTask = () => {
-    const testTags = [{ name: "homeoffice", color: "#734567" }];
-    addNewTask("test z frontu", testTags);
+  const onHideModal = () => {
+    history.push(`/`);
+    toggle();
   };
 
   return (
@@ -52,9 +46,12 @@ export const DroppableColumn: React.FC<DroppableColumn> = ({
           <ColumnTitle>
             {columnName}
             {displayAddButton && (
-              <AddButton onClick={handleAddTask}>
-                <span className="material-icons">add</span>
-              </AddButton>
+              <>
+                <AddButton onClick={handleAddTask}>
+                  <span className="material-icons">add</span>
+                </AddButton>
+                <AddTaskModal isShowing={isShowing} hide={onHideModal} />
+              </>
             )}
           </ColumnTitle>
           {tasks.map((item, index) => (

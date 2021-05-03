@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DragDropContext,
   DropResult,
@@ -20,6 +20,10 @@ interface DroppableAreaProps {
 
 export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   const [boardData, setBoardData] = useState(data);
+
+  useEffect(() => {
+    setBoardData(data);
+  }, [data]);
 
   const [
     updatePositionsMutation,
