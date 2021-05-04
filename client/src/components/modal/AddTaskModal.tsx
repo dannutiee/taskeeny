@@ -20,7 +20,7 @@ export const AddTaskModal: React.FC<ModalProps> = ({ hide }) => {
 
   const [addTaskMutation] = useAddTaskMutation({
     refetchQueries: [{ query: GetTasksDocument }, { query: GetTagsDocument }],
-    awaitRefetchQueries: true,
+    // awaitRefetchQueries: true,
   });
 
   const addNewTask = (content: string, tags: TagInput[]): void => {

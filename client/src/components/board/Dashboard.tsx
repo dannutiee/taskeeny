@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 
 import { useGetTasksQuery, Task, Position } from "../../graphql";
 import { DroppableArea } from "../board";
 import { getBoardInitialData } from "./initialData";
+import { TagsContext } from "../../contexts/tags";
+import { getActiveTagsNames, filterTasks } from "./utils";
 
 interface DashboardComponentProps {
   tasks: Task[];
@@ -35,17 +37,21 @@ export const DashboardComponent: React.FC<DashboardComponentProps> = ({
   tasks,
   positions,
 }) => {
+  const tagsContext = useContext(TagsContext);
   const [boardInitialDataState, setInitial] = useState({});
 
-  useEffect(() => {
-    setInitial(getBoardInitialData(tasks, positions));
-  }, [tasks]);
+  const activeTagsNames = getActiveTagsNames(tagsContext.tags);
+  const filteredTasks = filterTasks(tasks, activeTagsNames);
 
   useEffect(() => {
-    setInitial(getBoardInitialData(tasks, positions));
+    setInitial(getBoardInitialData(filteredTasks, positions));
+  }, [tasks, tagsContext.tags]);
+
+  useEffect(() => {
+    setInitial(getBoardInitialData(filteredTasks, positions));
   }, []);
 
-  const hasDataPrepared = Object.keys(boardInitialDataState).length > 0;
+  const hasDataPrepared = boardInitialDataState !== {};
 
   return (
     <DashboardWrapper>

@@ -1,6 +1,8 @@
 import { TaskData } from "../task/interfaces";
 import { InitialData, TaskWithPosition } from "./interfaces";
-import { Task, Position } from "../../graphql";
+import { Task, Position, Tag as TagType } from "../../graphql";
+
+type Tag = Omit<TagType, "id">;
 
 export const reorder = (
   list: TaskData[],
@@ -56,4 +58,19 @@ export const getTasksIdsFromColumn = (
   boardData: InitialData
 ) => {
   return boardData[columnName].items.map((task) => task.id);
+};
+
+export const getActiveTagsNames = (allTags: Tag[]): string[] => {
+  const activeTagsNames: string[] = [];
+  const activeTags = allTags.filter((el) => el.isActive !== false);
+  for (let activeTag of activeTags) {
+    activeTagsNames.push(activeTag.name);
+  }
+  return activeTagsNames;
+};
+
+export const filterTasks = (tasks: Task[], activeTags: string[]): Task[] => {
+  return tasks.filter((task) =>
+    task.tags.find((tag) => activeTags.includes(tag))
+  );
 };

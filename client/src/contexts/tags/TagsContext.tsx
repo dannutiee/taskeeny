@@ -4,11 +4,11 @@ import { tagsReducer } from "./reducer";
 import { TagsActionType, Tag } from "./interfaces";
 
 export const initialTagsState: any = {
-  tags: null,
+  tags: [],
 };
 
 const TagsContext = createContext({
-  tags: {} as Tag[] | null,
+  tags: {} as Tag[],
   resetTags: (tagsData: Tag[]): void => {},
 });
 

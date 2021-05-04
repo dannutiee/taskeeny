@@ -42,7 +42,6 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
     { error, data: updateData, loading: updateLoading },
   ] = useUpdateTagMutation({
     refetchQueries: [{ query: GetTagsDocument }],
-    awaitRefetchQueries: true,
   });
 
   const updateTagStatus = async (

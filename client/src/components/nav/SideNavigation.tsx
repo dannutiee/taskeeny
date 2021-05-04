@@ -19,7 +19,7 @@ export const SideNavigation: React.FC = () => {
 export default SideNavigation;
 
 const SideNavWrapper = styled.div`
-  width: 240px;
+  min-width: 240px;
   background: red;
   z-index: 1;
   padding: 25px;

@@ -7,7 +7,7 @@ export enum TagsActionType {
 }
 
 export interface TagsState {
-  tags: Tag[] | null;
+  tags: Tag[];
 }
 
 export type TagsReducerAction = {
