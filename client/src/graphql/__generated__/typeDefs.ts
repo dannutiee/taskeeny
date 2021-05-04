@@ -62,6 +62,7 @@ export type Mutation = {
   updatePositions?: Maybe<UpdatePositionsResponse>;
   deleteTask?: Maybe<DeleteTaskResponse>;
   updateTask?: Maybe<UpdateTaskResponse>;
+  updateTag?: Maybe<UpdateTagResponse>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -87,6 +88,10 @@ export type MutationDeleteTaskArgs = {
 
 export type MutationUpdateTaskArgs = {
   input: UpdateTaskInput;
+};
+
+export type MutationUpdateTagArgs = {
+  input: UpdateTagInput;
 };
 
 export type MutationResponseInterface = {
@@ -145,6 +150,18 @@ export type UpdatePositionsInput = {
 
 export type UpdatePositionsResponse = MutationResponseInterface & {
   __typename?: "UpdatePositionsResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+};
+
+export type UpdateTagInput = {
+  name: Scalars["String"];
+  isActive: Scalars["Boolean"];
+};
+
+export type UpdateTagResponse = MutationResponseInterface & {
+  __typename?: "UpdateTagResponse";
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
@@ -276,6 +293,19 @@ export type UpdatePositionsMutation = { __typename?: "Mutation" } & {
   updatePositions?: Maybe<
     { __typename?: "UpdatePositionsResponse" } & Pick<
       UpdatePositionsResponse,
+      "code" | "success" | "message"
+    >
+  >;
+};
+
+export type UpdateTagMutationVariables = Exact<{
+  input: UpdateTagInput;
+}>;
+
+export type UpdateTagMutation = { __typename?: "Mutation" } & {
+  updateTag?: Maybe<
+    { __typename?: "UpdateTagResponse" } & Pick<
+      UpdateTagResponse,
       "code" | "success" | "message"
     >
   >;
@@ -666,6 +696,56 @@ export type UpdatePositionsMutationResult = Apollo.MutationResult<
 export type UpdatePositionsMutationOptions = Apollo.BaseMutationOptions<
   UpdatePositionsMutation,
   UpdatePositionsMutationVariables
+>;
+export const UpdateTagDocument = gql`
+  mutation updateTag($input: UpdateTagInput!) {
+    updateTag(input: $input) {
+      code
+      success
+      message
+    }
+  }
+`;
+export type UpdateTagMutationFn = Apollo.MutationFunction<
+  UpdateTagMutation,
+  UpdateTagMutationVariables
+>;
+
+/**
+ * __useUpdateTagMutation__
+ *
+ * To run a mutation, you first call `useUpdateTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTagMutation, { data, loading, error }] = useUpdateTagMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTagMutation,
+    UpdateTagMutationVariables
+  >
+) {
+  return Apollo.useMutation<UpdateTagMutation, UpdateTagMutationVariables>(
+    UpdateTagDocument,
+    baseOptions
+  );
+}
+export type UpdateTagMutationHookResult = ReturnType<
+  typeof useUpdateTagMutation
+>;
+export type UpdateTagMutationResult = Apollo.MutationResult<UpdateTagMutation>;
+export type UpdateTagMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTagMutation,
+  UpdateTagMutationVariables
 >;
 export const UpdateTaskDocument = gql`
   mutation updateTask($input: UpdateTaskInput!) {

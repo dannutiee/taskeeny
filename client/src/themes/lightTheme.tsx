@@ -5,6 +5,7 @@ const WHITE = "#fff";
 const GREY = "#888888";
 const BLUE_GREY = "rgb(224 224 225 / 34%)";
 const BLUE_MILK = "rgb(238 242 252 / 66%)";
+const DISABLED = "#e1e1e1";
 
 export const COLORS = {
   BLUE_LIGHT_1,
@@ -13,6 +14,7 @@ export const COLORS = {
   GREY,
   BLUE_GREY,
   BLUE_MILK,
+  DISABLED,
 };
 
 const SHADOWS = {
@@ -39,6 +41,7 @@ export const lightTheme = {
     titleFont: FONTS.headers,
     titleWeight: 600,
     titleSize: "18px",
+    disabled: COLORS.DISABLED,
   },
   column: {
     titleFont: FONTS.headers,
