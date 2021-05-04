@@ -124,6 +124,7 @@ export type Tag = {
   id: Scalars["ID"];
   name: Scalars["String"];
   color: Scalars["String"];
+  isActive: Scalars["Boolean"];
   tasks: Array<Scalars["String"]>;
 };
 
@@ -299,6 +300,7 @@ export type ResolversTypes = {
   AuthtenticatedUser: ResolverTypeWrapper<AuthtenticatedUser>;
   Task: ResolverTypeWrapper<Task>;
   Tag: ResolverTypeWrapper<Tag>;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   Position: ResolverTypeWrapper<Position>;
   Mutation: ResolverTypeWrapper<{}>;
   RegisterInput: RegisterInput;
@@ -309,7 +311,6 @@ export type ResolversTypes = {
     | ResolversTypes["UpdatePositionsResponse"]
     | ResolversTypes["DeleteTaskResponse"]
     | ResolversTypes["UpdateTaskResponse"];
-  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: ResolverTypeWrapper<AddTaskResponse>;
@@ -329,6 +330,7 @@ export type ResolversParentTypes = {
   AuthtenticatedUser: AuthtenticatedUser;
   Task: Task;
   Tag: Tag;
+  Boolean: Scalars["Boolean"];
   Position: Position;
   Mutation: {};
   RegisterInput: RegisterInput;
@@ -339,7 +341,6 @@ export type ResolversParentTypes = {
     | ResolversParentTypes["UpdatePositionsResponse"]
     | ResolversParentTypes["DeleteTaskResponse"]
     | ResolversParentTypes["UpdateTaskResponse"];
-  Boolean: Scalars["Boolean"];
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: AddTaskResponse;
@@ -498,6 +499,7 @@ export type TagResolvers<
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   color?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  isActive?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   tasks?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

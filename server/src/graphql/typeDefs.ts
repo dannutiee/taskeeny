@@ -46,6 +46,7 @@ export default gql`
     id: ID!
     name: String!
     color: String!
+    isActive: Boolean!
     tasks: [String!]!
   }
 

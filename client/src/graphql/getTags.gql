@@ -3,6 +3,7 @@ user{
 	tags{
     name
     color
+    isActive
     tasks
   }
 }

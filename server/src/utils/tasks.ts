@@ -43,6 +43,7 @@ export const getTagsUpdatedWithNewItems = (
       const newTagObject = new TagObject({
         name: newTag.name,
         color: newTag.color,
+        isActive: true,
         tasks: [taskId],
       });
 

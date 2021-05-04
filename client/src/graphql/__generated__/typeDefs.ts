@@ -121,6 +121,7 @@ export type Tag = {
   id: Scalars["ID"];
   name: Scalars["String"];
   color: Scalars["String"];
+  isActive: Scalars["Boolean"];
   tasks: Array<Scalars["String"]>;
 };
 
@@ -203,7 +204,12 @@ export type GetTagsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetTagsQuery = { __typename?: "Query" } & {
   user: { __typename?: "AuthtenticatedUser" } & {
-    tags: Array<{ __typename?: "Tag" } & Pick<Tag, "name" | "color" | "tasks">>;
+    tags: Array<
+      { __typename?: "Tag" } & Pick<
+        Tag,
+        "name" | "color" | "isActive" | "tasks"
+      >
+    >;
   };
 };
 
@@ -394,6 +400,7 @@ export const GetTagsDocument = gql`
       tags {
         name
         color
+        isActive
         tasks
       }
     }
