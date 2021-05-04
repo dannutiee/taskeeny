@@ -6,6 +6,7 @@ import {
   Task,
   useDeleteTaskMutation,
   GetTasksDocument,
+  GetTagsDocument,
 } from "../../graphql/__generated__/typeDefs";
 import { useModal } from "../../hooks/useModal";
 import { EditModal } from "../modal";
@@ -33,6 +34,9 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
         {
           query: GetTasksDocument,
         },
+        {
+          query: GetTagsDocument,
+        },
       ],
     }).then((resp) => {
       //TODO - add notification
@@ -57,6 +61,8 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     history.push(`/`);
     toggle();
   };
+
+  // console.log('task before render tasg', task)
 
   return (
     <>

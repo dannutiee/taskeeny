@@ -27,7 +27,7 @@ export const taskStatus = {
 };
 
 export const getTagBorderColor = (tags: any, tagName: string): string => {
-  return tags.find((tag: Tag) => tag.name === tagName).color;
+  return tags.find((tag: Tag) => tag.name === tagName)?.color || "";
 };
 
 export const isEditModalOpend = (taskId: string, search: string): boolean => {

@@ -8,6 +8,7 @@ import {
   useAddTaskMutation,
   TagInput,
   GetTasksDocument,
+  GetTagsDocument,
 } from "../../graphql/__generated__/typeDefs";
 
 interface ModalProps {
@@ -18,7 +19,7 @@ export const AddTaskModal: React.FC<ModalProps> = ({ hide }) => {
   const history = useHistory();
 
   const [addTaskMutation] = useAddTaskMutation({
-    refetchQueries: [{ query: GetTasksDocument }],
+    refetchQueries: [{ query: GetTasksDocument }, { query: GetTagsDocument }],
     awaitRefetchQueries: true,
   });
 
