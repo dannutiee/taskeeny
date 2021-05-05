@@ -26,10 +26,14 @@ export const taskStatus = {
   },
 };
 
-export const getTagBorderColor = (tags: any, tagName: string): string => {
+export const getTagColor = (tags: any, tagName: string): string => {
   return tags.find((tag: Tag) => tag.name === tagName)?.color || "";
 };
 
 export const isEditModalOpend = (taskId: string, search: string): boolean => {
   return search === `?id=${taskId}`;
+};
+
+export const getContentWithoutTagNames = (content: string): string => {
+  return content.replace(/#(\w+)/g, "");
 };

@@ -21,7 +21,7 @@ export const DroppableColumn: React.FC<DroppableColumn> = ({
   columnName,
 }) => {
   const history = useHistory();
-  const { toggle, isShowing } = useModal();
+  const { toggle, isShowing } = useModal(history.location.pathname === "/new");
 
   const displayAddButton = columnName === taskStatus.todo.label;
 

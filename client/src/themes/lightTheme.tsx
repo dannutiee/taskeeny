@@ -30,6 +30,17 @@ const FONTS = {
 //Light theme
 
 export const lightTheme = {
+  font: {
+    basic: {
+      family: "Open Sans",
+    },
+    size: {
+      small: "14px",
+      medium: "16px",
+      big: "18px",
+      large: "20px",
+    },
+  },
   dashboard: {
     bg: COLORS.BLUE_LIGHT_1,
   },

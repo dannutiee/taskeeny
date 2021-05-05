@@ -43,23 +43,17 @@ export const Modal: React.FC<ModalProps> = ({
         <ModalHeader>
           <StatusWrapper>
             <Label>Status: </Label>
-            <SelectDropdown onChange={onSelectNewStatus}>
-              <option
-                value={taskStatus.todo.value}
-                selected={taskStatus.todo.value === currentStatus}
-              >
+            <SelectDropdown
+              onChange={onSelectNewStatus}
+              defaultValue={currentStatus}
+            >
+              <option value={taskStatus.todo.value}>
                 {taskStatus.todo.label}
               </option>
-              <option
-                value={taskStatus.in_progress.value}
-                selected={taskStatus.in_progress.value === currentStatus}
-              >
+              <option value={taskStatus.in_progress.value}>
                 {taskStatus.in_progress.label}
               </option>
-              <option
-                value={taskStatus.completed.value}
-                selected={taskStatus.completed.value === currentStatus}
-              >
+              <option value={taskStatus.completed.value}>
                 {taskStatus.completed.label}
               </option>
             </SelectDropdown>
@@ -132,9 +126,9 @@ const ActionButton = styled.button<ActionButtonProps>`
   background: white;
   margin-left: 5px;
   border-radius: 3px;
-  font-size: 16px;
   cursor: pointer;
-  font-family: "Open Sans";
+  font-family: ${(p) => p.theme.font.basic.family};
+  font-size: ${(p) => p.theme.font.size.medium};
   background: ${(p) => (p.primary ? "#90b9fc" : "white")};
   color: ${(p) => (p.primary ? "white" : "#cacbce")};
 `;

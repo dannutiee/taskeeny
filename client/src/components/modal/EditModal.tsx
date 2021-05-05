@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { Modal } from "./Modal";
 import { TagBorder } from "../task/TagBorder";
 import { TagsContext } from "../../contexts/tags";
-import { getTagBorderColor } from "../task/utils";
+import { getTagColor } from "../task/utils";
 import {
   useUpdateTaskMutation,
   GetTasksDocument,
@@ -28,6 +28,11 @@ export const EditModal: React.FC<ModalProps> = ({
 }) => {
   const tagsContext = useContext(TagsContext);
   const history = useHistory();
+  const newTextRef = useRef("") as any;
+
+  useEffect(() => {
+    newTextRef.current.innerHTML = markAllTagsInText(content);
+  }, []);
 
   const [currentStatus, setCurrentStatus] = useState(status);
   const [currentContent, setCurrentContent] = useState(content);
@@ -66,6 +71,21 @@ export const EditModal: React.FC<ModalProps> = ({
     hide();
   };
 
+  //TODO Refactor the markAllTagsInText 
+
+  const markAllTagsInText = (content: string) => {
+    tags.forEach((tag) => {
+      content = content.replace(
+        `#${tag}`,
+        `<span class="hashtag" style="color: ${getTagColor(
+          tagsContext.tags,
+          tag
+        )};z-index: 100;position: relative;">#${tag}</span>`
+      );
+    });
+    return content;
+  };
+
   return (
     <Modal
       hide={hide}
@@ -76,12 +96,7 @@ export const EditModal: React.FC<ModalProps> = ({
       <TagBorder tags={tags} isModalMode={true} />
 
       <EditContent>
-        {tags.map((tag, key) => (
-          <TagName key={key} color={getTagBorderColor(tagsContext.tags, tag)}>
-            {` #${tag} `}
-          </TagName>
-        ))}{" "}
-        {content}
+        <span ref={newTextRef} />
       </EditContent>
     </Modal>
   );
@@ -89,7 +104,7 @@ export const EditModal: React.FC<ModalProps> = ({
 
 const EditContent = styled.div`
   padding: 20px;
-  font-size: 18px;
+  font-size: ${(p) => p.theme.font.size.big};
 `;
 
 interface TagNameProps {

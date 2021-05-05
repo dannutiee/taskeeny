@@ -11,7 +11,7 @@ import {
 import { useModal } from "../../hooks/useModal";
 import { EditModal } from "../modal";
 import { TagBorder } from "./TagBorder";
-import { isEditModalOpend } from "./utils";
+import { isEditModalOpend, getContentWithoutTagNames } from "./utils";
 
 interface SingleTaskProps {
   task: Task;
@@ -67,7 +67,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   return (
     <>
       <TagBorder tags={task.tags} />
-      <TaskContent>{task.content}</TaskContent>
+      <TaskContent>{getContentWithoutTagNames(task.content)}</TaskContent>
       <TaskFooter>
         <TagsWrapper>
           {task.tags.map((tag, index) => (
@@ -126,7 +126,7 @@ const MoreButton = styled.button`
 const TagLink = styled.a`
   text-decoration: none;
   margin-right: 10px;
-  font-size: 14px;
+  font-size: ${(p) => p.theme.font.size.small};
   color: ${(p) => p.theme.task.link.color};
   &:hover {
     color: ${(p) => p.theme.task.link.hover};
@@ -147,7 +147,7 @@ const DropdownItem = styled.div`
   padding: 10px 20px;
   text-align: left;
   font-family: "Open Sans";
-  font-size: 14px;
+  font-size: ${(p) => p.theme.font.size.small};
   color: ${(p) => p.theme.task.dropdown.text};
   &:hover {
     color: ${(p) => p.theme.task.dropdown.textHover};
