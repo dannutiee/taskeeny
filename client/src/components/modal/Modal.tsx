@@ -6,7 +6,7 @@ import { taskStatus } from "../task/utils";
 
 interface ModalProps {
   status: string;
-  shareCurrentStatus?: (status: string) => void;
+  setNewStatus?: (status: string) => void;
   hide?: () => void;
   onSave?: () => void;
 }
@@ -17,13 +17,13 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   onSave,
   status,
-  shareCurrentStatus,
+  setNewStatus,
 }) => {
   const [currentStatus, setCurrentStatus] = useState(status);
 
   useEffect(() => {
-    if (shareCurrentStatus) {
-      shareCurrentStatus(currentStatus);
+    if (setNewStatus) {
+      setNewStatus(currentStatus);
     }
   }, [currentStatus]);
 

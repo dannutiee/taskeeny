@@ -1,5 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
-import styled from "styled-components";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Modal } from "./Modal";
@@ -10,8 +9,21 @@ import {
   GetTasksDocument,
   GetTagsDocument,
 } from "../../graphql/__generated__/typeDefs";
-import { getTagColor } from "../task/utils";
+import {
+  getAllTagsInInputFormat,
+  getTagsFromText,
+  getNewTagsInputFormat,
+  colorAllHastagsInText,
+  getRecogizedTagsInputFormat,
+} from "../task/utils";
 import { TagsContext } from "../../contexts/tags";
+import {
+  EditContent,
+  EditableArea,
+  TextareaVisibleResult,
+  InvisibleTextArea,
+} from "./EditableContent";
+import { getRandomColor } from "../tag/utils";
 
 interface ModalProps {
   hide: () => void;
@@ -20,8 +32,15 @@ interface ModalProps {
 export const AddTaskModal: React.FC<ModalProps> = ({ hide }) => {
   const history = useHistory();
   const text = useRef("") as any;
+
   const tagsContext = useContext(TagsContext);
   const [newContent, setNewContent] = useState("");
+  const [newTags, setNewTags] = useState<string[]>([]);
+  const [newTagsColors, setNewTagsColors] = useState<string[]>([
+    getRandomColor(),
+  ]);
+
+  const allAvailableTags = getAllTagsInInputFormat(tagsContext.tags);
 
   const [addTaskMutation] = useAddTaskMutation({
     refetchQueries: [{ query: GetTasksDocument }, { query: GetTagsDocument }],
@@ -40,39 +59,50 @@ export const AddTaskModal: React.FC<ModalProps> = ({ hide }) => {
   };
 
   const onCickSave = () => {
-    //TODO - set real data from user input to the database
-    const testTags = [{ name: "homeoffice", color: "#734567" }];
-    addNewTask(newContent, testTags);
+    const newTaskTags = getNewTagsInputFormat(
+      getTagsFromText(newContent, allAvailableTags).newTags,
+      newTagsColors
+    );
+
+    const recognizedTags = getRecogizedTagsInputFormat(
+      allAvailableTags,
+      getTagsFromText(newContent, allAvailableTags).existingTags
+    );
+
+    addNewTask(newContent, [...newTaskTags, ...recognizedTags]);
     history.push(`/`);
     hide();
   };
 
-  //TODO Refactor the markAllTagsInNewText, hashtag and code in this file - components for editable
+  const setNewTagsAndColors = (text: string) => {
+    const newTagsFromText = getTagsFromText(text, allAvailableTags).newTags;
 
-  const markAllTagsInNewText = (content: string) => {
-    tagsContext.tags.forEach((tag) => {
-      content = content.replace(
-        `<span class="hashtag" style="color: red;z-index: 100;position: relative;">#${tag.name}</span>`,
-        `<span class="hashtag" style="color: ${getTagColor(
-          tagsContext.tags,
-          tag.name
-        )};z-index: 100;position: relative;">#${tag.name}</span>`
-      );
+    setNewTags((prevState) => {
+      if (newTagsFromText.length > prevState.length) {
+        setNewTagsColors((prevColors) => [...prevColors, getRandomColor()]);
+      } else if (newTagsFromText.length < prevState.length) {
+        setNewTagsColors((prevColors) => [...prevColors.slice(0, -1)]);
+      }
+      return [...newTagsFromText];
     });
-    return content;
-  };
-
-  const hashtag = (text: string) => {
-    const repl = text.replace(
-      /#(\w+)/g,
-      '<span class="hashtag" style="color: red;z-index: 100;position: relative;">#$1</span>'
-    );
-    return repl;
   };
 
   const onTextChange = (e: any) => {
-    setNewContent(e.target.value);
-    text.current.innerHTML = markAllTagsInNewText(hashtag(e.target.value));
+    e.persist();
+    const inputValue = e.target.value;
+
+    setNewTagsAndColors(inputValue);
+
+    const newTagsInputFormat = getNewTagsInputFormat(
+      getTagsFromText(inputValue, allAvailableTags).newTags,
+      newTagsColors
+    );
+    text.current.innerHTML = colorAllHastagsInText(inputValue, [
+      ...allAvailableTags,
+      ...newTagsInputFormat,
+    ]);
+
+    setNewContent(inputValue);
   };
 
   return (
@@ -87,47 +117,3 @@ export const AddTaskModal: React.FC<ModalProps> = ({ hide }) => {
     </Modal>
   );
 };
-
-const EditContent = styled.div`
-  padding: 20px;
-  font-size: ${(p) => p.theme.font.size.big};
-`;
-
-const TaskTextArea = styled.textarea`
-  width: 100%;
-  height: 200px;
-  border: none;
-  &:focus-visible {
-    outline: none;
-  }
-  font-family: ${(p) => p.theme.font.basic.family};
-  font-size: ${(p) => p.theme.font.size.medium};
-`;
-
-const EditableArea = styled.div`
-  position: relative;
-`;
-
-const TextareaVisibleResult = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  font-family: "Open Sans";
-  font-size: 18px;
-  color: #0004ff00;
-  .hashtag:hover {
-    cursor: pointer;
-  }
-`;
-const InvisibleTextArea = styled(TaskTextArea)`
-  background: #ffc0cb00;
-  position: relative;
-  z-index: 10;
-  padding: 0;
-  font-family: Open Sans;
-  font-size: 18px;
-`;
-
-interface TagNameProps {
-  color: string;
-}

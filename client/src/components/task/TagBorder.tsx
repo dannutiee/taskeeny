@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 
-import { getBarHeight, getTagColor } from "./utils";
+import { getBarHeight, getExistingTagColor } from "./utils";
 import { TagsContext } from "../../contexts/tags";
 
 interface TagBorderProps {
@@ -16,7 +16,7 @@ export const TagBorder: React.FC<TagBorderProps> = ({ tags, isModalMode }) => {
       {tags.map((tag, index) => (
         <TagBorderContent
           key={index}
-          color={getTagColor(tagsContext.tags, tag)}
+          color={getExistingTagColor(tagsContext.tags, tag)}
           height={getBarHeight(tags)}
         />
       ))}

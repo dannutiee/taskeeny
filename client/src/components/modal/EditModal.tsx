@@ -1,15 +1,29 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { Modal } from "./Modal";
 import { TagBorder } from "../task/TagBorder";
 import { TagsContext } from "../../contexts/tags";
-import { getTagColor } from "../task/utils";
 import {
   useUpdateTaskMutation,
   GetTasksDocument,
+  GetTagsDocument,
+  TagInput,
 } from "../../graphql/__generated__/typeDefs";
+import {
+  getAllTagsInInputFormat,
+  getTagsFromText,
+  getNewTagsInputFormat,
+  colorAllHastagsInText,
+  getRecogizedTagsInputFormat,
+} from "../task/utils";
+import {
+  EditContent,
+  EditableArea,
+  TextareaVisibleResult,
+  InvisibleTextArea,
+} from "./EditableContent";
+import { getRandomColor } from "../tag/utils";
 
 interface ModalProps {
   tags: string[];
@@ -28,26 +42,34 @@ export const EditModal: React.FC<ModalProps> = ({
 }) => {
   const tagsContext = useContext(TagsContext);
   const history = useHistory();
-  const newTextRef = useRef("") as any;
+  const text = useRef("") as any;
+  const [currentContent, setCurrentContent] = useState(content);
+  const [newStatus, setNewStatus] = useState(status);
+  const [newTags, setNewTags] = useState<string[]>([]);
+  const [newTagsColors, setNewTagsColors] = useState<string[]>([
+    getRandomColor(),
+  ]);
+
+  const allAvailableTags = getAllTagsInInputFormat(tagsContext.tags);
+  //  TODO should be randomly generated from some kind of pallette maybe
 
   useEffect(() => {
-    newTextRef.current.innerHTML = markAllTagsInText(content);
+    text.current.innerHTML = colorAllHastagsInText(content, allAvailableTags);
   }, []);
 
-  const [currentStatus, setCurrentStatus] = useState(status);
-  const [currentContent, setCurrentContent] = useState(content);
   const [
     updateTaskMutation,
     { error, data: updateData, loading: updateLoading },
   ] = useUpdateTaskMutation({
-    refetchQueries: [{ query: GetTasksDocument }],
-    awaitRefetchQueries: true,
+    refetchQueries: [{ query: GetTasksDocument }, { query: GetTagsDocument }],
+    // awaitRefetchQueries: true,
   });
 
   const updateTask = async (
     taskId: string,
     status: string,
-    content: string
+    content: string,
+    tags: TagInput[]
   ): Promise<void> => {
     await updateTaskMutation({
       variables: {
@@ -55,6 +77,7 @@ export const EditModal: React.FC<ModalProps> = ({
           taskId,
           status,
           content,
+          tags,
         },
       },
     });
@@ -65,25 +88,58 @@ export const EditModal: React.FC<ModalProps> = ({
   const errorMessage = updateData?.updateTask?.message || error?.name || "";
 
   const onCickSave = () => {
-    //TODO - set real data from currentContent - now the state is not updated and gets value from database
-    updateTask(taskId, currentStatus, currentContent);
+    const newTaskTags = getNewTagsInputFormat(
+      getTagsFromText(currentContent, allAvailableTags).newTags,
+      newTagsColors
+    );
+
+    const recognizedTags = getRecogizedTagsInputFormat(
+      allAvailableTags,
+      getTagsFromText(currentContent, allAvailableTags).existingTags
+    );
+
+    console.log("edit", taskId, newStatus, currentContent, [
+      ...newTaskTags,
+      ...recognizedTags,
+    ]);
+
+    updateTask(taskId, newStatus, currentContent, [
+      ...newTaskTags,
+      ...recognizedTags,
+    ]);
     history.push(`/`);
     hide();
   };
 
-  //TODO Refactor the markAllTagsInText 
+  const setNewTagsAndColors = (text: string) => {
+    const newTagsFromText = getTagsFromText(text, allAvailableTags).newTags;
 
-  const markAllTagsInText = (content: string) => {
-    tags.forEach((tag) => {
-      content = content.replace(
-        `#${tag}`,
-        `<span class="hashtag" style="color: ${getTagColor(
-          tagsContext.tags,
-          tag
-        )};z-index: 100;position: relative;">#${tag}</span>`
-      );
+    setNewTags((prevState) => {
+      if (newTagsFromText.length > prevState.length) {
+        setNewTagsColors((prevColors) => [...prevColors, getRandomColor()]);
+      } else if (newTagsFromText.length < prevState.length) {
+        setNewTagsColors((prevColors) => [...prevColors.slice(0, -1)]);
+      }
+      return [...newTagsFromText];
     });
-    return content;
+  };
+
+  const onTextChange = (e: any) => {
+    e.persist();
+    const inputValue = e.target.value;
+
+    setNewTagsAndColors(inputValue);
+
+    const newTags = getNewTagsInputFormat(
+      getTagsFromText(inputValue, allAvailableTags).newTags,
+      newTagsColors
+    );
+    text.current.innerHTML = colorAllHastagsInText(inputValue, [
+      ...allAvailableTags,
+      ...newTags,
+    ]);
+
+    setCurrentContent(inputValue);
   };
 
   return (
@@ -91,26 +147,15 @@ export const EditModal: React.FC<ModalProps> = ({
       hide={hide}
       onSave={onCickSave}
       status={status}
-      shareCurrentStatus={setCurrentStatus}
+      setNewStatus={setNewStatus}
     >
       <TagBorder tags={tags} isModalMode={true} />
-
       <EditContent>
-        <span ref={newTextRef} />
+        <EditableArea>
+          <TextareaVisibleResult ref={text} />
+          <InvisibleTextArea onChange={onTextChange} defaultValue={content} />
+        </EditableArea>
       </EditContent>
     </Modal>
   );
 };
-
-const EditContent = styled.div`
-  padding: 20px;
-  font-size: ${(p) => p.theme.font.size.big};
-`;
-
-interface TagNameProps {
-  color: string;
-}
-const TagName = styled.span<TagNameProps>`
-  cursor: pointer;
-  color: ${(p) => p.color};
-`;
