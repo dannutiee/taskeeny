@@ -6,7 +6,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { DraggableTask } from "../board";
 import { TaskData } from "../task/interfaces";
 import { taskStatus } from "../task/utils";
-import { AddTaskModal } from "../modal/AddTaskModal";
+import { AddNewTaskModal } from "../modal";
 import { useModal } from "../../hooks/useModal";
 
 interface DroppableColumn {
@@ -50,7 +50,7 @@ export const DroppableColumn: React.FC<DroppableColumn> = ({
                 <AddButton onClick={handleAddTask}>
                   <span className="material-icons">add</span>
                 </AddButton>
-                {isShowing && <AddTaskModal hide={onHideModal} />}
+                {isShowing && <AddNewTaskModal hide={onHideModal} />}
               </>
             )}
           </ColumnTitle>

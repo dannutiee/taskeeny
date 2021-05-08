@@ -1,2 +1,3 @@
 export { Modal } from "./Modal";
-export { EditModal } from "./EditModal";
+export { EditTaskModal } from "./EditTaskModal";
+export { AddNewTaskModal } from "./AddNewTaskModal";

@@ -9,7 +9,7 @@ import {
   GetTagsDocument,
 } from "../../graphql/__generated__/typeDefs";
 import { useModal } from "../../hooks/useModal";
-import { EditModal } from "../modal";
+import { EditTaskModal } from "../modal";
 import { TagBorder } from "./TagBorder";
 import { isEditModalOpend, getContentWithoutTagNames } from "./utils";
 
@@ -85,7 +85,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
         </MoreButton>
       </TaskFooter>
       {isShowing && (
-        <EditModal
+        <EditTaskModal
           hide={onHideModal}
           tags={task.tags}
           content={task.content}
