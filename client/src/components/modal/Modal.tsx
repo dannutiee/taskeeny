@@ -121,7 +121,7 @@ interface ActionButtonProps {
 }
 const ActionButton = styled.button<ActionButtonProps>`
   text-transform: uppercase;
-  padding: 15px 25px;
+  padding: 10px 25px;
   border: none;
   background: white;
   margin-left: 5px;

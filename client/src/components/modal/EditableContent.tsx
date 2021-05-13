@@ -12,7 +12,7 @@ import {
   colorAllHastagsInText,
   getRecogizedTagsInputFormat,
 } from "../task/utils";
-import { getRandomColor } from "../tag/utils";
+import { getRandomAvailableColor } from "../tag/utils";
 import { EditableContentProps } from "./interfaces";
 
 export const EditableContent: React.FC<EditableContentProps> = ({
@@ -32,12 +32,13 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   const [currentContent, setCurrentContent] = useState(content);
   const [newStatus, setNewStatus] = useState(status);
   const [newTags, setNewTags] = useState<string[]>([]);
-  const [newTagsColors, setNewTagsColors] = useState<string[]>([
-    getRandomColor(),
-  ]);
+  const [newTagsColors, setNewTagsColors] = useState<string[]>([]);
 
   const allAvailableTags = getAllTagsInInputFormat(tagsContext.tags);
-  //  TODO should be randomly generated from some kind of pallette maybe
+  const colorsAlreadyInUse = [
+    ...allAvailableTags.map((value) => value.color),
+    ...newTagsColors,
+  ];
 
   useEffect(() => {
     text.current.innerHTML = colorAllHastagsInText(content, allAvailableTags);
@@ -73,7 +74,10 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
     setNewTags((prevState) => {
       if (newTagsFromText.length > prevState.length) {
-        setNewTagsColors((prevColors) => [...prevColors, getRandomColor()]);
+        setNewTagsColors((prevColors) => [
+          ...prevColors,
+          getRandomAvailableColor(colorsAlreadyInUse),
+        ]);
       } else if (newTagsFromText.length < prevState.length) {
         setNewTagsColors((prevColors) => [...prevColors.slice(0, -1)]);
       }
@@ -142,6 +146,7 @@ export const TextareaVisibleResult = styled.div`
   height: 100%;
   position: absolute;
   color: transparent;
+  white-space: pre-wrap;
   .hashtag:hover {
     cursor: pointer;
   }

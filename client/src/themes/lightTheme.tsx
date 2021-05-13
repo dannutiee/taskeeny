@@ -35,6 +35,7 @@ export const lightTheme = {
       family: "Open Sans",
     },
     size: {
+      tiny: "12px",
       small: "14px",
       medium: "16px",
       big: "18px",
@@ -75,7 +76,7 @@ export const lightTheme = {
       color: COLORS.BLUE,
     },
     link: {
-      color: COLORS.GREY,
+      color: COLORS.BLUE,
       hover: COLORS.BLUE,
     },
     dropdown: {

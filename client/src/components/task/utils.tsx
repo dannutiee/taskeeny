@@ -45,7 +45,7 @@ export const getContentWithoutTagNames = (content: string): string => {
 };
 
 export const getTagHTML = (newTagColor: string, tagName = "$1") => {
-  return `<span class="hashtag" style="color: ${newTagColor};z-index: 100;position: relative; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">#${tagName}</span>`;
+  return `<span class="hashtag" style="color: ${newTagColor};z-index: 100;position: relative; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">#${tagName} </span>`;
 };
 
 export const getArrayOfExistingTags = (existingTags: TagsEasyFormatType[]) => {
@@ -121,16 +121,16 @@ export const getRecogizedTagsInputFormat = (
 };
 
 export const colorAllHastagsInText = (
-  content: string,
+  text: string,
   existingTags: TagsEasyFormatType[]
 ) => {
   existingTags.forEach((tag) => {
-    content = content.replace(
-      `#${tag.name}`,
+    text = text.replaceAll(
+      `#${tag.name} `,
       `${getTagHTML(tag.color, tag.name)}`
     );
   });
-  return content;
+  return text;
 };
 
 // TODO  below functions should be deleted probably

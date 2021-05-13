@@ -126,9 +126,10 @@ const MoreButton = styled.button`
 const TagLink = styled.a`
   text-decoration: none;
   margin-right: 10px;
-  font-size: ${(p) => p.theme.font.size.small};
+  font-size: ${(p) => p.theme.font.size.tiny};
   color: ${(p) => p.theme.task.link.color};
   &:hover {
+    cursor: pointer;
     color: ${(p) => p.theme.task.link.hover};
   }
 `;
