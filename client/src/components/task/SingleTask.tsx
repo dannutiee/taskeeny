@@ -13,6 +13,8 @@ import { EditTaskModal } from "../modal";
 import { TagBorder } from "./TagBorder";
 import { isEditModalOpend, getContentWithoutTagNames } from "./utils";
 
+import { Dropdown, MoreButton } from "../dropdown";
+
 interface SingleTaskProps {
   task: Task;
 }
@@ -75,11 +77,10 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
           ))}
         </TagsWrapper>
         <MoreButton onClick={() => setDropdownVisible(!dropdownVisible)}>
-          <span className="material-icons">more_vert</span>
           {dropdownVisible && (
             <Dropdown>
-              <DropdownItem onClick={onClickEdit}>Edit</DropdownItem>
-              <DropdownItem onClick={onDeleteClick}>Delete</DropdownItem>
+              <Dropdown.Item onClick={onClickEdit}>Edit</Dropdown.Item>
+              <Dropdown.Item onClick={onDeleteClick}>Delete</Dropdown.Item>
             </Dropdown>
           )}
         </MoreButton>
@@ -114,15 +115,6 @@ const TaskFooter = styled.div`
   justify-content: space-between;
 `;
 
-const MoreButton = styled.button`
-  width: 40px;
-  background: white;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  color: ${(p) => p.theme.task.button.color};
-`;
-
 const TagLink = styled.a`
   text-decoration: none;
   margin-right: 10px;
@@ -131,26 +123,5 @@ const TagLink = styled.a`
   &:hover {
     cursor: pointer;
     color: ${(p) => p.theme.task.link.hover};
-  }
-`;
-
-const Dropdown = styled.div`
-  position: absolute;
-  background: white;
-  right: 40px;
-  top: 8px;
-  border-radius: 5px;
-  z-index: 1;
-  box-shadow: ${(p) => p.theme.task.shadow};
-`;
-
-const DropdownItem = styled.div`
-  padding: 10px 20px;
-  text-align: left;
-  font-family: "Open Sans";
-  font-size: ${(p) => p.theme.font.size.small};
-  color: ${(p) => p.theme.task.dropdown.text};
-  &:hover {
-    color: ${(p) => p.theme.task.dropdown.textHover};
   }
 `;
