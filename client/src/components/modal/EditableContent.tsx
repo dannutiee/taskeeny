@@ -26,6 +26,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 }) => {
   const history = useHistory();
   const text = useRef("") as any;
+  const textarea = useRef("") as any;
 
   const tagsContext = useContext(TagsContext);
 
@@ -42,6 +43,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
   useEffect(() => {
     text.current.innerHTML = colorAllHastagsInText(content, allAvailableTags);
+    if (!!addNewTask) textarea.current.focus();
   }, []);
 
   const onCickSave = () => {
@@ -114,7 +116,11 @@ export const EditableContent: React.FC<EditableContentProps> = ({
       <EditContent>
         <EditableArea>
           <TextareaVisibleResult ref={text} />
-          <InvisibleTextArea onChange={onTextChange} defaultValue={content} />
+          <InvisibleTextArea
+            onChange={onTextChange}
+            defaultValue={content}
+            ref={textarea}
+          />
         </EditableArea>
       </EditContent>
     </Modal>
@@ -129,9 +135,13 @@ export const EditContent = styled.div`
 export const TaskTextArea = styled.textarea`
   width: 100%;
   height: 200px;
-  border: none;
+  border: 1px solid;
+  border-color: white;
+  padding: 5px;
+  resize: none;
   &:focus-visible {
     outline: none;
+    border-color: #f1f4fc;
   }
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.medium};
@@ -144,6 +154,7 @@ export const EditableArea = styled.div`
 export const TextareaVisibleResult = styled.div`
   width: 100%;
   height: 100%;
+  padding: 6px;
   position: absolute;
   color: transparent;
   white-space: pre-wrap;
@@ -157,7 +168,7 @@ export const InvisibleTextArea = styled(TaskTextArea)`
   background: transparent;
   position: relative;
   z-index: 10;
-  padding: 0;
+  padding: 5px;
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.big};
 `;
