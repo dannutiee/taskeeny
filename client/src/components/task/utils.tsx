@@ -18,15 +18,15 @@ export enum Status {
 }
 
 export const taskStatus = {
-  todo: {
+  [Status.todo]: {
     value: Status.todo,
     label: "To do",
   },
-  in_progress: {
+  [Status.in_progress]: {
     value: Status.in_progress,
     label: "In Progress",
   },
-  completed: {
+  [Status.completed]: {
     value: Status.completed,
     label: "Completed",
   },

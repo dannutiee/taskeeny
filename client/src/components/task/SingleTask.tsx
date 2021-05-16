@@ -13,7 +13,7 @@ import { EditTaskModal } from "../modal";
 import { TagBorder } from "./TagBorder";
 import { isEditModalOpend, getContentWithoutTagNames } from "./utils";
 
-import { Dropdown, MoreButton } from "../dropdown";
+import { Dropdown } from "../dropdown";
 
 interface SingleTaskProps {
   task: Task;
@@ -21,7 +21,6 @@ interface SingleTaskProps {
 
 export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   const history = useHistory();
-  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const { toggle, isShowing } = useModal(
     isEditModalOpend(task.id, history.location.search)
   );
@@ -76,14 +75,11 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
             <TagLink onClick={onTagClick} key={index}>{`#${tag}`}</TagLink>
           ))}
         </TagsWrapper>
-        <MoreButton onClick={() => setDropdownVisible(!dropdownVisible)}>
-          {dropdownVisible && (
-            <Dropdown>
-              <Dropdown.Item onClick={onClickEdit}>Edit</Dropdown.Item>
-              <Dropdown.Item onClick={onDeleteClick}>Delete</Dropdown.Item>
-            </Dropdown>
-          )}
-        </MoreButton>
+
+        <Dropdown button>
+          <Dropdown.Item onClick={onClickEdit}>Edit</Dropdown.Item>
+          <Dropdown.Item onClick={onDeleteClick}>Delete</Dropdown.Item>
+        </Dropdown>
       </TaskFooter>
       {isShowing && (
         <EditTaskModal

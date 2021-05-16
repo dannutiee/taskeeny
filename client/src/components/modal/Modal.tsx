@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import styled from "styled-components";
 
 import { taskStatus } from "../task/utils";
+import { Dropdown } from "../dropdown";
 
 interface ModalProps {
   status: string;
@@ -10,7 +11,6 @@ interface ModalProps {
   hide?: () => void;
   onSave?: () => void;
 }
-// TODO this component requires refactor
 
 export const Modal: React.FC<ModalProps> = ({
   hide,
@@ -27,10 +27,20 @@ export const Modal: React.FC<ModalProps> = ({
     }
   }, [currentStatus]);
 
-  const onSelectNewStatus = (e: React.FormEvent<HTMLSelectElement>) => {
-    const value: string = e.currentTarget.value;
-    setCurrentStatus(value);
-  };
+  const options = [
+    {
+      text: taskStatus.todo.label,
+      value: taskStatus.todo.value,
+    },
+    {
+      text: taskStatus.in_progress.label,
+      value: taskStatus.in_progress.value,
+    },
+    {
+      text: taskStatus.completed.label,
+      value: taskStatus.completed.value,
+    },
+  ];
 
   return ReactDOM.createPortal(
     <ModalWrapper>
@@ -43,20 +53,11 @@ export const Modal: React.FC<ModalProps> = ({
         <ModalHeader>
           <StatusWrapper>
             <Label>Status: </Label>
-            <SelectDropdown
-              onChange={onSelectNewStatus}
-              defaultValue={currentStatus}
-            >
-              <option value={taskStatus.todo.value}>
-                {taskStatus.todo.label}
-              </option>
-              <option value={taskStatus.in_progress.value}>
-                {taskStatus.in_progress.label}
-              </option>
-              <option value={taskStatus.completed.value}>
-                {taskStatus.completed.label}
-              </option>
-            </SelectDropdown>
+            <Dropdown
+              options={options}
+              value={currentStatus}
+              onSelectOption={setCurrentStatus}
+            />
           </StatusWrapper>
           <DateInfoWrapper>
             <DateItem>
@@ -84,20 +85,19 @@ export const Modal: React.FC<ModalProps> = ({
 
 const Label = styled.span`
   font-weight: 600;
+  margin-right: 10px;
 `;
 
 const DateItem = styled.span`
   margin-left: 25px;
 `;
 
-const SelectDropdown = styled.select`
-  border-color: #79a7ff;
-  border-radius: 3px;
-`;
-
 const DateInfoWrapper = styled.div``;
 
-const StatusWrapper = styled.div``;
+const StatusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const ModalHeader = styled.div`
   width: calc(100% - 40px);

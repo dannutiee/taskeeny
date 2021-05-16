@@ -3,11 +3,10 @@ import styled from "styled-components";
 
 import { AuthContext } from "../../contexts/auth";
 import { CategoriesList } from "../categories";
-import { Dropdown, MoreButton } from "../dropdown";
+import { Dropdown } from "../dropdown";
 
 export const SideNavigation: React.FC = () => {
   const authContext = useContext(AuthContext);
-  const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
   const onLogout = () => {
     authContext.logout();
@@ -16,14 +15,14 @@ export const SideNavigation: React.FC = () => {
   return (
     <SideNavWrapper>
       <UserSection>
-        <Avatar></Avatar>
-        <MoreButton onClick={() => setDropdownVisible(!dropdownVisible)}>
-          {dropdownVisible && (
-            <Dropdown>
-              <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item>
-            </Dropdown>
-          )}
-        </MoreButton>
+        <div>
+          <Avatar></Avatar>
+          <UserName>Danuta Ludwikowska</UserName>
+          <Location>Kraków, Poland</Location>
+        </div>
+        <Dropdown button>
+          <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item>
+        </Dropdown>
       </UserSection>
 
       <CategoriesList />
@@ -37,6 +36,7 @@ const Avatar = styled.div`
   width: 90px;
   height: 90px;
   border-radius: 50px;
+  margin-bottom: 20px;
   background-color: #7ba8fe;
 `;
 
@@ -56,4 +56,14 @@ const UserSection = styled.div`
   & > button {
     display: flex;
   }
+`;
+
+const UserName = styled.div`
+  font-size: ${(p) => p.theme.nav.userName.size};
+  font-family: ${(p) => p.theme.font.header.family};
+  font-weight: ${(p) => p.theme.nav.userName.weight};
+`;
+
+const Location = styled.span`
+  font-size: ${(p) => p.theme.font.size.small};
 `;

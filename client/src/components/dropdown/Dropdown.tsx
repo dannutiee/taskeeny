@@ -1,64 +1,69 @@
-import React, { Children, ReactElement } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 
-import {
-  DropdownProps,
-  DropdownItemProps,
-  DropdownSubComponents,
-} from "./interfaces";
-
-export const DropdownItem: React.FC<DropdownItemProps> = ({
-  children,
-  onClick,
-}) => {
-  return <StyledDropdownItem onClick={onClick}>{children}</StyledDropdownItem>;
-};
+import { DropdownProps, DropdownSubComponents } from "./interfaces";
+import { DropdownButton, DropdownItem } from "./DropdownButton";
+import { DropdownSelect } from "./DropdownSelect";
 
 const DropdownComponent: React.FC<DropdownProps> & DropdownSubComponents = ({
   children,
+  button,
+  options,
+  value,
+  onSelectOption,
 }) => {
-  if (!children) {
+  const [menuVisible, setMenuVisible] = useState<boolean>(false);
+  const [currentValue, setCurrentValue] = useState<string>(value ? value : "");
+
+  useEffect(() => {
+    if (onSelectOption) {
+      onSelectOption(currentValue);
+    }
+  }, [currentValue]);
+
+  if (options) {
+    if (!value || !onSelectOption) {
+      console.error(
+        `Component DropdownSelect requires props "value" and "onSelectOption"`
+      );
+      return null;
+    }
+    return (
+      <DropdownSelect
+        setCurrentValue={setCurrentValue}
+        currentValue={currentValue}
+        options={options}
+        setMenuVisible={setMenuVisible}
+        menuVisible={menuVisible}
+      />
+    );
+  }
+
+  if (button) {
+    if (!children) {
+      console.error(
+        `Component DropdownButton requires at least one child component <Dropdown.Item />`
+      );
+      return null;
+    }
+    return (
+      <DropdownButton
+        children={children}
+        setMenuVisible={setMenuVisible}
+        menuVisible={menuVisible}
+      />
+    );
+  }
+
+  if (!button && !options) {
+    console.error(
+      `Component Dropdown requires one of props ("button" || "options")`
+    );
     return null;
   }
 
-  return (
-    <DropdownWrapper>
-      {Children.map(children, (child, i) => {
-        const item = child as ReactElement<DropdownItemProps>;
-        const {
-          props: { onClick, title, children },
-        } = item;
-        return (
-          <DropdownItem key={i} onClick={onClick}>
-            {title || children}
-          </DropdownItem>
-        );
-      })}
-    </DropdownWrapper>
-  );
+  return null;
 };
 
 DropdownComponent.Item = DropdownItem;
 
 export const Dropdown = DropdownComponent;
-
-const DropdownWrapper = styled.div`
-  position: absolute;
-  background: white;
-  right: 40px;
-  top: 8px;
-  border-radius: 5px;
-  z-index: 1;
-  box-shadow: ${(p) => p.theme.task.shadow};
-`;
-
-const StyledDropdownItem = styled.div`
-  padding: 10px 20px;
-  text-align: left;
-  font-family: "Open Sans";
-  font-size: ${(p) => p.theme.font.size.small};
-  color: ${(p) => p.theme.task.dropdown.text};
-  &:hover {
-    color: ${(p) => p.theme.task.dropdown.textHover};
-  }
-`;

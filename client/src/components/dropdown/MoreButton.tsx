@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, ReactChildren } from "react";
 import styled from "styled-components";
 
 interface MoreButtonProps {

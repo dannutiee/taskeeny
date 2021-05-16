@@ -17,6 +17,14 @@ export const COLORS = {
   DISABLED,
 };
 
+const FONT_SIZE = {
+  tiny: "12px",
+  small: "14px",
+  medium: "16px",
+  big: "18px",
+  large: "20px",
+};
+
 const SHADOWS = {
   primary: "1px 2px 5px 2px rgb(34 36 38 / 6%)",
   modal: "0 1rem 3rem rgba(0,0,0,.175)",
@@ -34,12 +42,15 @@ export const lightTheme = {
     basic: {
       family: "Open Sans",
     },
+    header: {
+      family: FONTS.headers,
+    },
     size: {
-      tiny: "12px",
-      small: "14px",
-      medium: "16px",
-      big: "18px",
-      large: "20px",
+      tiny: FONT_SIZE.tiny,
+      small: FONT_SIZE.small,
+      medium: FONT_SIZE.medium,
+      big: FONT_SIZE.big,
+      large: FONT_SIZE.large,
     },
   },
   dashboard: {
@@ -48,17 +59,21 @@ export const lightTheme = {
   nav: {
     bg: COLORS.WHITE,
     shadow: SHADOWS.primary,
+    userName: {
+      size: FONT_SIZE.big,
+      weight: 600,
+    },
   },
   categories: {
     titleFont: FONTS.headers,
     titleWeight: 600,
-    titleSize: "18px",
+    titleSize: FONT_SIZE.big,
     disabled: COLORS.DISABLED,
   },
   column: {
     titleFont: FONTS.headers,
     titleWeight: 600,
-    titleSize: "20px",
+    titleSize: FONT_SIZE.large,
   },
   button: {
     borderRadius: "5px",
@@ -79,9 +94,14 @@ export const lightTheme = {
       color: COLORS.BLUE,
       hover: COLORS.BLUE,
     },
-    dropdown: {
-      text: COLORS.GREY,
-      textHover: COLORS.BLUE,
+  },
+  dropdown: {
+    text: COLORS.GREY,
+    textHover: COLORS.BLUE,
+    borderRadius: "5px",
+    background: COLORS.WHITE,
+    menuItem: {
+      height: "30px",
     },
   },
 };
