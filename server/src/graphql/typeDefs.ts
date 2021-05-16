@@ -20,6 +20,7 @@ export default gql`
   input AddTaskInput {
     content: String!
     tags: [TagInput!]!
+    status: String
   }
 
   input UpdatePositionsInput {

@@ -32,10 +32,11 @@ export const DropdownSelect: React.FC<DropdownSelectProps> = ({
   menuVisible,
   options,
 }) => {
+  const icon = !menuVisible ? "arrow_drop_down" : "arrow_drop_up";
   return (
     <SelectDropdown onClick={() => setMenuVisible(!menuVisible)}>
       {options.find((option) => option.value === currentValue)?.text}
-      <span className="material-icons icon">arrow_drop_down</span>
+      <span className="material-icons icon">{icon}</span>
       {menuVisible && (
         <Selection setCurrentValue={setCurrentValue} options={options} />
       )}

@@ -16,6 +16,7 @@ export type Scalars = {
 export type AddTaskInput = {
   content: Scalars["String"];
   tags: Array<TagInput>;
+  status?: Maybe<Scalars["String"]>;
 };
 
 export type AddTaskResponse = MutationResponseInterface & {

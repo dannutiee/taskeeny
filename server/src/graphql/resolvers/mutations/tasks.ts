@@ -20,14 +20,14 @@ type ResolveUpdateTask = MutationResolvers["updateTask"];
 
 export const resolveAddTask: ResolveAddTask = async (
   _parent,
-  { input: { tags, content } },
+  { input: { tags, content, status } },
   { isAuth, user }
 ) => {
   if (isAuth) {
     const newTask = new Task({
       _id: new mongoose.Types.ObjectId(),
       content: content,
-      status: "todo",
+      status: status,
       createdAt: new Date().toISOString(),
       tags: getArrOfTagNames(tags),
     });

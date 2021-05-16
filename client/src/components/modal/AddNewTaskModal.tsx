@@ -17,12 +17,17 @@ const AddNewTaskModalContainer: React.FC<AddNewTaskModalContainerProps> = ({
     // awaitRefetchQueries: true,
   });
 
-  const addNewTask = (content: string, tags: TagInput[]): void => {
+  const addNewTask = (
+    content: string,
+    tags: TagInput[],
+    status: string
+  ): void => {
     addTaskMutation({
       variables: {
         input: {
           content,
           tags,
+          status,
         },
       },
     });

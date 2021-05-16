@@ -64,7 +64,11 @@ export const EditableContent: React.FC<EditableContentProps> = ({
       ]);
     }
     if (addNewTask) {
-      addNewTask(currentContent, [...newTaskTags, ...recognizedTags]);
+      addNewTask(
+        currentContent,
+        [...newTaskTags, ...recognizedTags],
+        newStatus
+      );
     }
 
     history.push(`/`);
