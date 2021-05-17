@@ -3,6 +3,7 @@ const BLUE_LIGHT_1 = "#f6f7fc";
 const BLUE = "#79A7FF";
 const WHITE = "#fff";
 const GREY = "#888888";
+const GREY_LIGHT = "#bdc0c6";
 const BLUE_GREY = "rgb(224 224 225 / 34%)";
 const BLUE_MILK = "rgb(238 242 252 / 66%)";
 const DISABLED = "#e1e1e1";
@@ -15,6 +16,7 @@ export const COLORS = {
   BLUE_GREY,
   BLUE_MILK,
   DISABLED,
+  GREY_LIGHT,
 };
 
 const FONT_SIZE = {
@@ -59,6 +61,7 @@ export const lightTheme = {
   nav: {
     bg: COLORS.WHITE,
     shadow: SHADOWS.primary,
+    width: "290px",
     userName: {
       size: FONT_SIZE.big,
       weight: 600,
@@ -69,6 +72,7 @@ export const lightTheme = {
     titleWeight: 600,
     titleSize: FONT_SIZE.big,
     disabled: COLORS.DISABLED,
+    nameColor: COLORS.GREY_LIGHT,
   },
   column: {
     titleFont: FONTS.headers,

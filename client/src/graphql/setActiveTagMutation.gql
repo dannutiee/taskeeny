@@ -1,0 +1,9 @@
+mutation setActiveTag(
+ $input: SetActiveTagInput!
+) {
+  setActiveTag(input: $input) {
+    code
+    success
+    message
+  }
+}

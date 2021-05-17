@@ -40,6 +40,10 @@ export default gql`
     isActive: Boolean!
   }
 
+  input SetActiveTagInput {
+    activeTag: String!
+  }
+
   # Queries   --------------------------------------
 
   type Task {
@@ -115,6 +119,12 @@ export default gql`
     message: String!
   }
 
+  type SetActiveTagResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
   type DeleteTaskResponse implements MutationResponseInterface {
     code: String!
     success: Boolean!
@@ -138,6 +148,7 @@ export default gql`
     deleteTask(taskId: ID!): DeleteTaskResponse
     updateTask(input: UpdateTaskInput!): UpdateTaskResponse
     updateTag(input: UpdateTagInput!): UpdateTagResponse
+    setActiveTag(input: SetActiveTagInput!): SetActiveTagResponse
   }
   type Query {
     users: [User]

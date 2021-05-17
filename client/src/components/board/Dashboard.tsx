@@ -63,10 +63,13 @@ export const DashboardComponent: React.FC<DashboardComponentProps> = ({
 export const Dashboard = DashboardContainer;
 
 const DashboardWrapper = styled.div`
-  width: calc(100% - 240px);
   display: flex;
   justify-content: space-around;
   font-family: "Open Sans";
   position: relative;
+  height: 100%;
+  min-height: 100vh;
+  width: calc(100% - ${(p) => p.theme.nav.width});
+  left: ${(p) => p.theme.nav.width};
   background: ${(p) => p.theme.dashboard.bg};
 `;

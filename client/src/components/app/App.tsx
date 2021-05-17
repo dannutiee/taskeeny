@@ -30,5 +30,6 @@ export default App;
 
 const AppWrapper = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 `;

@@ -64,6 +64,7 @@ export type Mutation = {
   deleteTask?: Maybe<DeleteTaskResponse>;
   updateTask?: Maybe<UpdateTaskResponse>;
   updateTag?: Maybe<UpdateTagResponse>;
+  setActiveTag?: Maybe<SetActiveTagResponse>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -95,6 +96,10 @@ export type MutationUpdateTagArgs = {
   input: UpdateTagInput;
 };
 
+export type MutationSetActiveTagArgs = {
+  input: SetActiveTagInput;
+};
+
 export type MutationResponseInterface = {
   code: Scalars["String"];
   success: Scalars["Boolean"];
@@ -120,6 +125,17 @@ export type RegisterInput = {
   email: Scalars["String"];
   name: Scalars["String"];
   surname: Scalars["String"];
+};
+
+export type SetActiveTagInput = {
+  activeTag: Scalars["String"];
+};
+
+export type SetActiveTagResponse = MutationResponseInterface & {
+  __typename?: "SetActiveTagResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
 };
 
 export type Tag = {
@@ -283,6 +299,19 @@ export type LoginMutation = { __typename?: "Mutation" } & {
           "id" | "name" | "surname" | "email" | "createdAt" | "token"
         >;
       }
+  >;
+};
+
+export type SetActiveTagMutationVariables = Exact<{
+  input: SetActiveTagInput;
+}>;
+
+export type SetActiveTagMutation = { __typename?: "Mutation" } & {
+  setActiveTag?: Maybe<
+    { __typename?: "SetActiveTagResponse" } & Pick<
+      SetActiveTagResponse,
+      "code" | "success" | "message"
+    >
   >;
 };
 
@@ -645,6 +674,58 @@ export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<
   LoginMutation,
   LoginMutationVariables
+>;
+export const SetActiveTagDocument = gql`
+  mutation setActiveTag($input: SetActiveTagInput!) {
+    setActiveTag(input: $input) {
+      code
+      success
+      message
+    }
+  }
+`;
+export type SetActiveTagMutationFn = Apollo.MutationFunction<
+  SetActiveTagMutation,
+  SetActiveTagMutationVariables
+>;
+
+/**
+ * __useSetActiveTagMutation__
+ *
+ * To run a mutation, you first call `useSetActiveTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetActiveTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setActiveTagMutation, { data, loading, error }] = useSetActiveTagMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSetActiveTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SetActiveTagMutation,
+    SetActiveTagMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    SetActiveTagMutation,
+    SetActiveTagMutationVariables
+  >(SetActiveTagDocument, baseOptions);
+}
+export type SetActiveTagMutationHookResult = ReturnType<
+  typeof useSetActiveTagMutation
+>;
+export type SetActiveTagMutationResult = Apollo.MutationResult<
+  SetActiveTagMutation
+>;
+export type SetActiveTagMutationOptions = Apollo.BaseMutationOptions<
+  SetActiveTagMutation,
+  SetActiveTagMutationVariables
 >;
 export const UpdatePositionsDocument = gql`
   mutation updatePositions($input: UpdatePositionsInput!) {

@@ -7,6 +7,7 @@ import {
   useDeleteTaskMutation,
   GetTasksDocument,
   GetTagsDocument,
+  useSetActiveTagMutation,
 } from "../../graphql/__generated__/typeDefs";
 import { useModal } from "../../hooks/useModal";
 import { EditTaskModal } from "../modal";
@@ -25,6 +26,12 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     isEditModalOpend(task.id, history.location.search)
   );
   const [deleteTaskMutation] = useDeleteTaskMutation({});
+  const [
+    setActiveTagMutation,
+    { error, data: updateData, loading: updateLoading },
+  ] = useSetActiveTagMutation({
+    refetchQueries: [{ query: GetTagsDocument }],
+  });
 
   const deleteTask = (id: string): void => {
     deleteTaskMutation({
@@ -45,6 +52,16 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     });
   };
 
+  const setActiveTag = async (activeTag: string): Promise<void> => {
+    await setActiveTagMutation({
+      variables: {
+        input: {
+          activeTag,
+        },
+      },
+    });
+  };
+
   const onDeleteClick = () => {
     deleteTask(task.id);
   };
@@ -54,7 +71,8 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     toggle();
   };
 
-  const onTagClick = () => {
+  const onTagClick = (tagName: string) => {
+    setActiveTag(tagName);
     // TODO  filter task by choosen tags
   };
 
@@ -72,7 +90,10 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
       <TaskFooter>
         <TagsWrapper>
           {task.tags.map((tag, index) => (
-            <TagLink onClick={onTagClick} key={index}>{`#${tag}`}</TagLink>
+            <TagLink
+              onClick={() => onTagClick(tag)}
+              key={index}
+            >{`#${tag}`}</TagLink>
           ))}
         </TagsWrapper>
 
@@ -101,7 +122,7 @@ const TaskContent = styled.div`
 `;
 
 const TagsWrapper = styled.div`
-  margin-left: 10px;
+  margin-left: 5px;
   padding: 10px;
   padding-left: 20px;
 `;
@@ -113,9 +134,9 @@ const TaskFooter = styled.div`
 
 const TagLink = styled.a`
   text-decoration: none;
-  margin-right: 10px;
+  padding: 5px;
   font-size: ${(p) => p.theme.font.size.tiny};
-  color: ${(p) => p.theme.task.link.color};
+  color: ${(p) => p.theme.categories.nameColor};
   &:hover {
     cursor: pointer;
     color: ${(p) => p.theme.task.link.hover};

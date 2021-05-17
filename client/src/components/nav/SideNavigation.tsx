@@ -41,10 +41,12 @@ const Avatar = styled.div`
 `;
 
 const SideNavWrapper = styled.div`
-  min-width: 240px;
-  background: red;
   z-index: 1;
   padding: 25px;
+  position: fixed;
+  height: 100vh;
+  box-sizing: border-box;
+  width: ${(p) => p.theme.nav.width};
   background: ${(p) => p.theme.nav.bg};
   box-shadow: ${(p) => p.theme.nav.shadow};
 `;
