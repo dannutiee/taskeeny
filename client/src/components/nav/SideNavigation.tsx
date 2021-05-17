@@ -1,15 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
+import { ThemeContext } from "../../contexts/theme";
 import { AuthContext } from "../../contexts/auth";
 import { CategoriesList } from "../categories";
 import { Dropdown } from "../dropdown";
 
 export const SideNavigation: React.FC = () => {
   const authContext = useContext(AuthContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const onLogout = () => {
     authContext.logout();
+  };
+
+  const onChangeTheme = () => {
+    toggleTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
@@ -21,6 +27,7 @@ export const SideNavigation: React.FC = () => {
           <Location>Kraków, Poland</Location>
         </div>
         <Dropdown button>
+          <Dropdown.Item onClick={onChangeTheme}>Dark&nbsp;Theme</Dropdown.Item>
           <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item>
         </Dropdown>
       </UserSection>
@@ -42,7 +49,7 @@ const Avatar = styled.div`
 
 const SideNavWrapper = styled.div`
   z-index: 1;
-  padding: 25px;
+  padding: 25px 10px 25px 25px;
   position: fixed;
   height: 100vh;
   box-sizing: border-box;
