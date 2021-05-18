@@ -109,6 +109,7 @@ const SingleCategory = styled.div<SingleCategoryProps>`
 `;
 
 const SectionTitle = styled.div`
+  color: ${(p) => p.theme.categories.color};
   font-family: ${(p) => p.theme.categories.titleFont};
   font-weight: ${(p) => p.theme.categories.titleWeight};
   font-size: ${(p) => p.theme.categories.titleSize};

@@ -140,12 +140,12 @@ export const TaskTextArea = styled.textarea`
   width: 100%;
   height: 200px;
   border: 1px solid;
-  border-color: white;
+  border-color: ${(p) => p.theme.modal.textarea.border};
   padding: 5px;
   resize: none;
   &:focus-visible {
     outline: none;
-    border-color: #f1f4fc;
+    border-color: ${(p) => p.theme.modal.textarea.borderFocus};
   }
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.medium};

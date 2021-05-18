@@ -54,6 +54,7 @@ const DropdownWrapper = styled.div`
 const StyledDropdownItem = styled.div`
   padding: 10px 20px;
   text-align: left;
+  background: ${(p) => p.theme.task.button.bg};
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.small};
   color: ${(p) => p.theme.dropdown.text};

@@ -73,6 +73,7 @@ const DroppableColumnWrapper = styled.div`
 
 const ColumnTitle = styled.div`
   text-transform: uppercase;
+  color: ${(p) => p.theme.column.titleColor};
   font-family: ${(p) => p.theme.column.titleFont};
   font-weight: ${(p) => p.theme.column.titleWeight};
   font-size: ${(p) => p.theme.column.titleSize};
@@ -82,11 +83,11 @@ const AddButton = styled.span`
   margin-left: 15px;
   width: 35px;
   height: 35px;
-  background: white;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background: ${(p) => p.theme.task.button.bg};
   color: ${(p) => p.theme.button.color};
   border: 1px solid ${(p) => p.theme.button.color};
   border-radius: ${(p) => p.theme.button.borderRadius};

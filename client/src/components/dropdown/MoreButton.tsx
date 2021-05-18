@@ -21,12 +21,13 @@ export const MoreButton: React.FC<MoreButtonProps> = ({
 export const StyledButton = styled.button`
   width: 40px;
   height: 40px;
-  background: white;
   border: none;
   cursor: pointer;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
+  background: ${(p) => p.theme.task.button.bg};
   color: ${(p) => p.theme.task.button.color};
 `;

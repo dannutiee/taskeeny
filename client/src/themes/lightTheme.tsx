@@ -1,46 +1,8 @@
-//Primary colors
-const BLUE_LIGHT_1 = "#f6f7fc";
-const BLUE = "#79A7FF";
-const WHITE = "#fff";
-const GREY = "#888888";
-const GREY_LIGHT = "#bdc0c6";
-const BLUE_GREY = "rgb(224 224 225 / 34%)";
-const BLUE_MILK = "rgb(238 242 252 / 66%)";
-const DISABLED = "#e1e1e1";
-
-export const COLORS = {
-  BLUE_LIGHT_1,
-  WHITE,
-  BLUE,
-  GREY,
-  BLUE_GREY,
-  BLUE_MILK,
-  DISABLED,
-  GREY_LIGHT,
-};
-
-const FONT_SIZE = {
-  tiny: "12px",
-  small: "14px",
-  medium: "16px",
-  big: "18px",
-  large: "20px",
-};
-
-const SHADOWS = {
-  primary: "1px 2px 5px 2px rgb(34 36 38 / 6%)",
-  modal: "0 1rem 3rem rgba(0,0,0,.175)",
-};
-
-const FONTS = {
-  primary: "",
-  headers: "Poppins, sans-serif",
-};
-
-//Light theme
+import { COLORS, FONT_SIZE, SHADOWS, FONTS } from "./globalStyle";
 
 export const lightTheme = {
   font: {
+    color: COLORS.BLACK,
     basic: {
       family: "Open Sans",
     },
@@ -60,14 +22,17 @@ export const lightTheme = {
   },
   nav: {
     bg: COLORS.WHITE,
+    borderColor: COLORS.WHITE,
     shadow: SHADOWS.primary,
     width: "290px",
     userName: {
+      color: COLORS.BLACK,
       size: FONT_SIZE.big,
       weight: 600,
     },
   },
   categories: {
+    color: COLORS.BLACK,
     titleFont: FONTS.headers,
     titleWeight: 600,
     titleSize: FONT_SIZE.big,
@@ -75,6 +40,7 @@ export const lightTheme = {
     nameColor: COLORS.GREY_LIGHT,
   },
   column: {
+    titleColor: COLORS.BLACK,
     titleFont: FONTS.headers,
     titleWeight: 600,
     titleSize: FONT_SIZE.large,
@@ -87,11 +53,22 @@ export const lightTheme = {
   modal: {
     shadow: SHADOWS.modal,
     bgColor: COLORS.BLUE_MILK,
+    header: {
+      color: COLORS.BLACK,
+    },
+    secondaryBtn: {
+      bg: COLORS.WHITE,
+    },
+    textarea: {
+      border: COLORS.WHITE,
+      borderFocus: "#f1f4fc",
+    },
   },
   task: {
     bg: COLORS.WHITE,
     shadow: SHADOWS.primary,
     button: {
+      bg: COLORS.WHITE,
       color: COLORS.BLUE,
     },
     link: {

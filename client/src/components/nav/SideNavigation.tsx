@@ -44,7 +44,7 @@ const Avatar = styled.div`
   height: 90px;
   border-radius: 50px;
   margin-bottom: 20px;
-  background-color: #7ba8fe;
+  background-color: #79a7ff;
 `;
 
 const SideNavWrapper = styled.div`
@@ -53,6 +53,8 @@ const SideNavWrapper = styled.div`
   position: fixed;
   height: 100vh;
   box-sizing: border-box;
+  border: 1px solid;
+  border-color: ${(p) => p.theme.nav.borderColor};
   width: ${(p) => p.theme.nav.width};
   background: ${(p) => p.theme.nav.bg};
   box-shadow: ${(p) => p.theme.nav.shadow};
@@ -68,11 +70,13 @@ const UserSection = styled.div`
 `;
 
 const UserName = styled.div`
+  color: ${(p) => p.theme.nav.userName.color};
   font-size: ${(p) => p.theme.nav.userName.size};
   font-family: ${(p) => p.theme.font.header.family};
   font-weight: ${(p) => p.theme.nav.userName.weight};
 `;
 
 const Location = styled.span`
+  color: ${(p) => p.theme.nav.userName.color};
   font-size: ${(p) => p.theme.font.size.small};
 `;

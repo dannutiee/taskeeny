@@ -12,6 +12,7 @@ import { ThemeProvider } from "../contexts/theme";
 
 const AppBody = styled.div`
   font-family: "Montserrat", sans-serif;
+  color: ${(p) => p.theme.font.color};
 `;
 
 const AppRouter = () => (

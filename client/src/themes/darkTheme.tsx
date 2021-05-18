@@ -1,47 +1,8 @@
-//TODO - create a dark theme
-
-const BLUE_LIGHT_1 = "red";
-const BLUE = "#79A7FF";
-const WHITE = "#fff";
-const GREY = "#888888";
-const GREY_LIGHT = "#bdc0c6";
-const BLUE_GREY = "rgb(224 224 225 / 34%)";
-const BLUE_MILK = "rgb(238 242 252 / 66%)";
-const DISABLED = "#e1e1e1";
-
-export const COLORS = {
-  BLUE_LIGHT_1,
-  WHITE,
-  BLUE,
-  GREY,
-  BLUE_GREY,
-  BLUE_MILK,
-  DISABLED,
-  GREY_LIGHT,
-};
-
-const FONT_SIZE = {
-  tiny: "12px",
-  small: "14px",
-  medium: "16px",
-  big: "18px",
-  large: "20px",
-};
-
-const SHADOWS = {
-  primary: "1px 2px 5px 2px rgb(34 36 38 / 6%)",
-  modal: "0 1rem 3rem rgba(0,0,0,.175)",
-};
-
-const FONTS = {
-  primary: "",
-  headers: "Poppins, sans-serif",
-};
-
-//Light theme
+import { COLORS, FONT_SIZE, SHADOWS, FONTS } from "./globalStyle";
 
 export const darkTheme = {
   font: {
+    color: COLORS.GREY_LIGHT_1,
     basic: {
       family: "Open Sans",
     },
@@ -57,18 +18,21 @@ export const darkTheme = {
     },
   },
   dashboard: {
-    bg: COLORS.BLUE_LIGHT_1,
+    bg: COLORS.GREY_DARK_2,
   },
   nav: {
-    bg: COLORS.WHITE,
+    bg: COLORS.GREY_DARK_2,
+    borderColor: COLORS.GREY_DARK,
     shadow: SHADOWS.primary,
     width: "290px",
     userName: {
+      color: COLORS.BLUE,
       size: FONT_SIZE.big,
       weight: 600,
     },
   },
   categories: {
+    color: COLORS.BLUE,
     titleFont: FONTS.headers,
     titleWeight: 600,
     titleSize: FONT_SIZE.big,
@@ -76,6 +40,7 @@ export const darkTheme = {
     nameColor: COLORS.GREY_LIGHT,
   },
   column: {
+    titleColor: COLORS.BLUE,
     titleFont: FONTS.headers,
     titleWeight: 600,
     titleSize: FONT_SIZE.large,
@@ -87,12 +52,23 @@ export const darkTheme = {
   },
   modal: {
     shadow: SHADOWS.modal,
-    bgColor: COLORS.BLUE_MILK,
+    bgColor: COLORS.GREY_MILK,
+    header: {
+      color: COLORS.BLUE,
+    },
+    secondaryBtn: {
+      bg: "transparent",
+    },
+    textarea: {
+      border: COLORS.GREY_DARK,
+      borderFocus: COLORS.GREY_MEDIUM,
+    },
   },
   task: {
-    bg: COLORS.WHITE,
+    bg: COLORS.GREY_DARK,
     shadow: SHADOWS.primary,
     button: {
+      bg: COLORS.GREY_DARK,
       color: COLORS.BLUE,
     },
     link: {

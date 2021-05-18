@@ -24,8 +24,19 @@ export const Modal: React.FC<ModalProps> = ({
   useEffect(() => {
     if (setNewStatus) {
       setNewStatus(currentStatus);
+      toggleWindowScroll("hidden");
     }
   }, [currentStatus]);
+
+  useEffect(() => {
+    return () => {
+      toggleWindowScroll("visible");
+    };
+  }, []);
+
+  const toggleWindowScroll = (overflow: string) => {
+    document.body.style.overflow = overflow;
+  };
 
   const options = [
     {
@@ -107,6 +118,7 @@ const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: ${(p) => p.theme.modal.header.color};
 `;
 
 const ActionButtonsWrapper = styled.div`
@@ -129,7 +141,7 @@ const ActionButton = styled.button<ActionButtonProps>`
   cursor: pointer;
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.medium};
-  background: ${(p) => (p.primary ? "#90b9fc" : "white")};
+  background: ${(p) => (p.primary ? "#90b9fc" : p.theme.modal.secondaryBtn.bg)};
   color: ${(p) => (p.primary ? "white" : "#cacbce")};
 `;
 
@@ -153,6 +165,7 @@ const CloseButtonWrapper = styled.div`
 const CloseIcon = styled.span`
   cursor: pointer;
   padding: 5px;
+  color: ${(p) => p.theme.modal.header.color};
 `;
 
 const ModalWrapper = styled.div`
@@ -170,12 +183,12 @@ const ModalWrapper = styled.div`
 `;
 
 const ModalBody = styled.div`
-  background: white;
   width: 80%;
   max-width: 750px;
   height: 450px;
   border-radius: 5px;
   position: relative;
   padding: 20px;
+  background: ${(p) => p.theme.task.bg};
   box-shadow: ${(p) => p.theme.modal.shadow};
 `;
