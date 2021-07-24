@@ -7,6 +7,10 @@ export const userSchema = new Schema({
   password: String,
   email: String,
   createdAt: String,
+  avatar: { 
+    name: String,
+    image: Buffer
+  }
 });
 
 export const User = model("User", userSchema);

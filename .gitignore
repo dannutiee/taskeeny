@@ -1,6 +1,7 @@
 #dependencies
 node_modules
 
+
 # production
 dist
 
@@ -9,3 +10,4 @@ dist
 schema.graphql
 .DS_Store
 config.ts
+designs

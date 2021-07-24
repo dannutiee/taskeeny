@@ -1,0 +1,9 @@
+query getAvatar{
+  user{
+    id
+    avatar{
+        name
+        encoding
+    }
+  }
+}

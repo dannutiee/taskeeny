@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql} from "apollo-server-express";
 
 export default gql`
   # Inputs  -----------------------------------
@@ -60,6 +60,10 @@ export default gql`
     tasks: [String!]!
   }
 
+ type Avatar {
+   name: String
+   encoding:String
+ }
   type User {
     id: ID!
     name: String!
@@ -67,6 +71,7 @@ export default gql`
     email: String!
     createdAt: String!
     token: String!
+    avatar: Avatar
   }
 
   type Position {
@@ -85,6 +90,7 @@ export default gql`
     tasks: [Task!]!
     tags: [Tag!]!
     positions: [Position!]
+    avatar: Avatar
   }
 
   # Mutations   -----------------------------
@@ -137,8 +143,15 @@ export default gql`
     message: String!
     user: User!
   }
+  type UploadedFileResponse {
+      filename: String!
+      mimetype: String!
+      encoding: String!
+      url: String!
+  }
 
   # Root for mutation and query  ----------------------
+  scalar UploadFile
 
   type Mutation {
     registerUser(input: RegisterInput!): User
@@ -149,9 +162,11 @@ export default gql`
     updateTask(input: UpdateTaskInput!): UpdateTaskResponse
     updateTag(input: UpdateTagInput!): UpdateTagResponse
     setActiveTag(input: SetActiveTagInput!): SetActiveTagResponse
+    singleUpload(file: UploadFile!): UploadedFileResponse
   }
   type Query {
     users: [User]
     user: AuthtenticatedUser!
   }
+
 `;

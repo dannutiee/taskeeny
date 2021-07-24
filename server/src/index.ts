@@ -9,7 +9,9 @@ const app = express();
 
 const server = new ApolloServer(schema);
 
-server.applyMiddleware({ app, path: "/graphql" });
+server.applyMiddleware({ app, path: "/graphql" ,   bodyParserConfig: {
+  limit:"10mb"
+}});
 
 mongoose
   .connect(MONGODB, { useNewUrlParser: true })
