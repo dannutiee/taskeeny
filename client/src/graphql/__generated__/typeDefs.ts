@@ -172,6 +172,7 @@ export type Task = {
   id: Scalars["ID"];
   content: Scalars["String"];
   status: Scalars["String"];
+  createdAt: Scalars["String"];
   tags: Array<Scalars["String"]>;
 };
 
@@ -277,7 +278,7 @@ export type GetTasksQuery = { __typename?: "Query" } & {
       tasks: Array<
         { __typename?: "Task" } & Pick<
           Task,
-          "id" | "content" | "status" | "tags"
+          "id" | "content" | "status" | "createdAt" | "tags"
         >
       >;
       positions?: Maybe<
@@ -558,6 +559,7 @@ export const GetTasksDocument = gql`
         id
         content
         status
+        createdAt
         tags
       }
       positions {

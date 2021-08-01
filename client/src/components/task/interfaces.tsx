@@ -2,6 +2,7 @@ export interface TaskData {
   id: string;
   status: string;
   content: string;
+  createdAt: string;
   tags: string[];
 }
 

@@ -1,57 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-
-import { taskStatus } from "../task/utils";
-import { Dropdown } from "../dropdown";
+import { useHistory } from "react-router-dom";
 
 interface ModalProps {
-  status: string;
-  setNewStatus?: (status: string) => void;
   hide?: () => void;
   onSave?: () => void;
+  onDelete?: () => void;
 }
 
 export const Modal: React.FC<ModalProps> = ({
   hide,
   children,
   onSave,
-  status,
-  setNewStatus,
+  onDelete,
 }) => {
-  const [currentStatus, setCurrentStatus] = useState(status);
-
-  useEffect(() => {
-    if (setNewStatus) {
-      setNewStatus(currentStatus);
-      toggleWindowScroll("hidden");
-    }
-  }, [currentStatus]);
-
-  useEffect(() => {
-    return () => {
-      toggleWindowScroll("visible");
-    };
-  }, []);
-
-  const toggleWindowScroll = (overflow: string) => {
-    document.body.style.overflow = overflow;
-  };
-
-  const options = [
-    {
-      text: taskStatus.todo.label,
-      value: taskStatus.todo.value,
-    },
-    {
-      text: taskStatus.in_progress.label,
-      value: taskStatus.in_progress.value,
-    },
-    {
-      text: taskStatus.completed.label,
-      value: taskStatus.completed.value,
-    },
-  ];
+  const history = useHistory();
+  const isEditTaskModalOpened = history.location.pathname !== "/new";
 
   return ReactDOM.createPortal(
     <ModalWrapper>
@@ -62,27 +27,19 @@ export const Modal: React.FC<ModalProps> = ({
           </CloseIcon>
         </CloseButtonWrapper>
         <ModalHeader>
-          <StatusWrapper>
-            <Label>Status: </Label>
-            <Dropdown
-              options={options}
-              value={currentStatus}
-              onSelectOption={setCurrentStatus}
-            />
-          </StatusWrapper>
-          <DateInfoWrapper>
-            <DateItem>
-              <Label>Created:</Label> 19.02.1996
-            </DateItem>
-            <DateItem>
-              <Label>Completed:</Label> -
-            </DateItem>
-          </DateInfoWrapper>
+          {React.Children.map(children, (child, i) => i === 0 && child)}
         </ModalHeader>
-        <ModalContent>{children}</ModalContent>
+        <ModalContent>
+          {React.Children.map(
+            children,
+            (child, i) => i === 1 || (i === 2 && child)
+          )}
+        </ModalContent>
         <ModalFooter>
           <ActionButtonsWrapper>
-            <ActionButton>Delete</ActionButton>
+            {isEditTaskModalOpened && (
+              <ActionButton onClick={onDelete}>Delete</ActionButton>
+            )}
             <ActionButton primary onClick={onSave}>
               Save
             </ActionButton>
@@ -93,22 +50,6 @@ export const Modal: React.FC<ModalProps> = ({
     document.body
   );
 };
-
-const Label = styled.span`
-  font-weight: 600;
-  margin-right: 10px;
-`;
-
-const DateItem = styled.span`
-  margin-left: 25px;
-`;
-
-const DateInfoWrapper = styled.div``;
-
-const StatusWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 const ModalHeader = styled.div`
   width: calc(100% - 40px);

@@ -179,6 +179,7 @@ export type Task = {
   id: Scalars["ID"];
   content: Scalars["String"];
   status: Scalars["String"];
+  createdAt: Scalars["String"];
   tags: Array<Scalars["String"]>;
 };
 
@@ -635,6 +636,7 @@ export type TaskResolvers<
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   status?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

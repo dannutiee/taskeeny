@@ -2,6 +2,7 @@ import React from "react";
 
 import {
   useUpdateTaskMutation,
+  useDeleteTaskMutation,
   GetTasksDocument,
   GetTagsDocument,
   TagInput,
@@ -15,14 +16,17 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
   content,
   status,
   taskId,
+  createdAt,
 }) => {
   const [
     updateTaskMutation,
-    { error, data: updateData, loading: updateLoading },
+    { error: updateError, data: updateData, loading: updateLoading },
   ] = useUpdateTaskMutation({
     refetchQueries: [{ query: GetTasksDocument }, { query: GetTagsDocument }],
     // awaitRefetchQueries: true,
   });
+
+  const [deleteTaskMutation] = useDeleteTaskMutation({});
 
   const updateTask = async (
     taskId: string,
@@ -42,9 +46,29 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
     });
   };
 
+  const deleteTask = (id: string): void => {
+    deleteTaskMutation({
+      variables: {
+        taskId: id,
+      },
+      refetchQueries: [
+        {
+          query: GetTasksDocument,
+        },
+        {
+          query: GetTagsDocument,
+        },
+      ],
+    }).then((resp) => {
+      //TODO - add notification
+      console.log("delete success", resp.data?.deleteTask?.success);
+    });
+  };
+
   // TODO - need to be used as a info messages  e.g popup
   const success = updateData?.updateTask?.success || false;
-  const errorMessage = updateData?.updateTask?.message || error?.name || "";
+  const errorMessage =
+    updateData?.updateTask?.message || updateError?.name || "";
 
   return (
     <EditableContent
@@ -54,6 +78,8 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
       status={status}
       taskId={taskId}
       updateTask={updateTask}
+      createdAt={createdAt}
+      deleteTask={deleteTask}
     />
   );
 };

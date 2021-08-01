@@ -4,6 +4,7 @@ export interface EditTaskModalContainerProps {
   content: string;
   status: string;
   taskId: string;
+  createdAt: string;
 }
 
 export interface AddNewTaskModalContainerProps {
@@ -14,8 +15,10 @@ export interface EditableContentProps {
   hide: () => void;
   addNewTask?: any;
   updateTask?: any;
+  deleteTask?: any;
   content?: string;
   tags?: string[];
   status?: string;
   taskId?: string;
+  createdAt?: string;
 }

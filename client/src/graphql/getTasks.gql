@@ -5,6 +5,7 @@ query getTasks{
         id
         content
         status
+        createdAt
         tags
         
   }

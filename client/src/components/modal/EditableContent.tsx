@@ -14,6 +14,7 @@ import {
 } from "../task/utils";
 import { getRandomAvailableColor } from "../tag/utils";
 import { EditableContentProps } from "./interfaces";
+import { Header } from "./Header";
 
 export const EditableContent: React.FC<EditableContentProps> = ({
   hide,
@@ -23,6 +24,8 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   taskId,
   addNewTask,
   updateTask,
+  deleteTask,
+  createdAt = "",
 }) => {
   const history = useHistory();
   const text = useRef("") as any;
@@ -75,6 +78,12 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     hide();
   };
 
+  const onClickDelete = () => {
+    deleteTask(taskId);
+    history.push(`/`);
+    hide();
+  };
+
   const setNewTagsAndColors = (text: string) => {
     const newTagsFromText = getTagsFromText(text, allAvailableTags).newTags;
 
@@ -110,12 +119,12 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   };
 
   return (
-    <Modal
-      hide={hide}
-      onSave={onCickSave}
-      status={status}
-      setNewStatus={setNewStatus}
-    >
+    <Modal hide={hide} onSave={onCickSave} onDelete={onClickDelete}>
+      <Header
+        status={status}
+        setNewStatus={setNewStatus}
+        createdAt={createdAt}
+      />
       <TagBorder tags={tags} isModalMode={true} />
       <EditContent>
         <EditableArea>

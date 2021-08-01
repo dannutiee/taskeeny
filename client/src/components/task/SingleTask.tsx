@@ -81,7 +81,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     toggle();
   };
 
-  // console.log('task before render tasg', task)
+  console.log("task------->", task);
 
   return (
     <>
@@ -109,6 +109,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
           content={task.content}
           status={task.status}
           taskId={task.id}
+          createdAt={task.createdAt}
         />
       )}
     </>

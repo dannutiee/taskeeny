@@ -50,6 +50,7 @@ export default gql`
     id: ID!
     content: String!
     status: String!
+    createdAt: String!
     tags: [String!]!
   }
   type Tag {
