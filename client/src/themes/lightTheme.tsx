@@ -30,6 +30,10 @@ export const lightTheme = {
       size: FONT_SIZE.big,
       weight: 600,
     },
+    avatar: {
+      size: "90px",
+      borderColor: COLORS.BLUE,
+    },
   },
   categories: {
     color: COLORS.BLACK,

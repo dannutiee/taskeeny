@@ -41,12 +41,14 @@ export const Avatar: React.FC<AvatarProps> = ({ userId }) => {
           : `images/avatar_${userId}.jpg`;
 
         return (
-          <div className="upload__image-wrapper">
-            <AvatarImage
-              onClick={onAvatarClick}
-              imageUrl={avatarUrl}
-            ></AvatarImage>
-          </div>
+          <UploadWrapper className="upload__image-wrapper">
+            <AvatarBorder>
+              <AvatarImage
+                onClick={onAvatarClick}
+                imageUrl={avatarUrl}
+              ></AvatarImage>
+            </AvatarBorder>
+          </UploadWrapper>
         );
       }}
     </ImageUploading>
@@ -58,12 +60,30 @@ interface AvatarComponentProps {
 }
 
 const AvatarImage = styled.div<AvatarComponentProps>`
-  width: 90px;
-  height: 90px;
+  width: ${(p) => p.theme.nav.avatar.size};
+  height: ${(p) => p.theme.nav.avatar.size};
   border-radius: 50px;
   margin-bottom: 20px;
   background-color: #79a7ff;
   background-size: cover;
   background-repeat: no-repeat;
   background-image: url("${(p) => p.imageUrl}");
+  transform: rotate(190deg);
+`;
+
+const AvatarBorder = styled.div`
+  width: ${(p) => p.theme.nav.avatar.size};
+  height: ${(p) => p.theme.nav.avatar.size};
+  border: 7px solid ${(p) => p.theme.nav.avatar.borderColor};
+  border-radius: 50%;
+  border-bottom-color: transparent;
+  border-right-color: #transparent;
+  transform: rotate(170deg);
+  position: absolute;
+`;
+
+const UploadWrapper = styled.div`
+  width: 120px;
+  height: 120px;
+  position: relative;
 `;
