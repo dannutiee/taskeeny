@@ -67,6 +67,7 @@ export type Mutation = {
   updateTask?: Maybe<UpdateTaskResponse>;
   updateTag?: Maybe<UpdateTagResponse>;
   setActiveTag?: Maybe<SetActiveTagResponse>;
+  setAllTagsVisible?: Maybe<SetAllTagsVisibleResponse>;
   uploadFile?: Maybe<UploadedFileResponse>;
 };
 
@@ -140,6 +141,13 @@ export type SetActiveTagInput = {
 
 export type SetActiveTagResponse = MutationResponseInterface & {
   __typename?: "SetActiveTagResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+};
+
+export type SetAllTagsVisibleResponse = MutationResponseInterface & {
+  __typename?: "SetAllTagsVisibleResponse";
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
@@ -322,6 +330,19 @@ export type SetActiveTagMutation = { __typename?: "Mutation" } & {
   setActiveTag?: Maybe<
     { __typename?: "SetActiveTagResponse" } & Pick<
       SetActiveTagResponse,
+      "code" | "success" | "message"
+    >
+  >;
+};
+
+export type SetAllTagsVisibleMutationVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type SetAllTagsVisibleMutation = { __typename?: "Mutation" } & {
+  setAllTagsVisible?: Maybe<
+    { __typename?: "SetAllTagsVisibleResponse" } & Pick<
+      SetAllTagsVisibleResponse,
       "code" | "success" | "message"
     >
   >;
@@ -751,6 +772,57 @@ export type SetActiveTagMutationResult = Apollo.MutationResult<
 export type SetActiveTagMutationOptions = Apollo.BaseMutationOptions<
   SetActiveTagMutation,
   SetActiveTagMutationVariables
+>;
+export const SetAllTagsVisibleDocument = gql`
+  mutation setAllTagsVisible {
+    setAllTagsVisible {
+      code
+      success
+      message
+    }
+  }
+`;
+export type SetAllTagsVisibleMutationFn = Apollo.MutationFunction<
+  SetAllTagsVisibleMutation,
+  SetAllTagsVisibleMutationVariables
+>;
+
+/**
+ * __useSetAllTagsVisibleMutation__
+ *
+ * To run a mutation, you first call `useSetAllTagsVisibleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetAllTagsVisibleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setAllTagsVisibleMutation, { data, loading, error }] = useSetAllTagsVisibleMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSetAllTagsVisibleMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SetAllTagsVisibleMutation,
+    SetAllTagsVisibleMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    SetAllTagsVisibleMutation,
+    SetAllTagsVisibleMutationVariables
+  >(SetAllTagsVisibleDocument, baseOptions);
+}
+export type SetAllTagsVisibleMutationHookResult = ReturnType<
+  typeof useSetAllTagsVisibleMutation
+>;
+export type SetAllTagsVisibleMutationResult = Apollo.MutationResult<
+  SetAllTagsVisibleMutation
+>;
+export type SetAllTagsVisibleMutationOptions = Apollo.BaseMutationOptions<
+  SetAllTagsVisibleMutation,
+  SetAllTagsVisibleMutationVariables
 >;
 export const UpdatePositionsDocument = gql`
   mutation updatePositions($input: UpdatePositionsInput!) {

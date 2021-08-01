@@ -74,6 +74,7 @@ export type Mutation = {
   updateTask?: Maybe<UpdateTaskResponse>;
   updateTag?: Maybe<UpdateTagResponse>;
   setActiveTag?: Maybe<SetActiveTagResponse>;
+  setAllTagsVisible?: Maybe<SetAllTagsVisibleResponse>;
   uploadFile?: Maybe<UploadedFileResponse>;
 };
 
@@ -147,6 +148,13 @@ export type SetActiveTagInput = {
 
 export type SetActiveTagResponse = MutationResponseInterface & {
   __typename?: "SetActiveTagResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+};
+
+export type SetAllTagsVisibleResponse = MutationResponseInterface & {
+  __typename?: "SetAllTagsVisibleResponse";
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
@@ -362,7 +370,8 @@ export type ResolversTypes = {
     | ResolversTypes["DeleteTaskResponse"]
     | ResolversTypes["UpdateTaskResponse"]
     | ResolversTypes["UpdateTagResponse"]
-    | ResolversTypes["SetActiveTagResponse"];
+    | ResolversTypes["SetActiveTagResponse"]
+    | ResolversTypes["SetAllTagsVisibleResponse"];
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: ResolverTypeWrapper<AddTaskResponse>;
@@ -375,6 +384,7 @@ export type ResolversTypes = {
   UpdateTagResponse: ResolverTypeWrapper<UpdateTagResponse>;
   SetActiveTagInput: SetActiveTagInput;
   SetActiveTagResponse: ResolverTypeWrapper<SetActiveTagResponse>;
+  SetAllTagsVisibleResponse: ResolverTypeWrapper<SetAllTagsVisibleResponse>;
   UploadFile: ResolverTypeWrapper<Scalars["UploadFile"]>;
   UploadedFileResponse: ResolverTypeWrapper<UploadedFileResponse>;
 };
@@ -400,7 +410,8 @@ export type ResolversParentTypes = {
     | ResolversParentTypes["DeleteTaskResponse"]
     | ResolversParentTypes["UpdateTaskResponse"]
     | ResolversParentTypes["UpdateTagResponse"]
-    | ResolversParentTypes["SetActiveTagResponse"];
+    | ResolversParentTypes["SetActiveTagResponse"]
+    | ResolversParentTypes["SetAllTagsVisibleResponse"];
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: AddTaskResponse;
@@ -413,6 +424,7 @@ export type ResolversParentTypes = {
   UpdateTagResponse: UpdateTagResponse;
   SetActiveTagInput: SetActiveTagInput;
   SetActiveTagResponse: SetActiveTagResponse;
+  SetAllTagsVisibleResponse: SetAllTagsVisibleResponse;
   UploadFile: Scalars["UploadFile"];
   UploadedFileResponse: UploadedFileResponse;
 };
@@ -521,6 +533,11 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationSetActiveTagArgs, "input">
   >;
+  setAllTagsVisible?: Resolver<
+    Maybe<ResolversTypes["SetAllTagsVisibleResponse"]>,
+    ParentType,
+    ContextType
+  >;
   uploadFile?: Resolver<
     Maybe<ResolversTypes["UploadedFileResponse"]>,
     ParentType,
@@ -540,7 +557,8 @@ export type MutationResponseInterfaceResolvers<
     | "DeleteTaskResponse"
     | "UpdateTaskResponse"
     | "UpdateTagResponse"
-    | "SetActiveTagResponse",
+    | "SetActiveTagResponse"
+    | "SetAllTagsVisibleResponse",
     ParentType,
     ContextType
   >;
@@ -581,6 +599,16 @@ export type QueryResolvers<
 export type SetActiveTagResponseResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["SetActiveTagResponse"] = ResolversParentTypes["SetActiveTagResponse"]
+> = {
+  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SetAllTagsVisibleResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["SetAllTagsVisibleResponse"] = ResolversParentTypes["SetAllTagsVisibleResponse"]
 > = {
   code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
@@ -677,6 +705,7 @@ export type Resolvers<ContextType = any> = {
   Position?: PositionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SetActiveTagResponse?: SetActiveTagResponseResolvers<ContextType>;
+  SetAllTagsVisibleResponse?: SetAllTagsVisibleResponseResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
   UpdatePositionsResponse?: UpdatePositionsResponseResolvers<ContextType>;

@@ -844,6 +844,18 @@
             "deprecationReason": null
           },
           {
+            "name": "setAllTagsVisible",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "SetAllTagsVisibleResponse",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "uploadFile",
             "description": null,
             "args": [
@@ -1143,6 +1155,11 @@
           {
             "kind": "OBJECT",
             "name": "SetActiveTagResponse",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "SetAllTagsVisibleResponse",
             "ofType": null
           }
         ]
@@ -1745,6 +1762,71 @@
       {
         "kind": "OBJECT",
         "name": "SetActiveTagResponse",
+        "description": null,
+        "fields": [
+          {
+            "name": "code",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "success",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "MutationResponseInterface",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "SetAllTagsVisibleResponse",
         "description": null,
         "fields": [
           {

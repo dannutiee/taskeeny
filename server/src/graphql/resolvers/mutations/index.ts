@@ -2,7 +2,11 @@ import { resolveRegisterUser, resolveLogin } from "./users";
 import { resolveAddTask, resolveDeleteTask, resolveUpdateTask } from "./tasks";
 import { Resolvers } from "../../__generated__/typeDefs";
 import { resolveUpdatePositions } from "./positions";
-import { resolveUpdateTag, resolveSetActiveTag } from "./tags";
+import {
+  resolveUpdateTag,
+  resolveSetActiveTag,
+  resolveSetAllTagsVisible,
+} from "./tags";
 import { resolveUploadFile } from "./uploadFile";
 
 export const resolvers: Resolvers = {
@@ -15,6 +19,7 @@ export const resolvers: Resolvers = {
     updateTask: resolveUpdateTask,
     updateTag: resolveUpdateTag,
     setActiveTag: resolveSetActiveTag,
+    setAllTagsVisible: resolveSetAllTagsVisible,
     uploadFile: resolveUploadFile,
   },
 };

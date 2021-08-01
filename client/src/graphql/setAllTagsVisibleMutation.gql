@@ -1,0 +1,7 @@
+mutation setAllTagsVisible {
+  setAllTagsVisible{
+    code
+    success
+    message
+  }
+}

@@ -142,6 +142,12 @@ export default gql`
     filename: String!
   }
 
+  type SetAllTagsVisibleResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
   # Root for mutation and query  ----------------------
   scalar UploadFile
 
@@ -154,6 +160,7 @@ export default gql`
     updateTask(input: UpdateTaskInput!): UpdateTaskResponse
     updateTag(input: UpdateTagInput!): UpdateTagResponse
     setActiveTag(input: SetActiveTagInput!): SetActiveTagResponse
+    setAllTagsVisible: SetAllTagsVisibleResponse
     uploadFile(file: UploadFile!): UploadedFileResponse
   }
   type Query {

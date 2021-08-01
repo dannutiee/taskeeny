@@ -5,6 +5,7 @@ import { useGetTagsQuery, Tag as TagType } from "../../graphql";
 import { TagsContext } from "../../contexts/tags";
 import {
   useUpdateTagMutation,
+  useSetAllTagsVisibleMutation,
   GetTagsDocument,
 } from "../../graphql/__generated__/typeDefs";
 
@@ -39,8 +40,15 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
 
   const [
     updateTagMutation,
-    { error, data: updateData, loading: updateLoading },
+    { error: updateError, data: updateData, loading: updateLoading },
   ] = useUpdateTagMutation({
+    refetchQueries: [{ query: GetTagsDocument }],
+  });
+
+  const [
+    setAllTagsVisibleMutation,
+    { error: setAllerror, data: setAllData, loading: setAllLoading },
+  ] = useSetAllTagsVisibleMutation({
     refetchQueries: [{ query: GetTagsDocument }],
   });
 
@@ -58,9 +66,17 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
     });
   };
 
+  const setAllTagsActive = async (): Promise<void> => {
+    await setAllTagsVisibleMutation();
+  };
+
   const onCategoryClick = (tagName: string, isActive: boolean) => {
     updateTagStatus(tagName, !isActive);
     // updateTagStatus()
+  };
+
+  const onShowAllClick = () => {
+    setAllTagsActive();
   };
 
   console.log("tagsContext", tagsContext);
@@ -68,7 +84,13 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
   //TODO finish this component
   return (
     <CategoriesWrapper>
-      <SectionTitle>All Categories</SectionTitle>
+      <SectionTitle>
+        Categories
+        <ShowAll onClick={onShowAllClick}>
+          Set All Visible
+          <Icon className="material-icons-outlined">visibility</Icon>
+        </ShowAll>
+      </SectionTitle>
       <Scrollable>
         <div>
           {tags.map((tag, index) => (
@@ -121,4 +143,20 @@ const CategoriesWrapper = styled.div`
 const Scrollable = styled.div`
   height: calc(100% - 100px);
   overflow: scroll;
+`;
+
+const ShowAll = styled.span`
+  margin-top: 3px;
+  display: block;
+  font-weight: 100;
+  cursor: pointer;
+  display: flex;
+  color: ${(p) => p.theme.font.emphasisColor};
+  font-size: ${(p) => p.theme.font.size.small};
+`;
+
+const Icon = styled.span`
+  font-weight: normal;
+  font-size: ${(p) => p.theme.font.size.medium};
+  margin-left: 7px;
 `;
