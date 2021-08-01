@@ -5,6 +5,7 @@ export interface EditTaskModalContainerProps {
   status: string;
   taskId: string;
   createdAt: string;
+  completedAt: string;
 }
 
 export interface AddNewTaskModalContainerProps {
@@ -21,4 +22,5 @@ export interface EditableContentProps {
   status?: string;
   taskId?: string;
   createdAt?: string;
+  completedAt?: string;
 }

@@ -12,6 +12,7 @@ import { DroppableColumn } from "../board";
 import {
   useUpdateTaskMutation,
   useUpdatePositionsMutation,
+  GetTasksDocument,
 } from "../../graphql/__generated__/typeDefs";
 
 interface DroppableAreaProps {
@@ -28,7 +29,9 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   const [
     updatePositionsMutation,
     { error: errorUpdatePositions, loading: updatePositionsLoading },
-  ] = useUpdatePositionsMutation({});
+  ] = useUpdatePositionsMutation({
+    refetchQueries: [{ query: GetTasksDocument }],
+  });
 
   const [
     updateTaskMutation,

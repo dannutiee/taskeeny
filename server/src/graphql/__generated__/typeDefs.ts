@@ -180,6 +180,7 @@ export type Task = {
   content: Scalars["String"];
   status: Scalars["String"];
   createdAt: Scalars["String"];
+  completedAt?: Maybe<Scalars["String"]>;
   tags: Array<Scalars["String"]>;
 };
 
@@ -637,6 +638,11 @@ export type TaskResolvers<
   content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   status?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  completedAt?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
   tags?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

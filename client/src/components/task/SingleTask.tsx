@@ -110,6 +110,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
           status={task.status}
           taskId={task.id}
           createdAt={task.createdAt}
+          completedAt={task.completedAt || ""}
         />
       )}
     </>

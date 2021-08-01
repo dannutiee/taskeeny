@@ -26,6 +26,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   updateTask,
   deleteTask,
   createdAt = "",
+  completedAt = "",
 }) => {
   const history = useHistory();
   const text = useRef("") as any;
@@ -124,6 +125,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
         status={status}
         setNewStatus={setNewStatus}
         createdAt={createdAt}
+        completedAt={completedAt}
       />
       <TagBorder tags={tags} isModalMode={true} />
       <EditContent>

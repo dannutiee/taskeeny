@@ -51,6 +51,7 @@ export default gql`
     content: String!
     status: String!
     createdAt: String!
+    completedAt: String
     tags: [String!]!
   }
   type Tag {

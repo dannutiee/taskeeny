@@ -9,6 +9,7 @@ import { taskStatus } from "../task/utils";
 interface HeaderProps {
   status: string;
   createdAt: string;
+  completedAt: string;
   setNewStatus?: (status: string) => void;
 }
 
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   status,
   setNewStatus,
   createdAt,
+  completedAt,
 }) => {
   const history = useHistory();
   const [currentStatus, setCurrentStatus] = useState(status);
@@ -52,8 +54,15 @@ export const Header: React.FC<HeaderProps> = ({
     },
   ];
 
-  const date = moment(createdAt);
-  const parsedDate = date.utc().format("DD.MM.YYYY");
+  //TODO move it to utils
+  const pareDateToDisplay = (isoStringDate: string): string => {
+    if (!isoStringDate) {
+      return "-";
+    }
+    const date = moment(isoStringDate);
+    const parsedDate = date.utc().format("DD.MM.YYYY");
+    return parsedDate;
+  };
 
   const isEditTaskModalOpened = history.location.pathname !== "/new";
 
@@ -70,10 +79,10 @@ export const Header: React.FC<HeaderProps> = ({
       {isEditTaskModalOpened && (
         <DateInfoWrapper>
           <DateItem>
-            <Label>Created:</Label> {parsedDate}
+            <Label>Created:</Label> {pareDateToDisplay(createdAt)}
           </DateItem>
           <DateItem>
-            <Label>Completed:</Label> -
+            <Label>Completed:</Label> {pareDateToDisplay(completedAt)}
           </DateItem>
         </DateInfoWrapper>
       )}

@@ -146,6 +146,12 @@ export const resolveUpdateTask: ResolveUpdateTask = async (
 
       if (status) {
         taskToUpdate.status = status;
+
+        if (status === "completed") {
+          taskToUpdate.completedAt = new Date().toISOString();
+        } else {
+          taskToUpdate.completedAt = "";
+        }
       }
 
       if (tags) {

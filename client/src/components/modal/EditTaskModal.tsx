@@ -17,6 +17,7 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
   status,
   taskId,
   createdAt,
+  completedAt,
 }) => {
   const [
     updateTaskMutation,
@@ -79,6 +80,7 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
       taskId={taskId}
       updateTask={updateTask}
       createdAt={createdAt}
+      completedAt={completedAt}
       deleteTask={deleteTask}
     />
   );

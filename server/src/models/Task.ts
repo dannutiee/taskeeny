@@ -5,6 +5,7 @@ export const taskSchema = new Schema({
   content: String,
   status: String,
   createdAt: String,
+  completedAt: String,
   tags: [String],
 });
 

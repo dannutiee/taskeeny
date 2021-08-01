@@ -3,6 +3,7 @@ export interface TaskData {
   status: string;
   content: string;
   createdAt: string;
+  completedAt: string;
   tags: string[];
 }
 
