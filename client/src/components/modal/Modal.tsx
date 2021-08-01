@@ -169,7 +169,7 @@ const CloseIcon = styled.span`
 `;
 
 const ModalWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   display: flex;
   justify-content: center;

@@ -67,29 +67,27 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
   console.log("tags", tags);
   //TODO finish this component
   return (
-    <div>
+    <CategoriesWrapper>
       <SectionTitle>All Categories</SectionTitle>
-      <CategoriesWrapper>
-        {tags.map((tag, index) => (
-          <SingleCategory
-            key={index}
-            color={tag.color}
-            disabled={!tag.isActive}
-            onClick={() => onCategoryClick(tag.name, tag.isActive)}
-          >
-            {tag.name}
-          </SingleCategory>
-        ))}
-      </CategoriesWrapper>
-    </div>
+      <Scrollable>
+        <div>
+          {tags.map((tag, index) => (
+            <SingleCategory
+              key={index}
+              color={tag.color}
+              disabled={!tag.isActive}
+              onClick={() => onCategoryClick(tag.name, tag.isActive)}
+            >
+              {tag.name}
+            </SingleCategory>
+          ))}
+        </div>
+      </Scrollable>
+    </CategoriesWrapper>
   );
 };
 
 export const CategoriesList = CategoriesListContainer;
-
-const CategoriesWrapper = styled.div`
-  margin: 25px 0;
-`;
 
 interface SingleCategoryProps {
   color: string;
@@ -109,8 +107,18 @@ const SingleCategory = styled.div<SingleCategoryProps>`
 `;
 
 const SectionTitle = styled.div`
+  margin-bottom: 20px;
   color: ${(p) => p.theme.categories.color};
   font-family: ${(p) => p.theme.categories.titleFont};
   font-weight: ${(p) => p.theme.categories.titleWeight};
   font-size: ${(p) => p.theme.categories.titleSize};
+`;
+
+const CategoriesWrapper = styled.div`
+  height: calc(100% - 260px);
+`;
+
+const Scrollable = styled.div`
+  height: calc(100% - 100px);
+  overflow: scroll;
 `;

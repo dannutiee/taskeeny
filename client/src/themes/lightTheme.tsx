@@ -3,6 +3,7 @@ import { COLORS, FONT_SIZE, SHADOWS, FONTS } from "./globalStyle";
 export const lightTheme = {
   font: {
     color: COLORS.BLACK,
+    emphasisColor: COLORS.BLUE,
     basic: {
       family: "Open Sans",
     },
