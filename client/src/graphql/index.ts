@@ -4,12 +4,15 @@ import {
   InMemoryCache,
   ApolloLink,
 } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client";
 // import { onError } from "@apollo/client/link/error";
 
 const httpLink = new HttpLink({
   uri: "http://localhost:8001/graphql",
   credentials: "same-origin",
 });
+
+const uploadLink = createUploadLink({ uri: "http://localhost:8001/graphql" });
 
 //TODO  try to connect onErrorLinks
 
@@ -45,7 +48,7 @@ const authLink = new ApolloLink((operation, forward) => {
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: ApolloLink.from([authLink, httpLink, uploadLink]),
   cache,
 });
 

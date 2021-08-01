@@ -1,3 +1,4 @@
+import { FileUpload } from "../scalars/FileUpload";
 import { gql } from "@apollo/client";
 import * as Apollo from "@apollo/client";
 export type Maybe<T> = T | null;
@@ -11,6 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  UploadFile: FileUpload;
 };
 
 export type AddTaskInput = {
@@ -65,6 +67,7 @@ export type Mutation = {
   updateTask?: Maybe<UpdateTaskResponse>;
   updateTag?: Maybe<UpdateTagResponse>;
   setActiveTag?: Maybe<SetActiveTagResponse>;
+  uploadFile?: Maybe<UploadedFileResponse>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -98,6 +101,10 @@ export type MutationUpdateTagArgs = {
 
 export type MutationSetActiveTagArgs = {
   input: SetActiveTagInput;
+};
+
+export type MutationUploadFileArgs = {
+  file: Scalars["UploadFile"];
 };
 
 export type MutationResponseInterface = {
@@ -196,6 +203,11 @@ export type UpdateTaskResponse = MutationResponseInterface & {
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
+};
+
+export type UploadedFileResponse = {
+  __typename?: "UploadedFileResponse";
+  filename: Scalars["String"];
 };
 
 export type User = {
@@ -350,6 +362,19 @@ export type UpdateTaskMutation = { __typename?: "Mutation" } & {
     { __typename?: "UpdateTaskResponse" } & Pick<
       UpdateTaskResponse,
       "code" | "success" | "message"
+    >
+  >;
+};
+
+export type UploadFileMutationVariables = Exact<{
+  file: Scalars["UploadFile"];
+}>;
+
+export type UploadFileMutation = { __typename?: "Mutation" } & {
+  uploadFile?: Maybe<
+    { __typename?: "UploadedFileResponse" } & Pick<
+      UploadedFileResponse,
+      "filename"
     >
   >;
 };
@@ -880,4 +905,54 @@ export type UpdateTaskMutationResult = Apollo.MutationResult<
 export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<
   UpdateTaskMutation,
   UpdateTaskMutationVariables
+>;
+export const UploadFileDocument = gql`
+  mutation uploadFile($file: UploadFile!) {
+    uploadFile(file: $file) {
+      filename
+    }
+  }
+`;
+export type UploadFileMutationFn = Apollo.MutationFunction<
+  UploadFileMutation,
+  UploadFileMutationVariables
+>;
+
+/**
+ * __useUploadFileMutation__
+ *
+ * To run a mutation, you first call `useUploadFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadFileMutation, { data, loading, error }] = useUploadFileMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUploadFileMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UploadFileMutation,
+    UploadFileMutationVariables
+  >
+) {
+  return Apollo.useMutation<UploadFileMutation, UploadFileMutationVariables>(
+    UploadFileDocument,
+    baseOptions
+  );
+}
+export type UploadFileMutationHookResult = ReturnType<
+  typeof useUploadFileMutation
+>;
+export type UploadFileMutationResult = Apollo.MutationResult<
+  UploadFileMutation
+>;
+export type UploadFileMutationOptions = Apollo.BaseMutationOptions<
+  UploadFileMutation,
+  UploadFileMutationVariables
 >;

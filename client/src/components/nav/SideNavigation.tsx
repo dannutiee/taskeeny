@@ -5,6 +5,7 @@ import { ThemeContext } from "../../contexts/theme";
 import { AuthContext } from "../../contexts/auth";
 import { CategoriesList } from "../categories";
 import { Dropdown } from "../dropdown";
+import { Avatar } from "./Avatar";
 
 export const SideNavigation: React.FC = () => {
   const authContext = useContext(AuthContext);
@@ -22,7 +23,7 @@ export const SideNavigation: React.FC = () => {
     <SideNavWrapper>
       <UserSection>
         <div>
-          <Avatar></Avatar>
+          <Avatar userId={authContext.user!.id} />
           <UserName>Danuta Ludwikowska</UserName>
           <Location>Kraków, Poland</Location>
         </div>
@@ -38,14 +39,6 @@ export const SideNavigation: React.FC = () => {
 };
 
 export default SideNavigation;
-
-const Avatar = styled.div`
-  width: 90px;
-  height: 90px;
-  border-radius: 50px;
-  margin-bottom: 20px;
-  background-color: #79a7ff;
-`;
 
 const SideNavWrapper = styled.div`
   z-index: 1;

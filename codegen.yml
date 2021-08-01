@@ -4,7 +4,11 @@ generates:
     plugins:
       - "typescript"
       - "typescript-resolvers"
+      - add:
+          content: "import { FileUpload } from \"../scalars/FileUpload\""        
     config:
+      scalars:
+        UploadFile: FileUpload
       withHooks: true
   client/src/graphql/__generated__/typeDefs.ts:
     documents: "client/src/graphql/*.gql"
@@ -12,10 +16,14 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
+      - add:
+          content: "import { FileUpload } from \"../scalars/FileUpload\""    
     config:
       withHooks: true
       withHOC: false
       withComponent: false
+      scalars:
+        UploadFile: FileUpload
   server/src/graphql/graphql.schema.json:
     plugins:
       - "introspection"

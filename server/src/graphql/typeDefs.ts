@@ -138,7 +138,12 @@ export default gql`
     user: User!
   }
 
+  type UploadedFileResponse {
+    filename: String!
+  }
+
   # Root for mutation and query  ----------------------
+  scalar UploadFile
 
   type Mutation {
     registerUser(input: RegisterInput!): User
@@ -149,6 +154,7 @@ export default gql`
     updateTask(input: UpdateTaskInput!): UpdateTaskResponse
     updateTag(input: UpdateTagInput!): UpdateTagResponse
     setActiveTag(input: SetActiveTagInput!): SetActiveTagResponse
+    uploadFile(file: UploadFile!): UploadedFileResponse
   }
   type Query {
     users: [User]

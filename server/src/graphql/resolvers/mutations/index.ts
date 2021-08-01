@@ -3,6 +3,7 @@ import { resolveAddTask, resolveDeleteTask, resolveUpdateTask } from "./tasks";
 import { Resolvers } from "../../__generated__/typeDefs";
 import { resolveUpdatePositions } from "./positions";
 import { resolveUpdateTag, resolveSetActiveTag } from "./tags";
+import { resolveUploadFile } from "./uploadFile";
 
 export const resolvers: Resolvers = {
   Mutation: {
@@ -14,5 +15,6 @@ export const resolvers: Resolvers = {
     updateTask: resolveUpdateTask,
     updateTag: resolveUpdateTag,
     setActiveTag: resolveSetActiveTag,
+    uploadFile: resolveUploadFile,
   },
 };

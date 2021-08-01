@@ -1,4 +1,9 @@
-import { GraphQLResolveInfo } from "graphql";
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from "graphql";
+import { FileUpload } from "../scalars/FileUpload";
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -14,6 +19,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  UploadFile: FileUpload;
 };
 
 export type AddTaskInput = {
@@ -68,6 +74,7 @@ export type Mutation = {
   updateTask?: Maybe<UpdateTaskResponse>;
   updateTag?: Maybe<UpdateTagResponse>;
   setActiveTag?: Maybe<SetActiveTagResponse>;
+  uploadFile?: Maybe<UploadedFileResponse>;
 };
 
 export type MutationRegisterUserArgs = {
@@ -101,6 +108,10 @@ export type MutationUpdateTagArgs = {
 
 export type MutationSetActiveTagArgs = {
   input: SetActiveTagInput;
+};
+
+export type MutationUploadFileArgs = {
+  file: Scalars["UploadFile"];
 };
 
 export type MutationResponseInterface = {
@@ -199,6 +210,11 @@ export type UpdateTaskResponse = MutationResponseInterface & {
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
+};
+
+export type UploadedFileResponse = {
+  __typename?: "UploadedFileResponse";
+  filename: Scalars["String"];
 };
 
 export type User = {
@@ -359,6 +375,8 @@ export type ResolversTypes = {
   UpdateTagResponse: ResolverTypeWrapper<UpdateTagResponse>;
   SetActiveTagInput: SetActiveTagInput;
   SetActiveTagResponse: ResolverTypeWrapper<SetActiveTagResponse>;
+  UploadFile: ResolverTypeWrapper<Scalars["UploadFile"]>;
+  UploadedFileResponse: ResolverTypeWrapper<UploadedFileResponse>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -395,6 +413,8 @@ export type ResolversParentTypes = {
   UpdateTagResponse: UpdateTagResponse;
   SetActiveTagInput: SetActiveTagInput;
   SetActiveTagResponse: SetActiveTagResponse;
+  UploadFile: Scalars["UploadFile"];
+  UploadedFileResponse: UploadedFileResponse;
 };
 
 export type AddTaskResponseResolvers<
@@ -500,6 +520,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationSetActiveTagArgs, "input">
+  >;
+  uploadFile?: Resolver<
+    Maybe<ResolversTypes["UploadedFileResponse"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUploadFileArgs, "file">
   >;
 };
 
@@ -615,6 +641,19 @@ export type UpdateTaskResponseResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UploadedFileResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UploadedFileResponse"] = ResolversParentTypes["UploadedFileResponse"]
+> = {
+  filename?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface UploadFileScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["UploadFile"], any> {
+  name: "UploadFile";
+}
+
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
@@ -643,6 +682,8 @@ export type Resolvers<ContextType = any> = {
   UpdatePositionsResponse?: UpdatePositionsResponseResolvers<ContextType>;
   UpdateTagResponse?: UpdateTagResponseResolvers<ContextType>;
   UpdateTaskResponse?: UpdateTaskResponseResolvers<ContextType>;
+  UploadedFileResponse?: UploadedFileResponseResolvers<ContextType>;
+  UploadFile?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
 };
 
