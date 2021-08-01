@@ -68,11 +68,19 @@ const DroppableColumnWrapper = styled.div`
   &.droppable-column {
     width: 100%;
     margin: 25px 30px;
+    margin-top: 0px;
   }
 `;
 
 const ColumnTitle = styled.div`
   text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f6f7fc;
+  height: 40px;
+  border: 5px solid #f6f7fc;
+  padding-top: 25px;
   color: ${(p) => p.theme.column.titleColor};
   font-family: ${(p) => p.theme.column.titleFont};
   font-weight: ${(p) => p.theme.column.titleWeight};

@@ -41,7 +41,7 @@ export const SideNavigation: React.FC = () => {
 export default SideNavigation;
 
 const SideNavWrapper = styled.div`
-  z-index: 1;
+  z-index: 10;
   padding: 25px 10px 25px 25px;
   position: fixed;
   height: 100vh;

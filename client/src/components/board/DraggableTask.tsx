@@ -33,7 +33,7 @@ export const DraggableTask: React.FC<SingleTaskProps> = ({ task, index }) => {
 
 const DraggableTaskWrapper = styled.div`
   &.draggable-task {
-    margin: 20px 0;
+    margin: 20px 5px;
     border: none;
     border-radius: 10px;
     min-height: 120px;
