@@ -34,10 +34,10 @@ export const SideNavigation: React.FC = () => {
       </UserSection>
 
       <CategoriesList />
-      <ProductLogo>
-        <Brand>BlueBeeApp</Brand>
-        <Product>My taskify</Product>
-      </ProductLogo>
+      <LogoWrapper>
+        {" "}
+        <Brand>TasKeeny</Brand>
+      </LogoWrapper>
     </SideNavWrapper>
   );
 };
@@ -78,7 +78,7 @@ const Location = styled.span`
   font-size: ${(p) => p.theme.font.size.small};
 `;
 
-const ProductLogo = styled.div`
+const LogoWrapper = styled.div`
   height: 50px;
   width: 100%;
 `;

@@ -16,6 +16,7 @@ export const lightTheme = {
       medium: FONT_SIZE.medium,
       big: FONT_SIZE.big,
       large: FONT_SIZE.large,
+      huge: FONT_SIZE.huge,
     },
   },
   dashboard: {
@@ -88,6 +89,42 @@ export const lightTheme = {
     background: COLORS.WHITE,
     menuItem: {
       height: "30px",
+    },
+  },
+  formInput: {
+    borderRadius: "4px",
+    borderColor: COLORS.GREY_LIGHT_1,
+    label: {
+      color: COLORS.GREY_MEDIUM,
+    },
+  },
+  formButton: {
+    background: COLORS.BLUE,
+    borderRadius: "4px",
+    textColor: COLORS.WHITE,
+  },
+  auth: {
+    bg: COLORS.BLUE_LIGHT_1,
+    card: {
+      shadow: SHADOWS.primary,
+      bg: COLORS.WHITE,
+      borderRadius: "4px",
+      padding: "20px",
+    },
+    form: {
+      padding: "20px",
+    },
+    input: {
+      padding: "10px",
+    },
+    bar: {
+      padding: "30px",
+    },
+    footer: {
+      borderColor: COLORS.GREY_LIGHT_1,
+      rights: {
+        fontColor: COLORS.GREY_MEDIUM,
+      },
     },
   },
 };

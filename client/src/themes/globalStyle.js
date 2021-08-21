@@ -51,6 +51,7 @@ export const FONT_SIZE = {
   medium: "16px",
   big: "18px",
   large: "20px",
+  huge: "24px",
 };
 
 export const SHADOWS = {
