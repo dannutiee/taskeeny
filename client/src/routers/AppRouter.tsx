@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 import App from "../components/app/App";
-import { Login } from "../pages/login/Login";
-import { Register } from "../pages/Register";
+import { Welcome } from "../components/auth/Welcome";
 import { AuthContextProvider } from "../contexts/auth";
 import { AuthRoute } from "./AuthRoute";
 import { Theme } from "../themes";
@@ -22,8 +21,8 @@ const AppRouter = () => (
         <Theme>
           <AppBody>
             <Switch>
-              <AuthRoute path="/login" component={Login} exact />
-              <AuthRoute path="/register" component={Register} exact />
+              <AuthRoute path="/login" component={Welcome} exact />
+              <AuthRoute path="/register" component={Welcome} exact />
               <Route path="/" component={App} />
             </Switch>
           </AppBody>

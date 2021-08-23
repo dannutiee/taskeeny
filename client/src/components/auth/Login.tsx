@@ -1,13 +1,10 @@
 import React, { useContext, useState } from "react";
-import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { useLoginMutation } from "../../graphql/__generated__/typeDefs";
 import { AuthContext } from "../../contexts/auth";
 import { useForm } from "../../utils/useForm";
-import { Input } from "../../components/utils";
-import { Footer } from "./Footer";
-import { Form, FormType, Card } from "../utils";
+import { Input, Form, FormType } from "../utils";
 
 export interface LoginComponentProps {
   handleLogin: (email: string, password: string) => void;
@@ -59,45 +56,21 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
   }
 
   return (
-    <MainWrapper>
-      <TopBar />
-      <Card message={error} type={FormType.LOGIN}>
-        <Form onSubmit={onSubmit} type={FormType.LOGIN}>
-          <Input
-            name="email"
-            value={values.email}
-            onChange={onChange}
-            label="Email address"
-          />
-          <Input
-            name="password"
-            value={values.password}
-            onChange={onChange}
-            label="Password"
-          />
-        </Form>
-      </Card>
-      <Footer />
-    </MainWrapper>
+    <Form onSubmit={onSubmit} type={FormType.LOGIN}>
+      <Input
+        name="email"
+        value={values.email}
+        onChange={onChange}
+        label="Email address"
+      />
+      <Input
+        name="password"
+        value={values.password}
+        onChange={onChange}
+        label="Password"
+      />
+    </Form>
   );
 };
 
 export const Login = LoginContainer;
-
-const TopBar = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: ${(p) => p.theme.auth.bar.padding};
-`;
-
-const MainWrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
-  background: ${(p) => p.theme.auth.bg};
-`;

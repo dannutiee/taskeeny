@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Footer: React.FC = () => {
   return (
     <FooterWrapper>
-      <Rights>{`The code of this app is fully available on my github <3`}</Rights>
+      <div />
       <Rights>Copyright © Danuta Ludwikowska | 2021</Rights>
     </FooterWrapper>
   );
@@ -21,5 +21,4 @@ const FooterWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid ${(p) => p.theme.auth.footer.borderColor};
 `;

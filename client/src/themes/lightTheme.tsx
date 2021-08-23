@@ -104,9 +104,9 @@ export const lightTheme = {
     textColor: COLORS.WHITE,
   },
   auth: {
-    bg: COLORS.BLUE_LIGHT_1,
+    bg: COLORS.BLUE,
     card: {
-      shadow: SHADOWS.primary,
+      shadow: SHADOWS.modal,
       bg: COLORS.WHITE,
       borderRadius: "4px",
       padding: "20px",
@@ -123,7 +123,7 @@ export const lightTheme = {
     footer: {
       borderColor: COLORS.GREY_LIGHT_1,
       rights: {
-        fontColor: COLORS.GREY_MEDIUM,
+        fontColor: COLORS.WHITE,
       },
     },
   },

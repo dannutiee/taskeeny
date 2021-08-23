@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Button } from "../../components/utils";
+import { Button } from ".";
 
 export enum FormType {
   LOGIN,
