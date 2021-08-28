@@ -15,12 +15,11 @@ export const Input: React.FC<InputProps> = ({
   label,
 }) => (
   <div>
-    <FormInputLabel>{label}</FormInputLabel>
     <FormInput
       name={name}
       value={value}
       onChange={onChange}
-      placeholder="&nbsp;"
+      placeholder={label}
     />
   </div>
 );
@@ -34,14 +33,13 @@ const FormInput = styled.input`
     padding: ${(p) => p.theme.auth.input.padding};
     border-radius: ${(p) => p.theme.formInput.borderRadius};
     border-color: ${(p) => p.theme.formInput.borderColor};
-    :focus {
-      border-color: blue;
-    }
-    }
     transition: all 0.4s;
+    :focus {
+        border-color: ${(p) => p.theme.auth.input.focusColor};
+        ::placeholder {
+            color: ${(p) => p.theme.auth.input.focusColor};
+            transition: all 0.4s;
+        }
+      }
+    }
   `;
-
-const FormInputLabel = styled.span`
-  font-size: ${(p) => p.theme.font.size.tiny};
-  color: ${(p) => p.theme.formInput.label.color};
-`;

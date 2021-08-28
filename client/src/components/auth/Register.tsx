@@ -69,6 +69,24 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
         onChange={onChange}
         label="Name"
       />
+      <Input
+        name="surname"
+        value={values.email}
+        onChange={onChange}
+        label="Surname"
+      />
+      <Input
+        name="email"
+        value={values.email}
+        onChange={onChange}
+        label="E-mail"
+      />
+      <Input
+        name="password"
+        value={values.email}
+        onChange={onChange}
+        label="Password"
+      />
     </Form>
   );
 };

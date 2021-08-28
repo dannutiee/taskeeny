@@ -110,12 +110,14 @@ export const lightTheme = {
       bg: COLORS.WHITE,
       borderRadius: "4px",
       padding: "20px",
+      width: "360px",
     },
     form: {
       padding: "20px",
     },
     input: {
       padding: "10px",
+      focusColor: COLORS.BLUE,
     },
     bar: {
       padding: "30px",

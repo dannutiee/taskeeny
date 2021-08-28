@@ -57,36 +57,54 @@ export const FlipCard: React.FC = () => {
   const isFlipped = authType === AuthType.REGISTER;
 
   return (
-    <Scene>
-      <CardContent className={isFlipped ? "is-flipped" : ""}>
-        <CardFaceFront>
-          <CardFaceComponent
-            text={"-- or if you don't have an account yet --"}
-            onButtonClick={onCardClick}
-            content={<Login />}
-            buttonText={"Create an account"}
-          />
-        </CardFaceFront>
-        <CardFaceBack>
-          <CardFaceComponent
-            text={"-- or if you already have an account --"}
-            onButtonClick={onCardClick}
-            content={<Register />}
-            buttonText={"Log in to your account"}
-          />
-        </CardFaceBack>
-      </CardContent>
-    </Scene>
+    <FlipCardWrapper>
+      <Scene>
+        <CardContent className={isFlipped ? "is-flipped" : ""}>
+          <CardFaceFront>
+            <CardFaceComponent
+              text={"-- or if you don't have an account yet --"}
+              onButtonClick={onCardClick}
+              content={<Login />}
+              buttonText={"Create an account"}
+            />
+          </CardFaceFront>
+          <CardFaceBack>
+            <CardFaceComponent
+              text={"-- or if you already have an account --"}
+              onButtonClick={onCardClick}
+              content={<Register />}
+              buttonText={"Log in to your account"}
+            />
+          </CardFaceBack>
+        </CardContent>
+      </Scene>
+    </FlipCardWrapper>
   );
 };
 
+const FlipCardWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const CardFaceFront = styled.div`
   backface-visibility: hidden;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
 `;
 
 const CardFaceBack = styled.div`
   backface-visibility: hidden;
   transform: rotateY(180deg);
+  height: 100%;
+  display: flex;
+  align-items: center;
 `;
 
 const CardContent = styled.div`
@@ -101,9 +119,9 @@ const CardContent = styled.div`
 `;
 
 const Scene = styled.div`
-  min-width: 20rem;
-  min-height: 360px;
+  height: 100%;
   perspective: 600px;
+  width: ${(p) => p.theme.auth.card.width};
 `;
 
 const CardWrapper = styled.div`

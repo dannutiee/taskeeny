@@ -14,6 +14,8 @@ export const Welcome: React.FC = () => {
   );
 };
 
+//TODO verify if  flex is still needed if flipcard is absolute now
+
 const TopBar = styled.div`
   width: 100%;
   box-sizing: border-box;
