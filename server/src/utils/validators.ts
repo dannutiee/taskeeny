@@ -1,7 +1,8 @@
 import { emailRegEx } from "./regex";
 
 interface Errors {
-  username?: string;
+  name?: string;
+  surname?: string;
   email?: string;
   password?: string;
   general?: string;
@@ -19,11 +20,11 @@ export const validateRegisterInput = (
   const errors: Errors = {};
 
   if (name.trim() === "") {
-    errors.username = "User name must not be empty";
+    errors.name = "User name must not be empty";
   }
 
   if (surname.trim() === "") {
-    errors.username = "User surname must not be empty";
+    errors.surname = "User surname must not be empty";
   }
 
   if (email.trim() === "") {
@@ -48,7 +49,7 @@ export const validateLoginInput = (email: string, password: string) => {
   const errors: Errors = {};
 
   if (email.trim() === "") {
-    errors.username = "Username must not be empty";
+    errors.email = "Email must not be empty";
   }
 
   if (password === "") {

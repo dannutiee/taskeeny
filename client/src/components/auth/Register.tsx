@@ -5,26 +5,33 @@ import {
   useRegisterMutation,
   RegisterInput,
 } from "../../graphql/__generated__/typeDefs";
-import { useForm } from "../../utils/useForm";
+import { useForm, getErrors } from "../../utils";
 import { Input, Form, FormType } from "../utils";
+
+interface RegisterErrors {
+  name?: string;
+  surname?: string;
+  email?: string;
+  password?: string;
+}
 
 export interface RegisterComponentProps {
   handleRegister: (input: RegisterInput) => void;
   loading: boolean;
-  error: string;
+  errors: RegisterErrors;
 }
 
 const RegisterContainer: React.FC = () => {
   const history = useHistory();
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [registerMutation, { loading }] = useRegisterMutation({
     onCompleted: () => {
       history.replace("/login?success");
       location.reload();
     },
-    onError: (error) => {
-      setError("Failed to login");
+    onError: (e) => {
+      setErrors(getErrors(e));
     },
   });
 
@@ -46,14 +53,14 @@ const RegisterContainer: React.FC = () => {
     <RegisterComponent
       handleRegister={handleRegister}
       loading={loading}
-      error={error}
+      errors={errors}
     />
   );
 };
 
 const RegisterComponent: React.FC<RegisterComponentProps> = ({
   handleRegister,
-  error,
+  errors,
 }) => {
   const { onChange, onSubmit, values } = useForm(registerCallback, {
     email: "",

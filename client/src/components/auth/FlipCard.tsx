@@ -140,6 +140,7 @@ const CardWrapper = styled.div`
 
 const Brand = styled.div`
   text-align: center;
+  padding: 10px;
   font-size: ${(p) => p.theme.font.size.huge};
   color: ${(p) => p.theme.font.emphasisColor};
 `;
