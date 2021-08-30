@@ -24,7 +24,9 @@ export const SideNavigation: React.FC = () => {
       <UserSection>
         <div>
           <Avatar userId={authContext.user!.id} />
-          <UserName>Danuta Ludwikowska</UserName>
+          <UserName>
+            {authContext.user!.name} {authContext.user!.surname}
+          </UserName>
           <Location>Kraków, Poland</Location>
         </div>
         <Dropdown button>

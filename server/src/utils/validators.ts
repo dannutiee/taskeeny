@@ -10,15 +10,20 @@ interface Errors {
 // TODO I woild like to remove usernmae from User
 
 export const validateRegisterInput = (
-  username: string,
+  name: string,
+  surname: string,
   email: string,
   password: string,
   confirmPassword: string
 ) => {
   const errors: Errors = {};
 
-  if (username.trim() === "") {
-    errors.username = "Username must not be empty";
+  if (name.trim() === "") {
+    errors.username = "User name must not be empty";
+  }
+
+  if (surname.trim() === "") {
+    errors.username = "User surname must not be empty";
   }
 
   if (email.trim() === "") {

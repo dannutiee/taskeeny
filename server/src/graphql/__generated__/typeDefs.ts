@@ -66,7 +66,7 @@ export type LoginResponse = MutationResponseInterface & {
 
 export type Mutation = {
   __typename?: "Mutation";
-  registerUser?: Maybe<User>;
+  registerUser?: Maybe<RegisterUserResponse>;
   login?: Maybe<LoginResponse>;
   addTask?: Maybe<AddTaskResponse>;
   updatePositions?: Maybe<UpdatePositionsResponse>;
@@ -134,12 +134,19 @@ export type Query = {
 };
 
 export type RegisterInput = {
-  username: Scalars["String"];
-  password: Scalars["String"];
-  confirmPassword: Scalars["String"];
   email: Scalars["String"];
   name: Scalars["String"];
   surname: Scalars["String"];
+  password: Scalars["String"];
+  confirmPassword: Scalars["String"];
+};
+
+export type RegisterUserResponse = MutationResponseInterface & {
+  __typename?: "RegisterUserResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  user: User;
 };
 
 export type SetActiveTagInput = {
@@ -364,8 +371,9 @@ export type ResolversTypes = {
   Position: ResolverTypeWrapper<Position>;
   Mutation: ResolverTypeWrapper<{}>;
   RegisterInput: RegisterInput;
-  LoginResponse: ResolverTypeWrapper<LoginResponse>;
+  RegisterUserResponse: ResolverTypeWrapper<RegisterUserResponse>;
   MutationResponseInterface:
+    | ResolversTypes["RegisterUserResponse"]
     | ResolversTypes["LoginResponse"]
     | ResolversTypes["AddTaskResponse"]
     | ResolversTypes["UpdatePositionsResponse"]
@@ -374,6 +382,7 @@ export type ResolversTypes = {
     | ResolversTypes["UpdateTagResponse"]
     | ResolversTypes["SetActiveTagResponse"]
     | ResolversTypes["SetAllTagsVisibleResponse"];
+  LoginResponse: ResolverTypeWrapper<LoginResponse>;
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: ResolverTypeWrapper<AddTaskResponse>;
@@ -404,8 +413,9 @@ export type ResolversParentTypes = {
   Position: Position;
   Mutation: {};
   RegisterInput: RegisterInput;
-  LoginResponse: LoginResponse;
+  RegisterUserResponse: RegisterUserResponse;
   MutationResponseInterface:
+    | ResolversParentTypes["RegisterUserResponse"]
     | ResolversParentTypes["LoginResponse"]
     | ResolversParentTypes["AddTaskResponse"]
     | ResolversParentTypes["UpdatePositionsResponse"]
@@ -414,6 +424,7 @@ export type ResolversParentTypes = {
     | ResolversParentTypes["UpdateTagResponse"]
     | ResolversParentTypes["SetActiveTagResponse"]
     | ResolversParentTypes["SetAllTagsVisibleResponse"];
+  LoginResponse: LoginResponse;
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
   AddTaskResponse: AddTaskResponse;
@@ -488,7 +499,7 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
 > = {
   registerUser?: Resolver<
-    Maybe<ResolversTypes["User"]>,
+    Maybe<ResolversTypes["RegisterUserResponse"]>,
     ParentType,
     ContextType,
     RequireFields<MutationRegisterUserArgs, "input">
@@ -553,6 +564,7 @@ export type MutationResponseInterfaceResolvers<
   ParentType extends ResolversParentTypes["MutationResponseInterface"] = ResolversParentTypes["MutationResponseInterface"]
 > = {
   __resolveType: TypeResolveFn<
+    | "RegisterUserResponse"
     | "LoginResponse"
     | "AddTaskResponse"
     | "UpdatePositionsResponse"
@@ -596,6 +608,17 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+};
+
+export type RegisterUserResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["RegisterUserResponse"] = ResolversParentTypes["RegisterUserResponse"]
+> = {
+  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SetActiveTagResponseResolvers<
@@ -712,6 +735,7 @@ export type Resolvers<ContextType = any> = {
   MutationResponseInterface?: MutationResponseInterfaceResolvers<ContextType>;
   Position?: PositionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RegisterUserResponse?: RegisterUserResponseResolvers<ContextType>;
   SetActiveTagResponse?: SetActiveTagResponseResolvers<ContextType>;
   SetAllTagsVisibleResponse?: SetAllTagsVisibleResponseResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;

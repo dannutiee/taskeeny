@@ -59,7 +59,7 @@ export type LoginResponse = MutationResponseInterface & {
 
 export type Mutation = {
   __typename?: "Mutation";
-  registerUser?: Maybe<User>;
+  registerUser?: Maybe<RegisterUserResponse>;
   login?: Maybe<LoginResponse>;
   addTask?: Maybe<AddTaskResponse>;
   updatePositions?: Maybe<UpdatePositionsResponse>;
@@ -127,12 +127,19 @@ export type Query = {
 };
 
 export type RegisterInput = {
-  username: Scalars["String"];
-  password: Scalars["String"];
-  confirmPassword: Scalars["String"];
   email: Scalars["String"];
   name: Scalars["String"];
   surname: Scalars["String"];
+  password: Scalars["String"];
+  confirmPassword: Scalars["String"];
+};
+
+export type RegisterUserResponse = MutationResponseInterface & {
+  __typename?: "RegisterUserResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  user: User;
 };
 
 export type SetActiveTagInput = {
@@ -314,6 +321,24 @@ export type LoginMutation = { __typename?: "Mutation" } & {
   login?: Maybe<
     { __typename?: "LoginResponse" } & Pick<
       LoginResponse,
+      "code" | "success" | "message"
+    > & {
+        user: { __typename?: "User" } & Pick<
+          User,
+          "id" | "name" | "surname" | "email" | "createdAt" | "token"
+        >;
+      }
+  >;
+};
+
+export type RegisterMutationVariables = Exact<{
+  input: RegisterInput;
+}>;
+
+export type RegisterMutation = { __typename?: "Mutation" } & {
+  registerUser?: Maybe<
+    { __typename?: "RegisterUserResponse" } & Pick<
+      RegisterUserResponse,
       "code" | "success" | "message"
     > & {
         user: { __typename?: "User" } & Pick<
@@ -724,6 +749,62 @@ export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<
   LoginMutation,
   LoginMutationVariables
+>;
+export const RegisterDocument = gql`
+  mutation register($input: RegisterInput!) {
+    registerUser(input: $input) {
+      code
+      success
+      message
+      user {
+        id
+        name
+        surname
+        email
+        createdAt
+        token
+      }
+    }
+  }
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RegisterMutation,
+    RegisterMutationVariables
+  >
+) {
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+    RegisterDocument,
+    baseOptions
+  );
+}
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
 >;
 export const SetActiveTagDocument = gql`
   mutation setActiveTag($input: SetActiveTagInput!) {

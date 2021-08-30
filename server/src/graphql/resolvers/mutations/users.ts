@@ -30,13 +30,12 @@ const generateToken = (user: any) =>
 
 export const resolveRegisterUser: ResolveRegisterUser = async (
   _parent,
-  { input: { username, email, password, confirmPassword, name, surname } }
+  { input: { email, password, confirmPassword, name, surname } }
 ) => {
   const hashedPassword = await bcrypt.hash(password, 12);
 
   const newUser = new User({
     _id: new mongoose.Types.ObjectId(),
-    username,
     name,
     surname,
     password: hashedPassword,
@@ -46,7 +45,8 @@ export const resolveRegisterUser: ResolveRegisterUser = async (
 
   // validate user data
   const { errors, valid } = validateRegisterInput(
-    username,
+    name,
+    surname,
     email,
     password,
     confirmPassword
@@ -56,17 +56,17 @@ export const resolveRegisterUser: ResolveRegisterUser = async (
   }
 
   // Make sure user doesn not already exist
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
   if (user) {
-    throw new UserInputError("Username is taken", {
+    throw new UserInputError("Account with this email already exist", {
       errors: {
-        username: "This username is taken",
+        email: "This email is taken",
       },
     });
   }
 
   // save new user and create an account
-  const result = newUser.save((err: any) => {
+  const result = await newUser.save((err: any) => {
     if (err) throw new Error(err);
 
     const newAccount = new Account({
@@ -79,13 +79,19 @@ export const resolveRegisterUser: ResolveRegisterUser = async (
     });
   });
 
-  // hash password and create an auth token
-  const token = generateToken(result);
-
   return {
-    ...result._doc,
-    id: result.id,
-    token,
+    ...result,
+    code: "200",
+    success: true,
+    message: "Tasks succesfully created",
+    user: {
+      id: newUser._id,
+      name: newUser.name,
+      surname: newUser.surname,
+      email: newUser.email,
+      createdAt: newUser.createdAt,
+      token: "",
+    },
   };
 };
 
@@ -114,7 +120,7 @@ export const resolveLogin: ResolveLoginUser = async (
   const token = generateToken({
     id: user.id,
     name: user.name,
-    surnmae: user.surname,
+    surname: user.surname,
     email: user.email,
     createdAt: user.createdAt,
   });

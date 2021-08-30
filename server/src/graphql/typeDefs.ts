@@ -4,12 +4,11 @@ export default gql`
   # Inputs  -----------------------------------
 
   input RegisterInput {
-    username: String!
-    password: String!
-    confirmPassword: String!
     email: String!
     name: String!
     surname: String!
+    password: String!
+    confirmPassword: String!
   }
 
   input TagInput {
@@ -140,6 +139,13 @@ export default gql`
     user: User!
   }
 
+  type RegisterUserResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User!
+  }
+
   type UploadedFileResponse {
     filename: String!
   }
@@ -154,7 +160,7 @@ export default gql`
   scalar UploadFile
 
   type Mutation {
-    registerUser(input: RegisterInput!): User
+    registerUser(input: RegisterInput!): RegisterUserResponse
     login(email: String!, password: String!): LoginResponse
     addTask(input: AddTaskInput!): AddTaskResponse
     updatePositions(input: UpdatePositionsInput!): UpdatePositionsResponse

@@ -1,46 +1,50 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { useLoginMutation } from "../../graphql/__generated__/typeDefs";
-import { AuthContext } from "../../contexts/auth";
+import {
+  useRegisterMutation,
+  RegisterInput,
+} from "../../graphql/__generated__/typeDefs";
 import { useForm } from "../../utils/useForm";
 import { Input, Form, FormType } from "../utils";
 
-//TODO remove whole content of login and implement register !!!!!!!!
-
 export interface RegisterComponentProps {
-  handleLogin: (email: string, password: string) => void;
+  handleRegister: (input: RegisterInput) => void;
   loading: boolean;
   error: string;
 }
 
 const RegisterContainer: React.FC = () => {
   const history = useHistory();
-  const authContext = useContext(AuthContext);
   const [error, setError] = useState("");
 
-  const [loginMutation, { loading }] = useLoginMutation({
-    onCompleted: ({ login }) => {
-      authContext.login(login!.user);
-      history.push("/");
+  const [registerMutation, { loading }] = useRegisterMutation({
+    onCompleted: () => {
+      history.replace("/login?success");
+      location.reload();
     },
     onError: (error) => {
       setError("Failed to login");
     },
   });
 
-  const handleLogin = (email: string, password: string): void => {
-    loginMutation({
+  const handleRegister = (input: RegisterInput): void => {
+    registerMutation({
       variables: {
-        email,
-        password,
+        input: {
+          name: input.name,
+          surname: input.surname,
+          email: input.email,
+          password: input.password,
+          confirmPassword: input.confirmPassword,
+        },
       },
     });
   };
 
   return (
     <RegisterComponent
-      handleLogin={handleLogin}
+      handleRegister={handleRegister}
       loading={loading}
       error={error}
     />
@@ -48,30 +52,36 @@ const RegisterContainer: React.FC = () => {
 };
 
 const RegisterComponent: React.FC<RegisterComponentProps> = ({
-  handleLogin,
+  handleRegister,
   error,
 }) => {
-  const { onChange, onSubmit, values } = useForm(loginCallback, {
+  const { onChange, onSubmit, values } = useForm(registerCallback, {
     email: "",
+    name: "",
+    surname: "",
     password: "",
+    confirmPassword: "",
   });
 
   // hoisted to useForm
-  function loginCallback() {
-    handleLogin(values.email, values.password);
+  function registerCallback() {
+    const registerInput = {
+      email: values.email,
+      name: values.name,
+      surname: values.surname,
+      password: values.password,
+      confirmPassword: values.confirmPassword,
+    };
+
+    handleRegister(registerInput);
   }
 
   return (
     <Form onSubmit={onSubmit} type={FormType.REGISTER}>
-      <Input
-        name="name"
-        value={values.email}
-        onChange={onChange}
-        label="Name"
-      />
+      <Input name="name" value={values.name} onChange={onChange} label="Name" />
       <Input
         name="surname"
-        value={values.email}
+        value={values.surname}
         onChange={onChange}
         label="Surname"
       />
@@ -83,9 +93,15 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
       />
       <Input
         name="password"
-        value={values.email}
+        value={values.password}
         onChange={onChange}
         label="Password"
+      />
+      <Input
+        name="confirmPassword"
+        value={values.confirmPassword}
+        onChange={onChange}
+        label="Confirm password"
       />
     </Form>
   );
