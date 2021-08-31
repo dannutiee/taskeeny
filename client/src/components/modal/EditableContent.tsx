@@ -154,6 +154,7 @@ export const TaskTextArea = styled.textarea`
   border-color: ${(p) => p.theme.modal.textarea.border};
   padding: 5px;
   resize: none;
+  color: ${(p) => p.theme.modal.textarea.color};
   &:focus-visible {
     outline: none;
     border-color: ${(p) => p.theme.modal.textarea.borderFocus};

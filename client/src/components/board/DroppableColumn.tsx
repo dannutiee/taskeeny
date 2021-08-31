@@ -77,10 +77,10 @@ const ColumnTitle = styled.div`
   position: sticky;
   top: 0;
   z-index: 1;
-  background: #f6f7fc;
   height: 40px;
-  border: 5px solid #f6f7fc;
   padding-top: 25px;
+  border: 5px solid ${(p) => p.theme.column.background};
+  background: ${(p) => p.theme.column.background};
   color: ${(p) => p.theme.column.titleColor};
   font-family: ${(p) => p.theme.column.titleFont};
   font-weight: ${(p) => p.theme.column.titleWeight};

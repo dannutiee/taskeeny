@@ -46,6 +46,7 @@ export const lightTheme = {
     nameColor: COLORS.GREY_LIGHT,
   },
   column: {
+    background: COLORS.BLUE_LIGHT_1,
     titleColor: COLORS.BLACK,
     titleFont: FONTS.headers,
     titleWeight: 600,
@@ -68,6 +69,7 @@ export const lightTheme = {
     textarea: {
       border: COLORS.WHITE,
       borderFocus: "#f1f4fc",
+      color: COLORS.BLACK,
     },
   },
   task: {
@@ -89,6 +91,7 @@ export const lightTheme = {
     background: COLORS.WHITE,
     menuItem: {
       height: "30px",
+      color: COLORS.BLACK,
     },
   },
   formInput: {

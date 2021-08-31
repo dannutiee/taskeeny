@@ -1,58 +1,41 @@
-import { COLORS, FONT_SIZE, SHADOWS, FONTS } from "./globalStyle";
+import { COLORS, SHADOWS } from "./globalStyle";
+import { lightTheme } from "./lightTheme";
 
 export const darkTheme = {
   font: {
+    ...lightTheme.font,
     color: COLORS.GREY_LIGHT_1,
-    basic: {
-      family: "Open Sans",
-    },
-    header: {
-      family: FONTS.headers,
-    },
-    size: {
-      tiny: FONT_SIZE.tiny,
-      small: FONT_SIZE.small,
-      medium: FONT_SIZE.medium,
-      big: FONT_SIZE.big,
-      large: FONT_SIZE.large,
-    },
   },
   dashboard: {
-    bg: COLORS.GREY_DARK_2,
+    ...lightTheme.dashboard,
+    bg: COLORS.BLUE_DEEP_DARK,
   },
   nav: {
-    bg: COLORS.GREY_DARK_2,
-    borderColor: COLORS.GREY_DARK,
-    shadow: SHADOWS.primary,
-    width: "290px",
+    ...lightTheme.nav,
+    bg: COLORS.BLUE_DEEP_DARK,
+    borderColor: COLORS.BLUE_DARK,
     userName: {
+      ...lightTheme.nav.userName,
       color: COLORS.BLUE,
-      size: FONT_SIZE.big,
-      weight: 600,
     },
   },
   categories: {
+    ...lightTheme.categories,
     color: COLORS.BLUE,
-    titleFont: FONTS.headers,
-    titleWeight: 600,
-    titleSize: FONT_SIZE.big,
-    disabled: COLORS.DISABLED,
-    nameColor: COLORS.GREY_LIGHT,
+    nameColor: COLORS.GREY_COLD,
+    disabled: COLORS.BLUE_LIGHTER_DARK,
   },
   column: {
+    ...lightTheme.column,
+    background: COLORS.BLUE_DEEP_DARK,
     titleColor: COLORS.BLUE,
-    titleFont: FONTS.headers,
-    titleWeight: 600,
-    titleSize: FONT_SIZE.large,
   },
   button: {
-    borderRadius: "5px",
-    color: COLORS.BLUE,
-    shadow: SHADOWS.primary,
+    ...lightTheme.button,
   },
   modal: {
-    shadow: SHADOWS.modal,
-    bgColor: COLORS.GREY_MILK,
+    ...lightTheme.modal,
+    bgColor: COLORS.GREY_TRANSPARENT,
     header: {
       color: COLORS.BLUE,
     },
@@ -60,29 +43,37 @@ export const darkTheme = {
       bg: "transparent",
     },
     textarea: {
-      border: COLORS.GREY_DARK,
-      borderFocus: COLORS.GREY_MEDIUM,
+      border: COLORS.BLUE_LIGHTER_DARK,
+      borderFocus: COLORS.BLUE_LIGHTER_DARK_FOCUS,
+      color: COLORS.DIRTY_WHITE,
     },
   },
   task: {
-    bg: COLORS.GREY_DARK,
-    shadow: SHADOWS.primary,
+    ...lightTheme.task,
+    bg: COLORS.BLUE_DARK,
+    color: COLORS.DIRTY_WHITE,
+    shadow: SHADOWS.primaryDark,
     button: {
-      bg: COLORS.GREY_DARK,
-      color: COLORS.BLUE,
-    },
-    link: {
-      color: COLORS.BLUE,
-      hover: COLORS.BLUE,
+      ...lightTheme.task.button,
+      bg: "transparent",
     },
   },
   dropdown: {
-    text: COLORS.GREY,
-    textHover: COLORS.BLUE,
-    borderRadius: "5px",
-    background: COLORS.WHITE,
+    ...lightTheme.dropdown,
+    background: COLORS.BLUE_DARK,
+    text: COLORS.BLUE,
     menuItem: {
-      height: "30px",
+      ...lightTheme.dropdown.menuItem,
+      color: COLORS.DIRTY_WHITE,
     },
+  },
+  formInput: {
+    ...lightTheme.formInput,
+  },
+  formButton: {
+    ...lightTheme.formButton,
+  },
+  auth: {
+    ...lightTheme.auth,
   },
 };

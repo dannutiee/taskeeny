@@ -67,6 +67,7 @@ const OptionItem = styled.button`
   width: 100%;
   text-align: left;
   font-size: ${(p) => p.theme.font.size.small};
+  color: ${(p) => p.theme.dropdown.menuItem.color};
   :hover {
     background: #eef2fcc9;
   }

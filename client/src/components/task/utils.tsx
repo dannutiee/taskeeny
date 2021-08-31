@@ -1,4 +1,6 @@
 import { Tag as TagType } from "../../graphql/__generated__/typeDefs";
+import { SHADOWS } from "../../themes/globalStyle";
+import { DARK_THEME } from "../../contexts/theme";
 
 type Tag = Omit<TagType, "id">;
 export interface TagsEasyFormatType {
@@ -45,7 +47,11 @@ export const getContentWithoutTagNames = (content: string): string => {
 };
 
 export const getTagHTML = (newTagColor: string, tagName = "$1") => {
-  return `<span class="hashtag" style="color: ${newTagColor};z-index: 100;position: relative; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">#${tagName} </span>`;
+  const currentTheme = window.localStorage.getItem("theme");
+  const textShadow =
+    currentTheme === DARK_THEME ? SHADOWS.hashtagDark : SHADOWS.hashtagLight;
+
+  return `<span class="hashtag" style="color: ${newTagColor};z-index: 100;position: relative; text-shadow:${textShadow};">#${tagName} </span>`;
 };
 
 export const getArrayOfExistingTags = (existingTags: TagsEasyFormatType[]) => {

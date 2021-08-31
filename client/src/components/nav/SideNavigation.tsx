@@ -9,14 +9,14 @@ import { Avatar } from "./Avatar";
 
 export const SideNavigation: React.FC = () => {
   const authContext = useContext(AuthContext);
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme } = useContext(ThemeContext);
 
   const onLogout = () => {
     authContext.logout();
   };
 
   const onChangeTheme = () => {
-    toggleTheme(theme === "light" ? "dark" : "light");
+    toggleTheme();
   };
 
   return (
@@ -27,7 +27,6 @@ export const SideNavigation: React.FC = () => {
           <UserName>
             {authContext.user!.name} {authContext.user!.surname}
           </UserName>
-          <Location>Kraków, Poland</Location>
         </div>
         <Dropdown button>
           <Dropdown.Item onClick={onChangeTheme}>Dark&nbsp;Theme</Dropdown.Item>
@@ -75,21 +74,14 @@ const UserName = styled.div`
   font-weight: ${(p) => p.theme.nav.userName.weight};
 `;
 
-const Location = styled.span`
-  color: ${(p) => p.theme.nav.userName.color};
-  font-size: ${(p) => p.theme.font.size.small};
-`;
-
 const LogoWrapper = styled.div`
   height: 50px;
   width: 100%;
+  display: flex;
+  align-items: flex-end;
 `;
 
 const Brand = styled.div`
   font-size: ${(p) => p.theme.font.size.large};
   color: ${(p) => p.theme.font.emphasisColor};
-`;
-
-const Product = styled.div`
-  font-size: ${(p) => p.theme.font.size.small};
 `;
