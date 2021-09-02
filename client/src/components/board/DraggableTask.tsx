@@ -43,5 +43,8 @@ const DraggableTaskWrapper = styled.div`
     justify-content: space-between;
     background: ${(p) => p.theme.task.bg};
     box-shadow: ${(p) => p.theme.task.shadow};
+    :hover {
+      background: ${(p) => p.theme.task.bgHover};
+    }
   }
 `;

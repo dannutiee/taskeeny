@@ -69,7 +69,8 @@ const OptionItem = styled.button`
   font-size: ${(p) => p.theme.font.size.small};
   color: ${(p) => p.theme.dropdown.menuItem.color};
   :hover {
-    background: #eef2fcc9;
+    cursor: pointer;
+    background: ${(p) => p.theme.dropdown.menuItem.hoverColor};
   }
 `;
 

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 
-import { ThemeContext } from "../../contexts/theme";
+import { ThemeContext, DARK_THEME } from "../../contexts/theme";
 import { AuthContext } from "../../contexts/auth";
 import { CategoriesList } from "../categories";
 import { Dropdown } from "../dropdown";
@@ -9,7 +9,7 @@ import { Avatar } from "./Avatar";
 
 export const SideNavigation: React.FC = () => {
   const authContext = useContext(AuthContext);
-  const { toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const onLogout = () => {
     authContext.logout();
@@ -18,6 +18,8 @@ export const SideNavigation: React.FC = () => {
   const onChangeTheme = () => {
     toggleTheme();
   };
+
+  const themeType = theme === DARK_THEME ? "Light" : "Dark";
 
   return (
     <SideNavWrapper>
@@ -29,7 +31,9 @@ export const SideNavigation: React.FC = () => {
           </UserName>
         </div>
         <Dropdown button>
-          <Dropdown.Item onClick={onChangeTheme}>Dark&nbsp;Theme</Dropdown.Item>
+          <Dropdown.Item onClick={onChangeTheme}>
+            {themeType}&nbsp;Theme
+          </Dropdown.Item>
           <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item>
         </Dropdown>
       </UserSection>

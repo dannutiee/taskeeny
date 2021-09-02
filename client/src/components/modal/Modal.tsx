@@ -80,10 +80,14 @@ const ActionButton = styled.button<ActionButtonProps>`
   margin-left: 5px;
   border-radius: 3px;
   cursor: pointer;
+  opacity: 0.9;
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.medium};
   background: ${(p) => (p.primary ? "#90b9fc" : p.theme.modal.secondaryBtn.bg)};
   color: ${(p) => (p.primary ? "white" : "#cacbce")};
+  :hover {
+    opacity: 1;
+  }
 `;
 
 const ModalFooter = styled.div`
@@ -107,6 +111,10 @@ const CloseIcon = styled.span`
   cursor: pointer;
   padding: 5px;
   color: ${(p) => p.theme.modal.header.color};
+  opacity: 0.9;
+  :hover {
+    opacity: 1;
+  }
 `;
 
 const ModalWrapper = styled.div`

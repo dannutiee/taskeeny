@@ -2,6 +2,12 @@ import { COLORS, SHADOWS } from "./globalStyle";
 import { lightTheme } from "./lightTheme";
 
 export const darkTheme = {
+  hoverable: {
+    onHover: {
+      opacity: "1",
+    },
+    opacity: ".8",
+  },
   font: {
     ...lightTheme.font,
     color: COLORS.GREY_LIGHT_1,
@@ -51,6 +57,7 @@ export const darkTheme = {
   task: {
     ...lightTheme.task,
     bg: COLORS.BLUE_DARK,
+    bgHover: COLORS.BLUE_DARK_HOVER,
     color: COLORS.DIRTY_WHITE,
     shadow: SHADOWS.primaryDark,
     button: {
@@ -61,10 +68,11 @@ export const darkTheme = {
   dropdown: {
     ...lightTheme.dropdown,
     background: COLORS.BLUE_DARK,
-    text: COLORS.BLUE,
+    text: COLORS.DIRTY_WHITE,
     menuItem: {
       ...lightTheme.dropdown.menuItem,
       color: COLORS.DIRTY_WHITE,
+      hoverColor: COLORS.BLUE_LIGHTER_DARK,
     },
   },
   formInput: {

@@ -31,6 +31,7 @@ const GREY_DARK = "#24272c";
 const GREY_TRANSPARENT = "#535865a8";
 const BLUE_DEEP_DARK = "#1d1f39";
 const BLUE_DARK = "#262b4a";
+const BLUE_DARK_HOVER = "rgb(38 43 74 / 80%)";
 const BLUE_LIGHTER_DARK = "#31375f";
 const BLUE_LIGHTER_DARK_FOCUS = "#424c8e";
 const DIRTY_WHITE = "#b5bbde";
@@ -40,6 +41,7 @@ export const COLORS = {
   BLACK,
   BLUE,
   BLUE_DARK,
+  BLUE_DARK_HOVER,
   BLUE_LIGHTER_DARK,
   BLUE_LIGHTER_DARK_FOCUS,
   BLUE_DEEP_DARK,

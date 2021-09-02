@@ -1,6 +1,12 @@
 import { COLORS, FONT_SIZE, SHADOWS, FONTS } from "./globalStyle";
 
 export const lightTheme = {
+  hoverable: {
+    onHover: {
+      opacity: ".8",
+    },
+    opacity: "1",
+  },
   font: {
     color: COLORS.BLACK,
     emphasisColor: COLORS.BLUE,
@@ -74,6 +80,7 @@ export const lightTheme = {
   },
   task: {
     bg: COLORS.WHITE,
+    bgHover: COLORS.WHITE,
     shadow: SHADOWS.primary,
     button: {
       bg: COLORS.WHITE,
@@ -92,6 +99,7 @@ export const lightTheme = {
     menuItem: {
       height: "30px",
       color: COLORS.BLACK,
+      hoverColor: COLORS.BLUE_MILK,
     },
   },
   formInput: {
