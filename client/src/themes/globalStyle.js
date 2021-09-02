@@ -19,6 +19,7 @@ const GREY = "#888888";
 const GREY_LIGHT_1 = "#e9e9ea";
 const GREY_MEDIUM = "#484646";
 const BLUE = "#79A7FF";
+const ERROR = "#ff0505";
 
 // LIGHT THEME
 const BLUE_MILK = "rgb(238 242 252 / 66%)";
@@ -48,6 +49,7 @@ export const COLORS = {
   BLUE_LIGHT_1,
   BLUE_MILK,
   DISABLED,
+  ERROR,
   GREY,
   GREY_LIGHT_1,
   GREY_LIGHT,

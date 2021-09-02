@@ -81,6 +81,7 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
 
   console.log("tagsContext", tagsContext);
   console.log("tags", tags);
+  const sortedTags = [...tags].sort((a, b) => (a.name > b.name ? 1 : -1));
   //TODO finish this component
   return (
     <CategoriesWrapper>
@@ -93,7 +94,7 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
       </SectionTitle>
       <Scrollable>
         <div>
-          {tags.map((tag, index) => (
+          {sortedTags.map((tag, index) => (
             <SingleCategory
               key={index}
               color={tag.color}

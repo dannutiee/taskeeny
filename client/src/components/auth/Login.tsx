@@ -5,25 +5,31 @@ import { useLoginMutation } from "../../graphql/__generated__/typeDefs";
 import { AuthContext } from "../../contexts/auth";
 import { useForm } from "../../utils/useForm";
 import { Input, Form, FormType } from "../utils";
+import { getErrors } from "../../utils";
+
+interface LoginErrors {
+  email?: string;
+  password?: string;
+}
 
 export interface LoginComponentProps {
   handleLogin: (email: string, password: string) => void;
   loading: boolean;
-  error: string;
+  errors: LoginErrors;
 }
 
 const LoginContainer: React.FC = () => {
   const history = useHistory();
   const authContext = useContext(AuthContext);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [loginMutation, { loading }] = useLoginMutation({
     onCompleted: ({ login }) => {
       authContext.login(login!.user);
       history.push("/");
     },
-    onError: (error) => {
-      setError("Failed to login");
+    onError: (e) => {
+      setErrors(getErrors(e));
     },
   });
 
@@ -37,13 +43,17 @@ const LoginContainer: React.FC = () => {
   };
 
   return (
-    <LoginComponent handleLogin={handleLogin} loading={loading} error={error} />
+    <LoginComponent
+      handleLogin={handleLogin}
+      loading={loading}
+      errors={errors}
+    />
   );
 };
 
 const LoginComponent: React.FC<LoginComponentProps> = ({
   handleLogin,
-  error,
+  errors,
 }) => {
   const { onChange, onSubmit, values } = useForm(loginCallback, {
     email: "",
@@ -62,12 +72,14 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
         value={values.email}
         onChange={onChange}
         label="Email address"
+        error={errors.email}
       />
       <Input
         name="password"
         value={values.password}
         onChange={onChange}
         label="Password"
+        error={errors.password}
       />
     </Form>
   );

@@ -1,5 +1,6 @@
 import { COLORS, FONT_SIZE, SHADOWS, FONTS } from "./globalStyle";
 
+// Default theme
 export const lightTheme = {
   hoverable: {
     onHover: {
@@ -9,6 +10,7 @@ export const lightTheme = {
   },
   font: {
     color: COLORS.BLACK,
+    placeholderColor: COLORS.GREY_LIGHT,
     emphasisColor: COLORS.BLUE,
     basic: {
       family: "Open Sans",
@@ -129,6 +131,7 @@ export const lightTheme = {
     input: {
       padding: "10px",
       focusColor: COLORS.BLUE,
+      error: COLORS.ERROR,
     },
     bar: {
       padding: "30px",
