@@ -13,6 +13,7 @@ interface RegisterErrors {
   surname?: string;
   email?: string;
   password?: string;
+  confirmPassword?: string;
 }
 
 export interface RegisterComponentProps {
@@ -85,30 +86,40 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
 
   return (
     <Form onSubmit={onSubmit} type={FormType.REGISTER}>
-      <Input name="name" value={values.name} onChange={onChange} label="Name" />
+      <Input
+        name="name"
+        value={values.name}
+        onChange={onChange}
+        label="Name"
+        error={errors.name}
+      />
       <Input
         name="surname"
         value={values.surname}
         onChange={onChange}
         label="Surname"
+        error={errors.surname}
       />
       <Input
         name="email"
         value={values.email}
         onChange={onChange}
         label="E-mail"
+        error={errors.email}
       />
       <Input
         name="password"
         value={values.password}
         onChange={onChange}
         label="Password"
+        error={errors.password}
       />
       <Input
         name="confirmPassword"
         value={values.confirmPassword}
         onChange={onChange}
         label="Confirm password"
+        error={errors.confirmPassword}
       />
     </Form>
   );

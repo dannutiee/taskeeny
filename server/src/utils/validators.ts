@@ -5,6 +5,7 @@ interface Errors {
   surname?: string;
   email?: string;
   password?: string;
+  confirmPassword?: string;
   general?: string;
 }
 
@@ -37,6 +38,12 @@ export const validateRegisterInput = (
     errors.password = "Password must not be empty";
   } else if (password !== confirmPassword) {
     errors.password = "Passwords must match";
+  }
+
+  if (confirmPassword === "") {
+    errors.confirmPassword = "Confirm password must not be empty";
+  } else if (password !== confirmPassword) {
+    errors.confirmPassword = "Passwords must match";
   }
 
   return {
