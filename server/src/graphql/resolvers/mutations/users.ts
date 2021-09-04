@@ -58,11 +58,8 @@ export const resolveRegisterUser: ResolveRegisterUser = async (
   // Make sure user doesn not already exist
   const user = await User.findOne({ email });
   if (user) {
-    throw new UserInputError("Account with this email already exist", {
-      errors: {
-        email: "This email is taken",
-      },
-    });
+    errors.general = "This email is taken";
+    throw new UserInputError("Account with this email already exist", {errors});
   }
 
   // save new user and create an account
@@ -107,8 +104,8 @@ export const resolveLogin: ResolveLoginUser = async (
   const user = await User.findOne({ email });
 
   if (!user) {
-    errors.general = "User not found";
-    throw new UserInputError("User not found", { errors });
+    errors.email = "Account with this e-mail doesn't exist";
+    throw new UserInputError("Account with this e-mail doesn't exist", { errors });
   }
 
   const match = await bcrypt.compare(password, user.password);

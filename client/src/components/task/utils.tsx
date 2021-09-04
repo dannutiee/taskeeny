@@ -1,6 +1,4 @@
 import { Tag as TagType } from "../../graphql/__generated__/typeDefs";
-import { SHADOWS } from "../../themes/globalStyle";
-import { DARK_THEME } from "../../contexts/theme";
 
 type Tag = Omit<TagType, "id">;
 export interface TagsEasyFormatType {
@@ -44,14 +42,6 @@ export const isEditModalOpend = (taskId: string, search: string): boolean => {
 
 export const getContentWithoutTagNames = (content: string): string => {
   return content.replace(/#(\w+)/g, "");
-};
-
-export const getTagHTML = (newTagColor: string, tagName = "$1") => {
-  const currentTheme = window.localStorage.getItem("theme");
-  const textShadow =
-    currentTheme === DARK_THEME ? SHADOWS.hashtagDark : SHADOWS.hashtagLight;
-
-  return `<span class="hashtag" style="color: ${newTagColor};z-index: 100;position: relative; text-shadow:${textShadow};">#${tagName} </span>`;
 };
 
 export const getArrayOfExistingTags = (existingTags: TagsEasyFormatType[]) => {
@@ -125,55 +115,3 @@ export const getRecogizedTagsInputFormat = (
   });
   return recognizedTags;
 };
-
-export const colorAllHastagsInText = (
-  text: string,
-  existingTags: TagsEasyFormatType[]
-) => {
-  existingTags.forEach((tag) => {
-    text = text.replaceAll(
-      `#${tag.name} `,
-      `${getTagHTML(tag.color, tag.name)}`
-    );
-  });
-  return text;
-};
-
-// TODO  below functions should be deleted probably
-
-// export const colorAllNewHastags = (text: string, color: string, ) => {
-//   const repl = text.replace(/#(\w+)/g, `${getTagHTML(color)}`);
-//   return repl;
-// };
-
-// const getNewTagColor = () => {
-//   return "#23df3a"
-// }
-
-// export const colorNewHastags = (text: string, color: string) => {
-//   const repl = text.replace(/#(\w+)/g, `${getTagHTML(color)}`);
-//   return repl;
-// };
-
-// export const getTagMutationInput = (text:string, existingTags: TagsEasyFormatType[]) => {
-//   const newTags = getNewTagsFromText(text,existingTags);
-//   return newTags.map(newTag => {
-//     return { name: newTag, color: getNewTagColor() }
-//   });
-
-// }
-
-// export const markAllExistingTagsInNewText = (
-//   content: string,
-//   defaultColor: string,
-//   existingTags: TagsEasyFormatType[]
-// ) => {
-//   existingTags.forEach((tag) => {
-//     content = content.replace(
-//       `${getTagHTML(defaultColor, tag.name)}`,
-//       `${getTagHTML(getExistingTagColor(existingTags, tag.name), tag.name)}`
-//     );
-//   });
-//   console.log('markAllExistingTagsInNewText', content)
-//   return content;
-// };

@@ -34,7 +34,7 @@ export const Input: React.FC<InputProps> = ({
     <div>
       <FormInput
         name={name}
-        value={value}
+        value={inputError ? "" : value}
         onChange={onChange}
         placeholder={inputError ? error : label}
         error={inputError}

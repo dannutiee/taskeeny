@@ -9,8 +9,6 @@ interface Errors {
   general?: string;
 }
 
-// TODO I woild like to remove usernmae from User
-
 export const validateRegisterInput = (
   name: string,
   surname: string,
