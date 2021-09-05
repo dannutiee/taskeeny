@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 
-import { TagsEasyFormatType } from "../task/utils";
+import { TagsInputFormat } from "../task/utils";
+import { REG_EX_TAG, getTagColor } from "../tag/utils";
 import { ThemeContext, DARK_THEME } from "../../contexts/theme";
 import { lightTheme, darkTheme } from "../../themes";
 
 interface TextWithColoredHashtagsProps {
   text: string;
-  allTags: TagsEasyFormatType[];
+  allTags: TagsInputFormat[];
 }
 
 export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = ({
@@ -16,7 +17,6 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
 }) => {
   const { theme } = useContext(ThemeContext);
 
-  const REG_EX_TAG = /^#\w+$/;
   const defaultWordColor =
     theme === DARK_THEME
       ? darkTheme.modal.textarea.color
@@ -38,19 +38,12 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
     );
   };
 
-  const getTagColor = (tagName: string) => {
-    return (
-      allTags.find((tag) => tag.name === tagName)?.color || defaultWordColor
-    );
-  };
-
-  const textWithColoredHashtags = text
-    .split(" ")
-    .flatMap((word) =>
-      REG_EX_TAG.test(word)
-        ? replaceWordWithTagComponent(getTagColor(word.slice(1)), word)
-        : `${word}` + " "
-    );
+  const textWithColoredHashtags = text.split(" ").flatMap((word) => {
+    const newTagColor = getTagColor(word.slice(1), allTags, defaultWordColor);
+    return REG_EX_TAG.test(word)
+      ? replaceWordWithTagComponent(newTagColor, word)
+      : `${word}` + " ";
+  });
 
   return <>{textWithColoredHashtags}</>;
 };

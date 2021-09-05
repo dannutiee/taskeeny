@@ -6,10 +6,12 @@ import { Modal } from "./Modal";
 import { TagBorder } from "../task/TagBorder";
 import { TagsContext } from "../../contexts/tags";
 import {
-  getAllTagsInInputFormat,
+  formatTagsToInputFormat,
   getTagsFromText,
-  getNewTagsInputFormat,
+  getNewTags,
   getRecogizedTagsInputFormat,
+  Status,
+  TagsInputFormat,
 } from "../task/utils";
 import { getRandomAvailableColor } from "../tag/utils";
 import { EditableContentProps } from "./interfaces";
@@ -20,7 +22,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   hide,
   tags = [],
   content = "",
-  status = "todo",
+  status = Status.todo,
   taskId,
   addNewTask,
   updateTask,
@@ -35,35 +37,30 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
   const [currentContent, setCurrentContent] = useState(content);
   const [newStatus, setNewStatus] = useState(status);
-  const [newTags, setNewTags] = useState<string[]>([]);
+  const [newTagsNames, setNewTagsNames] = useState<string[]>([]);
   const [newTagsColors, setNewTagsColors] = useState<string[]>([]);
 
-  const allTagsRecognizedInSavedText = getAllTagsInInputFormat(
+  const allExistingTags: TagsInputFormat[] = formatTagsToInputFormat(
     tagsContext.tags
   );
   const [
-    allTagsRecognizedInUpdatedText,
-    setAllTagsRecognizedInUpdatedText,
-  ] = useState<any>(allTagsRecognizedInSavedText);
-
-  const colorsAlreadyInUse = [
-    ...allTagsRecognizedInSavedText.map((value) => value.color),
-    ...newTagsColors,
-  ];
+    allTagsIncludingNewRecognized,
+    setAllTagsIncludingNewRecognized,
+  ] = useState<TagsInputFormat[]>(allExistingTags);
 
   useEffect(() => {
     if (!!addNewTask) textarea.current.focus();
   }, []);
 
   const onCickSave = () => {
-    const newTaskTags = getNewTagsInputFormat(
-      getTagsFromText(currentContent, allTagsRecognizedInSavedText).newTags,
+    const newTaskTags: TagsInputFormat[] = getNewTags(
+      getTagsFromText(currentContent, allExistingTags).newTags,
       newTagsColors
     );
 
     const recognizedTags = getRecogizedTagsInputFormat(
-      allTagsRecognizedInSavedText,
-      getTagsFromText(currentContent, allTagsRecognizedInSavedText).existingTags
+      allExistingTags,
+      getTagsFromText(currentContent, allExistingTags).existingTags
     );
 
     if (updateTask) {
@@ -90,39 +87,49 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     hide();
   };
 
-  const setNewTagsAndColors = (text: string) => {
-    const newTagsFromText = getTagsFromText(text, allTagsRecognizedInSavedText)
-      .newTags;
+  const setNewTagsNamesAndColors = (newTagNamesFromText: string[]) => {
+    const colorsAlreadyInUse: string[] = [
+      ...allExistingTags.map((tag) => tag.color),
+      ...newTagsColors,
+    ];
 
-    setNewTags((prevState) => {
-      if (newTagsFromText.length > prevState.length) {
+    setNewTagsNames((prevState) => {
+      const newTagNameAdded = newTagNamesFromText.length > prevState.length;
+      const newTagNameRemoved = newTagNamesFromText.length < prevState.length;
+
+      if (newTagNameAdded) {
         setNewTagsColors((prevColors) => [
           ...prevColors,
           getRandomAvailableColor(colorsAlreadyInUse),
         ]);
-      } else if (newTagsFromText.length < prevState.length) {
+      } else if (newTagNameRemoved) {
         setNewTagsColors((prevColors) => [...prevColors.slice(0, -1)]);
       }
-      return [...newTagsFromText];
+      return [...newTagNamesFromText];
     });
   };
 
   const onTextChange = (e: any) => {
     e.persist();
     const inputValue = e.target.value;
+    setCurrentContent(inputValue);
 
-    setNewTagsAndColors(inputValue);
+    const newTagNamesRecognizedInText: string[] = getTagsFromText(
+      inputValue,
+      allExistingTags
+    ).newTags;
 
-    const newTagsRecognizedInText = getNewTagsInputFormat(
-      getTagsFromText(inputValue, allTagsRecognizedInSavedText).newTags,
+    setNewTagsNamesAndColors(newTagNamesRecognizedInText);
+
+    const newTagsRecognizedInText: TagsInputFormat[] = getNewTags(
+      newTagNamesRecognizedInText,
       newTagsColors
     );
 
-    setAllTagsRecognizedInUpdatedText([
-      ...allTagsRecognizedInSavedText,
+    setAllTagsIncludingNewRecognized([
+      ...allExistingTags,
       ...newTagsRecognizedInText,
     ]);
-    setCurrentContent(inputValue);
   };
 
   return (
@@ -139,7 +146,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
           <TextareaVisibleResult>
             <TextWithColoredHashtags
               text={currentContent}
-              allTags={allTagsRecognizedInUpdatedText}
+              allTags={allTagsIncludingNewRecognized}
             />
           </TextareaVisibleResult>
           <InvisibleTextArea

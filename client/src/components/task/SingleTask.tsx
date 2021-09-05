@@ -86,9 +86,9 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   return (
     <>
       <TagBorder tags={task.tags} />
-      <TaskContent>
+      <TaskPreviewContent>
         <ClampedText>{getContentWithoutTagNames(task.content)}</ClampedText>
-      </TaskContent>
+      </TaskPreviewContent>
       <TaskFooter>
         <TagsWrapper>
           {task.tags.map((tag, index) => (
@@ -126,7 +126,7 @@ const ClampedText = styled.div`
   overflow: hidden;
 `;
 
-const TaskContent = styled.div`
+const TaskPreviewContent = styled.div`
   margin-left: 10px;
   padding: 20px;
   line-height: 1.5;

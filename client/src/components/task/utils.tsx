@@ -1,7 +1,8 @@
 import { Tag as TagType } from "../../graphql/__generated__/typeDefs";
 
 type Tag = Omit<TagType, "id">;
-export interface TagsEasyFormatType {
+
+export interface TagsInputFormat {
   name: string;
   color: string;
 }
@@ -44,9 +45,9 @@ export const getContentWithoutTagNames = (content: string): string => {
   return content.replace(/#(\w+)/g, "");
 };
 
-export const getArrayOfExistingTags = (existingTags: TagsEasyFormatType[]) => {
+export const getArrayOfExistingTags = (allAvailableTags: TagsInputFormat[]) => {
   const arrayOfExistingTags: string[] = [];
-  existingTags.forEach((tag) => {
+  allAvailableTags.forEach((tag) => {
     arrayOfExistingTags.push(tag.name);
   });
   return arrayOfExistingTags;
@@ -58,55 +59,59 @@ interface TagsFromText {
 }
 export const getTagsFromText = (
   text: string,
-  allAvailableTags: TagsEasyFormatType[]
+  allAvailableTags: TagsInputFormat[]
 ): TagsFromText => {
   const existingTagsArray = getArrayOfExistingTags(allAvailableTags);
   const newTags: string[] = [];
   const existingTags: string[] = [];
-  const allTagsInText = text.match(/#(\w+)/g) || [];
-  allTagsInText.forEach((tag) => {
-    if (!existingTagsArray.find((el) => `#${el}` === tag)) {
-      newTags.push(tag.replace("#", ""));
+  const allTagNamesInEditableText = text.match(/#(\w+)/g) || [];
+
+  allTagNamesInEditableText.forEach((tagName) => {
+    const tagNameIsNew = !existingTagsArray.find((el) => `#${el}` === tagName);
+    if (tagNameIsNew) {
+      newTags.push(tagName.replace("#", ""));
     } else {
-      existingTags.push(tag.replace("#", ""));
+      existingTags.push(tagName.replace("#", ""));
     }
   });
+
   return { newTags, existingTags };
 };
 
-export const getAllTagsInInputFormat = (
-  tagsFromContext: TagsEasyFormatType[]
-): TagsEasyFormatType[] => {
-  const tagsEasyFormat: TagsEasyFormatType[] = [];
+export const formatTagsToInputFormat = (
+  tagsFromContext: Tag[]
+): TagsInputFormat[] => {
+  const tags: TagsInputFormat[] = [];
+
   tagsFromContext.forEach((el: any) => {
-    tagsEasyFormat.push({
+    tags.push({
       name: el.name,
       color: el.color,
     });
   });
-  return tagsEasyFormat;
+  return tags;
 };
 
-export const getNewTagsInputFormat = (
+export const getNewTags = (
   newTags: string[],
   newColors: string[]
-) => {
-  const tagsEasyFormat: TagsEasyFormatType[] = [];
+): TagsInputFormat[] => {
+  const tagsArray: TagsInputFormat[] = [];
   newTags.forEach((el: any, i = 0) => {
-    tagsEasyFormat.push({
+    tagsArray.push({
       name: el,
       color: newColors[i],
     });
     i++;
   });
-  return tagsEasyFormat;
+  return tagsArray;
 };
 
 export const getRecogizedTagsInputFormat = (
-  allAvailableTags: TagsEasyFormatType[],
+  allAvailableTags: TagsInputFormat[],
   existingTags: string[]
 ) => {
-  const recognizedTags: TagsEasyFormatType[] = [];
+  const recognizedTags: TagsInputFormat[] = [];
   existingTags.forEach((tagName) => {
     const recoginzed = allAvailableTags.find((tag) => tag.name === tagName);
     if (recoginzed) {
