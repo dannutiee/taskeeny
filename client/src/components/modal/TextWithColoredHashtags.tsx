@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { TwitterPicker, ColorResult } from "react-color";
 
 import { TagsInputFormat } from "../task/utils";
 import { REG_EX_TAG, getTagColor } from "../tag/utils";
@@ -14,11 +15,13 @@ import { TagsContext } from "../../contexts/tags";
 interface TextWithColoredHashtagsContainerProps {
   text: string;
   allTags: TagsInputFormat[];
+  updateNewTagColor: (name: string, color: string) => void; // TODO check what type it will be?
 }
 
 export const TextWithColoredHashtagsContainer: React.FC<TextWithColoredHashtagsContainerProps> = ({
   text,
   allTags,
+  updateNewTagColor,
 }) => {
   const [updateTagMutation, { error, data, loading }] = useUpdateTagMutation({
     refetchQueries: [{ query: GetTagsDocument }],
@@ -40,6 +43,7 @@ export const TextWithColoredHashtagsContainer: React.FC<TextWithColoredHashtagsC
       text={text}
       allTags={allTags}
       updateTagColor={updateTagColor}
+      updateNewTagColor={updateNewTagColor}
     />
   );
 };
@@ -53,50 +57,64 @@ const TextWithColoredHashtagsComponent: React.FC<TextWithColoredHashtagsComponen
   text,
   allTags,
   updateTagColor,
+  updateNewTagColor,
 }) => {
   const { theme } = useContext(ThemeContext);
   const tagsContext = useContext(TagsContext);
+  const [currentColorPicker, setCurrentColorPicker] = useState("");
+  const [tagColor, setTagColor] = useState("");
 
-  console.log("allTags", allTags);
   const [textWithColoredHashtags, setTextWithColoredHashtags] = useState<
     (string | JSX.Element)[]
   >();
 
   useEffect(() => {
     setTextWithColoredHashtags(colorHashtagsInText());
-  }, [allTags, text]);
+  }, [allTags, text, currentColorPicker]);
 
-  const defaultWordColor =
-    theme === DARK_THEME
-      ? darkTheme.modal.textarea.color
-      : lightTheme.modal.textarea.color;
-
-  const onClickTag = (e: any) => {
-    const clickedName = e.currentTarget.id;
-    const tagToUpdate = [...tagsContext.tags].find(
-      (el) => el.name === clickedName
+  useEffect(() => {
+    const tagAlreadySaved = [...tagsContext.tags].find(
+      (el) => el.name === currentColorPicker
     );
-    const newColor = "#0d99ff";
+    const newTagsContext = [...tagsContext.tags].filter(
+      (tag) => tag.name !== currentColorPicker
+    );
 
-    if (tagToUpdate) {
-      const newTag = { ...tagToUpdate, color: newColor };
-      const newTagsContext = [...tagsContext.tags].filter(
-        (tag) => tag.name !== clickedName
-      );
+    if (tagAlreadySaved) {
+      const newTag = { ...tagAlreadySaved, color: tagColor };
       tagsContext.resetTags([...newTagsContext, newTag]);
+    } else {
+      updateNewTagColor(currentColorPicker, tagColor);
     }
-    //  updateTagColor(clickedName, newColor);
+    //  updateTagColor(clickedName, newColor);  //TODO use this update on save
+  }, [tagColor]);
+
+  const onClickTag = (name: string, currentColor: string) => {
+    const newColorPicker = currentColorPicker !== name ? name : "";
+
+    setCurrentColorPicker(newColorPicker);
+    // setTagColor(currentColor)
   };
 
-  const replaceWordWithTagComponent = (tagColor: string, tagName: string) => {
+  const handleColorChange = (color: ColorResult) => {
+    setTagColor(color.hex);
+  };
+
+  const replaceWordWithTagComponent = (color: string, name: string) => {
+    const isColorPickerOpen = name.substring(1) === currentColorPicker;
     return (
       <TagWrapper
-        color={tagColor}
-        id={tagName.slice(1)}
+        color={color}
         className="hashtag"
-        onClick={onClickTag}
+        onBlur={() => console.log("blur")}
       >
-        {tagName}{" "}
+        <span onClick={() => onClickTag(name.slice(1), color)}>{name} </span>
+        {isColorPickerOpen && (
+          <PickerWrapper>
+            {" "}
+            <TwitterPicker color={tagColor} onChange={handleColorChange} />
+          </PickerWrapper>
+        )}
       </TagWrapper>
     );
   };
@@ -104,6 +122,11 @@ const TextWithColoredHashtagsComponent: React.FC<TextWithColoredHashtagsComponen
   const colorHashtagsInText = () =>
     text.split(" ").flatMap((word) => {
       const wordWithoutHashMark = word.slice(1);
+      const defaultWordColor =
+        theme === DARK_THEME
+          ? darkTheme.modal.textarea.color
+          : lightTheme.modal.textarea.color;
+
       const newTagColor = getTagColor(
         wordWithoutHashMark,
         allTags,
@@ -119,8 +142,13 @@ const TextWithColoredHashtagsComponent: React.FC<TextWithColoredHashtagsComponen
 
 export const TextWithColoredHashtags = TextWithColoredHashtagsContainer;
 
-const TagWrapper = styled.span`
+const TagWrapper = styled.div`
   color: ${(p) => p.color};
   z-index: 100;
   position: relative;
+  display: inline-block;
+`;
+
+const PickerWrapper = styled.div`
+  position: absolute !important;
 `;

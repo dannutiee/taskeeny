@@ -29,7 +29,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 }) => {
   const history = useHistory();
   const textarea = useRef("") as any;
-  const { existingTagNamesWithColors } = useContext(TagsContext);
+  const { existingTagNamesWithColors, tags: tagi } = useContext(TagsContext);
 
   const [currentContent, setCurrentContent] = useState("");
   const [newTaskStatus, setNewTaskStatus] = useState(status);
@@ -39,12 +39,21 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
   useEffect(() => {
     if (!!addNewTask) textarea.current.focus();
+    setCurrentContent(content);
+  }, []);
 
-    const tagsInContent = existingTagNamesWithColors.filter((el) =>
+  useEffect(() => {
+    const savedTagsInContent = existingTagNamesWithColors.filter((el) =>
       tags.includes(el.name)
     );
-    setTagsInContentState(tagsInContent);
-    setCurrentContent(content);
+
+    setTagsInContentState((prevState) => {
+      if (prevState.length === 0) {
+        return savedTagsInContent;
+      }
+      const newTagsKeept = prevState.filter((el) => !tags.includes(el.name));
+      return [...savedTagsInContent, ...newTagsKeept];
+    });
   }, [existingTagNamesWithColors]);
 
   useEffect(() => {
@@ -190,7 +199,17 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     setCurrentContent(inputValue);
   };
 
-  console.log("state", tagsInContentState);
+  const onNewTagColorChange = (name: string, color: string) => {
+    const tagToUpdate = tagsInContentState.find((tag) => tag.name === name);
+    if (tagToUpdate) {
+      setTagsInContentState((prev) => {
+        const filteredContext = prev.filter((el) => el.name !== name);
+        return [...filteredContext, { ...tagToUpdate, color }];
+      });
+    }
+  };
+
+  console.log("state all", tagsInContentState);
 
   return (
     <Modal hide={hide} onSave={onCickSave} onDelete={onClickDelete}>
@@ -207,6 +226,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
             <TextWithColoredHashtags
               text={currentContent}
               allTags={[...tagsInContentState]}
+              updateNewTagColor={onNewTagColorChange}
             />
           </TextareaVisibleResult>
           <InvisibleTextArea
