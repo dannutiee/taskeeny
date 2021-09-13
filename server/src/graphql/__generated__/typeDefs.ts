@@ -205,7 +205,8 @@ export type UpdatePositionsResponse = MutationResponseInterface & {
 
 export type UpdateTagInput = {
   name: Scalars["String"];
-  isActive: Scalars["Boolean"];
+  isActive?: Maybe<Scalars["Boolean"]>;
+  color?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateTagResponse = MutationResponseInterface & {

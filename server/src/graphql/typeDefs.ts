@@ -36,7 +36,8 @@ export default gql`
 
   input UpdateTagInput {
     name: String!
-    isActive: Boolean!
+    isActive: Boolean
+    color: String
   }
 
   input SetActiveTagInput {

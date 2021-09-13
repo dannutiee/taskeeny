@@ -12,7 +12,7 @@ type ResolveSetAllTagsVisible = MutationResolvers["setAllTagsVisible"];
 
 export const resolveUpdateTag: ResolveUpdateTag = async (
   _parent,
-  { input: { name, isActive } },
+  { input: { name, isActive, color } },
   { isAuth, user }
 ) => {
   if (isAuth) {
@@ -26,7 +26,12 @@ export const resolveUpdateTag: ResolveUpdateTag = async (
     if (!tagToUpdate) {
       throw new UserInputError("Tag is not exist");
     } else {
-      tagToUpdate.isActive = isActive;
+      if (isActive) {
+        tagToUpdate.isActive = isActive;
+      }
+      if (color) {
+        tagToUpdate.color = color;
+      }
     }
 
     const result = await currentAccount.save((err: any) => {
