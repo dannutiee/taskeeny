@@ -6,63 +6,23 @@ import { TagsInputFormat } from "../task/utils";
 import { REG_EX_TAG, getTagColor } from "../tag/utils";
 import { ThemeContext, DARK_THEME } from "../../contexts/theme";
 import { lightTheme, darkTheme } from "../../themes";
-import {
-  GetTagsDocument,
-  useUpdateTagMutation,
-} from "../../graphql/__generated__/typeDefs";
 import { TagsContext } from "../../contexts/tags";
 
-interface TextWithColoredHashtagsContainerProps {
+interface TextWithColoredHashtagsProps {
   text: string;
   allTags: TagsInputFormat[];
-  updateNewTagColor: (name: string, color: string) => void; // TODO check what type it will be?
+  updateTagColorInState: (name: string, color: string) => void;
 }
 
-export const TextWithColoredHashtagsContainer: React.FC<TextWithColoredHashtagsContainerProps> = ({
+export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = ({
   text,
   allTags,
-  updateNewTagColor,
-}) => {
-  const [updateTagMutation, { error, data, loading }] = useUpdateTagMutation({
-    refetchQueries: [{ query: GetTagsDocument }],
-  });
-
-  const updateTagColor = async (name: string, color: string): Promise<void> => {
-    await updateTagMutation({
-      variables: {
-        input: {
-          name,
-          color,
-        },
-      },
-    });
-  };
-
-  return (
-    <TextWithColoredHashtagsComponent
-      text={text}
-      allTags={allTags}
-      updateTagColor={updateTagColor}
-      updateNewTagColor={updateNewTagColor}
-    />
-  );
-};
-
-interface TextWithColoredHashtagsComponentProps
-  extends TextWithColoredHashtagsContainerProps {
-  updateTagColor: (name: string, color: string) => void;
-}
-
-const TextWithColoredHashtagsComponent: React.FC<TextWithColoredHashtagsComponentProps> = ({
-  text,
-  allTags,
-  updateTagColor,
-  updateNewTagColor,
+  updateTagColorInState,
 }) => {
   const { theme } = useContext(ThemeContext);
   const tagsContext = useContext(TagsContext);
-  const [currentColorPicker, setCurrentColorPicker] = useState("");
-  const [tagColor, setTagColor] = useState("");
+  const [currentColorPicker, setCurrentColorPicker] = useState<string>("");
+  const [tagColor, setTagColor] = useState<string>("");
 
   const [textWithColoredHashtags, setTextWithColoredHashtags] = useState<
     (string | JSX.Element)[]
@@ -76,24 +36,21 @@ const TextWithColoredHashtagsComponent: React.FC<TextWithColoredHashtagsComponen
     const tagAlreadySaved = [...tagsContext.tags].find(
       (el) => el.name === currentColorPicker
     );
-    const newTagsContext = [...tagsContext.tags].filter(
+    const newContext = [...tagsContext.tags].filter(
       (tag) => tag.name !== currentColorPicker
     );
 
     if (tagAlreadySaved) {
       const newTag = { ...tagAlreadySaved, color: tagColor };
-      tagsContext.resetTags([...newTagsContext, newTag]);
-    } else {
-      updateNewTagColor(currentColorPicker, tagColor);
+      tagsContext.resetTags([...newContext, newTag]);
     }
-    //  updateTagColor(clickedName, newColor);  //TODO use this update on save
+    updateTagColorInState(currentColorPicker, tagColor);
   }, [tagColor]);
 
-  const onClickTag = (name: string, currentColor: string) => {
+  const onClickTag = (name: string) => {
     const newColorPicker = currentColorPicker !== name ? name : "";
 
     setCurrentColorPicker(newColorPicker);
-    // setTagColor(currentColor)
   };
 
   const handleColorChange = (color: ColorResult) => {
@@ -108,7 +65,7 @@ const TextWithColoredHashtagsComponent: React.FC<TextWithColoredHashtagsComponen
         className="hashtag"
         onBlur={() => console.log("blur")}
       >
-        <span onClick={() => onClickTag(name.slice(1), color)}>{name} </span>
+        <span onClick={() => onClickTag(name.slice(1))}>{name} </span>
         {isColorPickerOpen && (
           <PickerWrapper>
             {" "}
@@ -139,8 +96,6 @@ const TextWithColoredHashtagsComponent: React.FC<TextWithColoredHashtagsComponen
 
   return <>{textWithColoredHashtags}</>;
 };
-
-export const TextWithColoredHashtags = TextWithColoredHashtagsContainer;
 
 const TagWrapper = styled.div`
   color: ${(p) => p.color};

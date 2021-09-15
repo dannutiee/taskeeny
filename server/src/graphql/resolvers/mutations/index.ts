@@ -4,6 +4,7 @@ import { Resolvers } from "../../__generated__/typeDefs";
 import { resolveUpdatePositions } from "./positions";
 import {
   resolveUpdateTag,
+  resolveUpdateTags,
   resolveSetActiveTag,
   resolveSetAllTagsVisible,
 } from "./tags";
@@ -18,6 +19,7 @@ export const resolvers: Resolvers = {
     deleteTask: resolveDeleteTask,
     updateTask: resolveUpdateTask,
     updateTag: resolveUpdateTag,
+    updateTags: resolveUpdateTags,
     setActiveTag: resolveSetActiveTag,
     setAllTagsVisible: resolveSetAllTagsVisible,
     uploadFile: resolveUploadFile,

@@ -5,5 +5,9 @@ mutation updateTag(
     code
     success
     message
+    tag{
+      name
+      isActive
+    }
   }
 }

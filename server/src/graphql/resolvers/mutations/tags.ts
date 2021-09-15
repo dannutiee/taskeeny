@@ -3,16 +3,18 @@ import { UserInputError } from "apollo-server";
 import { Account } from "../../../models";
 import {
   MutationResolvers,
+  Tag,
   Tag as TagInterface,
 } from "../../__generated__/typeDefs";
 
 type ResolveUpdateTag = MutationResolvers["updateTag"];
+type ResolveUpdateTags = MutationResolvers["updateTags"];
 type ResolveSetActiveTag = MutationResolvers["setActiveTag"];
 type ResolveSetAllTagsVisible = MutationResolvers["setAllTagsVisible"];
 
 export const resolveUpdateTag: ResolveUpdateTag = async (
   _parent,
-  { input: { name, isActive, color } },
+  { input: { name, isActive = null, color } },
   { isAuth, user }
 ) => {
   if (isAuth) {
@@ -26,7 +28,7 @@ export const resolveUpdateTag: ResolveUpdateTag = async (
     if (!tagToUpdate) {
       throw new UserInputError("Tag is not exist");
     } else {
-      if (isActive) {
+      if (isActive !== null) {
         tagToUpdate.isActive = isActive;
       }
       if (color) {
@@ -42,12 +44,57 @@ export const resolveUpdateTag: ResolveUpdateTag = async (
         };
       }
     });
+    console.log("active result", result);
 
     return {
       ...result,
       code: "200",
       success: true,
       message: "Tag succesfully updated",
+      tag: {
+        name,
+        isActive,
+      },
+    };
+  }
+};
+
+export const resolveUpdateTags: ResolveUpdateTags = async (
+  _parent,
+  { input: { tags = [] } },
+  { isAuth, user }
+) => {
+  if (isAuth) {
+    const currentAccount = await Account.findOne({ user_id: user.id });
+
+    currentAccount.tags.map((existingTag: TagInterface) => {
+      const newColor = tags.find((tag) => tag.name === existingTag.name)?.color;
+      existingTag.color = newColor || existingTag.color;
+
+      return existingTag;
+    });
+
+    currentAccount.markModified("tags");
+
+    const result = currentAccount.save((err: any, doc: any) => {
+      if (err) {
+        return {
+          success: false,
+          message: err,
+        };
+      }
+      return doc;
+    });
+
+    return {
+      ...result,
+      code: "200",
+      success: true,
+      message: "Tags succesfully updated",
+      tags: result.tags.map((tag: Tag) => ({
+        name: tag.name,
+        color: tag.color,
+      })),
     };
   }
 };
@@ -94,8 +141,6 @@ export const resolveSetAllTagsVisible: ResolveSetAllTagsVisible = async (
     currentAccount.tags.map((tag: TagInterface) => {
       tag.isActive = true;
     });
-
-    console.log("currentAccount.tags======>", currentAccount.tags);
 
     const result = await currentAccount.save((err: any) => {
       if (err) {

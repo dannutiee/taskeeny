@@ -40,6 +40,10 @@ export default gql`
     color: String
   }
 
+  input UpdateTagsInput {
+    tags: [TagInput!]!
+  }
+
   input SetActiveTagInput {
     activeTag: String!
   }
@@ -114,11 +118,28 @@ export default gql`
     success: Boolean!
     message: String!
   }
+  type TagWithStatus {
+    name: String!
+    isActive: Boolean!
+  }
 
   type UpdateTagResponse implements MutationResponseInterface {
     code: String!
     success: Boolean!
     message: String!
+    tag: TagWithStatus!
+  }
+
+  type TagWithColor {
+    name: String!
+    color: String!
+  }
+
+  type UpdateTagsResponse implements MutationResponseInterface {
+    code: String!
+    success: Boolean!
+    message: String!
+    tags: [TagWithColor!]!
   }
 
   type SetActiveTagResponse implements MutationResponseInterface {
@@ -168,6 +189,7 @@ export default gql`
     deleteTask(taskId: ID!): DeleteTaskResponse
     updateTask(input: UpdateTaskInput!): UpdateTaskResponse
     updateTag(input: UpdateTagInput!): UpdateTagResponse
+    updateTags(input: UpdateTagsInput!): UpdateTagsResponse
     setActiveTag(input: SetActiveTagInput!): SetActiveTagResponse
     setAllTagsVisible: SetAllTagsVisibleResponse
     uploadFile(file: UploadFile!): UploadedFileResponse

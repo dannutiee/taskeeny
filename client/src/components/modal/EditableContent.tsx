@@ -26,6 +26,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   deleteTask,
   createdAt = "",
   completedAt = "",
+  updateTags,
 }) => {
   const history = useHistory();
   const textarea = useRef("") as any;
@@ -173,15 +174,17 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
   // ----- Events  ------
 
-  const onCickSave = () => {
+  const onCickSave = async () => {
     if (updateTask) {
-      updateTask(taskId, newTaskStatus, currentContent, [
+      await updateTask(taskId, newTaskStatus, currentContent, [
         ...tagsInContentState,
       ]);
     }
     if (addNewTask) {
-      addNewTask(currentContent, [...tagsInContentState], newTaskStatus);
+      await addNewTask(currentContent, [...tagsInContentState], newTaskStatus);
     }
+
+    updateTags([...tagsInContentState]);
 
     history.push(`/`);
     hide();
@@ -195,11 +198,10 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
   const onTextChange = (e: any) => {
     e.persist();
-    const inputValue = e.target.value;
-    setCurrentContent(inputValue);
+    setCurrentContent(e.target.value);
   };
 
-  const onNewTagColorChange = (name: string, color: string) => {
+  const handleTagColorChange = (name: string, color: string) => {
     const tagToUpdate = tagsInContentState.find((tag) => tag.name === name);
     if (tagToUpdate) {
       setTagsInContentState((prev) => {
@@ -226,7 +228,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
             <TextWithColoredHashtags
               text={currentContent}
               allTags={[...tagsInContentState]}
-              updateNewTagColor={onNewTagColorChange}
+              updateTagColorInState={handleTagColorChange}
             />
           </TextareaVisibleResult>
           <InvisibleTextArea
@@ -263,6 +265,7 @@ export const TaskTextArea = styled.textarea`
 
 export const EditableArea = styled.div`
   position: relative;
+  padding: 6px;
 `;
 
 export const TextareaVisibleResult = styled.div`
