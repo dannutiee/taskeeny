@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import ImageUploading from "react-images-uploading";
+import MD5 from "crypto-js/md5";
+
+import { AuthContext } from "../../contexts/auth";
 import { useUploadFileMutation } from "../../graphql/__generated__/typeDefs";
 
 interface AvatarProps {
   userId: string;
 }
 
+//TODO Since there is Gravatar now, so the ImageUploading can be removed
+
 export const Avatar: React.FC<AvatarProps> = ({ userId }) => {
+  const { user } = useContext(AuthContext);
+
   const [images, setImages] = React.useState([]); // TODO need to set default image
   const [uploadFile] = useUploadFileMutation({});
 
@@ -36,17 +43,29 @@ export const Avatar: React.FC<AvatarProps> = ({ userId }) => {
         const onAvatarClick = isAvatarUploaded
           ? () => onImageUpdate(updateIndex)
           : onImageUpload;
-        const avatarUrl = isAvatarUploaded
-          ? imageList[0]["data_url"]
-          : `images/avatar_${userId}.jpg`;
+
+        // const avatarUrl = isAvatarUploaded
+        //   ? imageList[0]["data_url"]
+        //   : `images/avatar_${userId}.jpg`;
+
+        const getGravatarEmailHash = () => {
+          const email = user?.email.trim().toLocaleLowerCase() || "";
+          const hashedEmail = MD5(email);
+          return hashedEmail;
+        };
+        const avatarUrl = `https://www.gravatar.com/avatar/${getGravatarEmailHash()}?d=mp`;
+
+        const linkToGravatarPage = "https://pl.gravatar.com/";
 
         return (
           <UploadWrapper className="upload__image-wrapper">
             <AvatarBorder>
-              <AvatarImage
-                onClick={onAvatarClick}
-                imageUrl={avatarUrl}
-              ></AvatarImage>
+              <a href={linkToGravatarPage} target={"_blank"}>
+                <AvatarImage
+                  // onClick={onAvatarClick}
+                  imageUrl={avatarUrl}
+                ></AvatarImage>
+              </a>
             </AvatarBorder>
           </UploadWrapper>
         );
@@ -69,6 +88,7 @@ const AvatarImage = styled.div<AvatarComponentProps>`
   background-repeat: no-repeat;
   background-image: url("${(p) => p.imageUrl}");
   transform: rotate(190deg);
+  cursor: pointer;
 `;
 
 const AvatarBorder = styled.div`
