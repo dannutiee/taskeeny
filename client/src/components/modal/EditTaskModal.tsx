@@ -6,6 +6,7 @@ import {
   GetTasksDocument,
   GetTagsDocument,
   TagInput,
+  useUpdateTagsMutation,
 } from "../../graphql/__generated__/typeDefs";
 import { EditTaskModalContainerProps } from "./interfaces";
 import { EditableContent } from "./EditableContent";
@@ -27,6 +28,10 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
     // awaitRefetchQueries: true,
   });
 
+  const [
+    updateTagsMutation,
+    { error: updateTagError },
+  ] = useUpdateTagsMutation();
   const [deleteTaskMutation] = useDeleteTaskMutation({});
 
   const updateTask = async (
@@ -41,6 +46,16 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
           taskId,
           status,
           content,
+          tags,
+        },
+      },
+    });
+  };
+
+  const updateTags = async (tags: TagInput[]): Promise<void> => {
+    await updateTagsMutation({
+      variables: {
+        input: {
           tags,
         },
       },
@@ -82,6 +97,7 @@ const EditTaskModalContainer: React.FC<EditTaskModalContainerProps> = ({
       createdAt={createdAt}
       completedAt={completedAt}
       deleteTask={deleteTask}
+      updateTags={updateTags}
     />
   );
 };

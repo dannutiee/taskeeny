@@ -6,14 +6,11 @@ import { Modal } from "./Modal";
 import { TagBorder } from "../task/TagBorder";
 import { TagsContext } from "../../contexts/tags";
 import {
-  formatTagsToInputFormat,
   getTagsFromText,
-  getNewTags,
-  getRecogizedTagsInputFormat,
   Status,
   TagsInputFormat,
+  getRandomColor,
 } from "../task/utils";
-import { getRandomAvailableColor } from "../tag/utils";
 import { EditableContentProps } from "./interfaces";
 import { Header } from "./Header";
 import { TextWithColoredHashtags } from "./TextWithColoredHashtags";
@@ -29,53 +26,162 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   deleteTask,
   createdAt = "",
   completedAt = "",
+  updateTags,
 }) => {
   const history = useHistory();
   const textarea = useRef("") as any;
+  const { existingTagNamesWithColors, tags: tagi } = useContext(TagsContext);
 
-  const tagsContext = useContext(TagsContext);
-
-  const [currentContent, setCurrentContent] = useState(content);
-  const [newStatus, setNewStatus] = useState(status);
-  const [newTagsNames, setNewTagsNames] = useState<string[]>([]);
-  const [newTagsColors, setNewTagsColors] = useState<string[]>([]);
-
-  const allExistingTags: TagsInputFormat[] = formatTagsToInputFormat(
-    tagsContext.tags
-  );
-  const [
-    allTagsIncludingNewRecognized,
-    setAllTagsIncludingNewRecognized,
-  ] = useState<TagsInputFormat[]>(allExistingTags);
+  const [currentContent, setCurrentContent] = useState("");
+  const [newTaskStatus, setNewTaskStatus] = useState(status);
+  const [tagsInContentState, setTagsInContentState] = useState<
+    TagsInputFormat[]
+  >([]);
 
   useEffect(() => {
     if (!!addNewTask) textarea.current.focus();
+    setCurrentContent(content);
   }, []);
 
-  const onCickSave = () => {
-    const newTaskTags: TagsInputFormat[] = getNewTags(
-      getTagsFromText(currentContent, allExistingTags).newTags,
-      newTagsColors
+  useEffect(() => {
+    const savedTagsInContent = existingTagNamesWithColors.filter((el) =>
+      tags.includes(el.name)
     );
 
-    const recognizedTags = getRecogizedTagsInputFormat(
-      allExistingTags,
-      getTagsFromText(currentContent, allExistingTags).existingTags
+    setTagsInContentState((prevState) => {
+      if (prevState.length === 0) {
+        return savedTagsInContent;
+      }
+      const newTagsKeept = prevState.filter((el) => !tags.includes(el.name));
+      return [...savedTagsInContent, ...newTagsKeept];
+    });
+  }, [existingTagNamesWithColors]);
+
+  useEffect(() => {
+    const tagNamesRecognizedInContent: string[] = getTagsFromText(
+      currentContent,
+      existingTagNamesWithColors
+    ).allRecognized;
+
+    const shouldInitializeNewTag: boolean =
+      tagNamesRecognizedInContent.length > tagsInContentState.length;
+    const shouldRemoveTag: boolean =
+      tagNamesRecognizedInContent.length < tagsInContentState.length;
+
+    resetTagsInContentState(
+      shouldInitializeNewTag,
+      shouldRemoveTag,
+      tagNamesRecognizedInContent
+    );
+  }, [currentContent]);
+
+  //  ---- Tags in Content State setters  ----
+
+  const initializeNewTagInState = (newName: string) => {
+    setTagsInContentState((prevState) => {
+      return [
+        ...prevState,
+        {
+          name: newName,
+          color: getRandomColor(existingTagNamesWithColors, tagsInContentState),
+        },
+      ];
+    });
+  };
+
+  const removeDeletedTagsFromState = (stillExistingTags: TagsInputFormat[]) => {
+    setTagsInContentState([...stillExistingTags]);
+  };
+
+  const updateChangedTagInState = (
+    stillExistingTags: TagsInputFormat[],
+    tagToUpdate: TagsInputFormat,
+    newName: string
+  ) => {
+    setTagsInContentState([
+      ...stillExistingTags,
+      { name: newName, color: getColorForUpdatedTag(tagToUpdate, newName) },
+    ]);
+  };
+
+  // --  Tags in Content State Main Setter  ----
+
+  const resetTagsInContentState = (
+    shouldInitializeNewTag: boolean,
+    shouldRemoveTag: boolean,
+    tagNamesInContent: string[]
+  ) => {
+    const tagToUpdate: TagsInputFormat = tagsInContentState.filter(
+      (el) => !tagNamesInContent.includes(el.name)
+    )[0];
+
+    const newName = tagNamesInContent.filter(
+      (el) => !tagsInContentState.map((tag) => tag.name).includes(el)
+    )[0];
+
+    const tagsFromStateFilteredByRecognizedInContent: TagsInputFormat[] = tagsInContentState.filter(
+      (tag) => tagNamesInContent.includes(tag.name)
     );
 
+    const shouldUpdateTag = Boolean(tagToUpdate) && Boolean(newName);
+
+    if (shouldInitializeNewTag) {
+      initializeNewTagInState(newName);
+    }
+
+    if (shouldRemoveTag) {
+      removeDeletedTagsFromState(tagsFromStateFilteredByRecognizedInContent);
+    }
+
+    if (shouldUpdateTag) {
+      updateChangedTagInState(
+        tagsFromStateFilteredByRecognizedInContent,
+        tagToUpdate,
+        newName
+      );
+    }
+  };
+
+  // -- helpers ---
+
+  const getColorForUpdatedTag = (
+    tagToUpdate: TagsInputFormat,
+    newName: string
+  ) => {
+    const knownTag = existingTagNamesWithColors.find(
+      (el) => el.name === newName
+    );
+
+    // protect saved tags from overriding theirs colors
+    const isKnownTagNameChanged = existingTagNamesWithColors.find(
+      (el) => el.color === tagToUpdate.color
+    );
+
+    const useNewColor = getRandomColor(
+      existingTagNamesWithColors,
+      tagsInContentState
+    );
+    const useCurrentlyEditingTagColor = tagToUpdate.color;
+    const newTagNameColor = isKnownTagNameChanged
+      ? useNewColor
+      : useCurrentlyEditingTagColor;
+
+    return knownTag ? knownTag.color : newTagNameColor;
+  };
+
+  // ----- Events  ------
+
+  const onCickSave = async () => {
     if (updateTask) {
-      updateTask(taskId, newStatus, currentContent, [
-        ...newTaskTags,
-        ...recognizedTags,
+      await updateTask(taskId, newTaskStatus, currentContent, [
+        ...tagsInContentState,
       ]);
     }
     if (addNewTask) {
-      addNewTask(
-        currentContent,
-        [...newTaskTags, ...recognizedTags],
-        newStatus
-      );
+      await addNewTask(currentContent, [...tagsInContentState], newTaskStatus);
     }
+
+    updateTags([...tagsInContentState]);
 
     history.push(`/`);
     hide();
@@ -87,56 +193,28 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     hide();
   };
 
-  const setNewTagsNamesAndColors = (newTagNamesFromText: string[]) => {
-    const colorsAlreadyInUse: string[] = [
-      ...allExistingTags.map((tag) => tag.color),
-      ...newTagsColors,
-    ];
-
-    setNewTagsNames((prevState) => {
-      const newTagNameAdded = newTagNamesFromText.length > prevState.length;
-      const newTagNameRemoved = newTagNamesFromText.length < prevState.length;
-
-      if (newTagNameAdded) {
-        setNewTagsColors((prevColors) => [
-          ...prevColors,
-          getRandomAvailableColor(colorsAlreadyInUse),
-        ]);
-      } else if (newTagNameRemoved) {
-        setNewTagsColors((prevColors) => [...prevColors.slice(0, -1)]);
-      }
-      return [...newTagNamesFromText];
-    });
-  };
-
   const onTextChange = (e: any) => {
     e.persist();
-    const inputValue = e.target.value;
-    setCurrentContent(inputValue);
-
-    const newTagNamesRecognizedInText: string[] = getTagsFromText(
-      inputValue,
-      allExistingTags
-    ).newTags;
-
-    setNewTagsNamesAndColors(newTagNamesRecognizedInText);
-
-    const newTagsRecognizedInText: TagsInputFormat[] = getNewTags(
-      newTagNamesRecognizedInText,
-      newTagsColors
-    );
-
-    setAllTagsIncludingNewRecognized([
-      ...allExistingTags,
-      ...newTagsRecognizedInText,
-    ]);
+    setCurrentContent(e.target.value);
   };
+
+  const handleTagColorChange = (name: string, color: string) => {
+    const tagToUpdate = tagsInContentState.find((tag) => tag.name === name);
+    if (tagToUpdate) {
+      setTagsInContentState((prev) => {
+        const filteredContext = prev.filter((el) => el.name !== name);
+        return [...filteredContext, { ...tagToUpdate, color }];
+      });
+    }
+  };
+
+  console.log("state all", tagsInContentState);
 
   return (
     <Modal hide={hide} onSave={onCickSave} onDelete={onClickDelete}>
       <Header
         status={status}
-        setNewStatus={setNewStatus}
+        setNewStatus={setNewTaskStatus}
         createdAt={createdAt}
         completedAt={completedAt}
       />
@@ -146,7 +224,8 @@ export const EditableContent: React.FC<EditableContentProps> = ({
           <TextareaVisibleResult>
             <TextWithColoredHashtags
               text={currentContent}
-              allTags={allTagsIncludingNewRecognized}
+              allTags={[...tagsInContentState]}
+              updateTagColorInState={handleTagColorChange}
             />
           </TextareaVisibleResult>
           <InvisibleTextArea
@@ -183,6 +262,7 @@ export const TaskTextArea = styled.textarea`
 
 export const EditableArea = styled.div`
   position: relative;
+  padding: 6px;
 `;
 
 export const TextareaVisibleResult = styled.div`

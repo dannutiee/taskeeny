@@ -66,6 +66,7 @@ export type Mutation = {
   deleteTask?: Maybe<DeleteTaskResponse>;
   updateTask?: Maybe<UpdateTaskResponse>;
   updateTag?: Maybe<UpdateTagResponse>;
+  updateTags?: Maybe<UpdateTagsResponse>;
   setActiveTag?: Maybe<SetActiveTagResponse>;
   setAllTagsVisible?: Maybe<SetAllTagsVisibleResponse>;
   uploadFile?: Maybe<UploadedFileResponse>;
@@ -98,6 +99,10 @@ export type MutationUpdateTaskArgs = {
 
 export type MutationUpdateTagArgs = {
   input: UpdateTagInput;
+};
+
+export type MutationUpdateTagsArgs = {
+  input: UpdateTagsInput;
 };
 
 export type MutationSetActiveTagArgs = {
@@ -174,6 +179,18 @@ export type TagInput = {
   color: Scalars["String"];
 };
 
+export type TagWithColor = {
+  __typename?: "TagWithColor";
+  name: Scalars["String"];
+  color: Scalars["String"];
+};
+
+export type TagWithStatus = {
+  __typename?: "TagWithStatus";
+  name: Scalars["String"];
+  isActive: Scalars["Boolean"];
+};
+
 export type Task = {
   __typename?: "Task";
   id: Scalars["ID"];
@@ -198,7 +215,8 @@ export type UpdatePositionsResponse = MutationResponseInterface & {
 
 export type UpdateTagInput = {
   name: Scalars["String"];
-  isActive: Scalars["Boolean"];
+  isActive?: Maybe<Scalars["Boolean"]>;
+  color?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateTagResponse = MutationResponseInterface & {
@@ -206,6 +224,19 @@ export type UpdateTagResponse = MutationResponseInterface & {
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
+  tag: TagWithStatus;
+};
+
+export type UpdateTagsInput = {
+  tags: Array<TagInput>;
+};
+
+export type UpdateTagsResponse = MutationResponseInterface & {
+  __typename?: "UpdateTagsResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  tags: Array<TagWithColor>;
 };
 
 export type UpdateTaskInput = {
@@ -397,7 +428,29 @@ export type UpdateTagMutation = { __typename?: "Mutation" } & {
     { __typename?: "UpdateTagResponse" } & Pick<
       UpdateTagResponse,
       "code" | "success" | "message"
-    >
+    > & {
+        tag: { __typename?: "TagWithStatus" } & Pick<
+          TagWithStatus,
+          "name" | "isActive"
+        >;
+      }
+  >;
+};
+
+export type UpdateTagsMutationVariables = Exact<{
+  input: UpdateTagsInput;
+}>;
+
+export type UpdateTagsMutation = { __typename?: "Mutation" } & {
+  updateTags?: Maybe<
+    { __typename?: "UpdateTagsResponse" } & Pick<
+      UpdateTagsResponse,
+      "code" | "success" | "message"
+    > & {
+        tags: Array<
+          { __typename?: "TagWithColor" } & Pick<TagWithColor, "name" | "color">
+        >;
+      }
   >;
 };
 
@@ -967,6 +1020,10 @@ export const UpdateTagDocument = gql`
       code
       success
       message
+      tag {
+        name
+        isActive
+      }
     }
   }
 `;
@@ -1010,6 +1067,62 @@ export type UpdateTagMutationResult = Apollo.MutationResult<UpdateTagMutation>;
 export type UpdateTagMutationOptions = Apollo.BaseMutationOptions<
   UpdateTagMutation,
   UpdateTagMutationVariables
+>;
+export const UpdateTagsDocument = gql`
+  mutation updateTags($input: UpdateTagsInput!) {
+    updateTags(input: $input) {
+      code
+      success
+      message
+      tags {
+        name
+        color
+      }
+    }
+  }
+`;
+export type UpdateTagsMutationFn = Apollo.MutationFunction<
+  UpdateTagsMutation,
+  UpdateTagsMutationVariables
+>;
+
+/**
+ * __useUpdateTagsMutation__
+ *
+ * To run a mutation, you first call `useUpdateTagsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTagsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTagsMutation, { data, loading, error }] = useUpdateTagsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateTagsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTagsMutation,
+    UpdateTagsMutationVariables
+  >
+) {
+  return Apollo.useMutation<UpdateTagsMutation, UpdateTagsMutationVariables>(
+    UpdateTagsDocument,
+    baseOptions
+  );
+}
+export type UpdateTagsMutationHookResult = ReturnType<
+  typeof useUpdateTagsMutation
+>;
+export type UpdateTagsMutationResult = Apollo.MutationResult<
+  UpdateTagsMutation
+>;
+export type UpdateTagsMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTagsMutation,
+  UpdateTagsMutationVariables
 >;
 export const UpdateTaskDocument = gql`
   mutation updateTask($input: UpdateTaskInput!) {

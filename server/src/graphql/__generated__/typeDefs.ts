@@ -73,6 +73,7 @@ export type Mutation = {
   deleteTask?: Maybe<DeleteTaskResponse>;
   updateTask?: Maybe<UpdateTaskResponse>;
   updateTag?: Maybe<UpdateTagResponse>;
+  updateTags?: Maybe<UpdateTagsResponse>;
   setActiveTag?: Maybe<SetActiveTagResponse>;
   setAllTagsVisible?: Maybe<SetAllTagsVisibleResponse>;
   uploadFile?: Maybe<UploadedFileResponse>;
@@ -105,6 +106,10 @@ export type MutationUpdateTaskArgs = {
 
 export type MutationUpdateTagArgs = {
   input: UpdateTagInput;
+};
+
+export type MutationUpdateTagsArgs = {
+  input: UpdateTagsInput;
 };
 
 export type MutationSetActiveTagArgs = {
@@ -181,6 +186,18 @@ export type TagInput = {
   color: Scalars["String"];
 };
 
+export type TagWithColor = {
+  __typename?: "TagWithColor";
+  name: Scalars["String"];
+  color: Scalars["String"];
+};
+
+export type TagWithStatus = {
+  __typename?: "TagWithStatus";
+  name: Scalars["String"];
+  isActive: Scalars["Boolean"];
+};
+
 export type Task = {
   __typename?: "Task";
   id: Scalars["ID"];
@@ -205,7 +222,8 @@ export type UpdatePositionsResponse = MutationResponseInterface & {
 
 export type UpdateTagInput = {
   name: Scalars["String"];
-  isActive: Scalars["Boolean"];
+  isActive?: Maybe<Scalars["Boolean"]>;
+  color?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateTagResponse = MutationResponseInterface & {
@@ -213,6 +231,19 @@ export type UpdateTagResponse = MutationResponseInterface & {
   code: Scalars["String"];
   success: Scalars["Boolean"];
   message: Scalars["String"];
+  tag: TagWithStatus;
+};
+
+export type UpdateTagsInput = {
+  tags: Array<TagInput>;
+};
+
+export type UpdateTagsResponse = MutationResponseInterface & {
+  __typename?: "UpdateTagsResponse";
+  code: Scalars["String"];
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  tags: Array<TagWithColor>;
 };
 
 export type UpdateTaskInput = {
@@ -380,6 +411,7 @@ export type ResolversTypes = {
     | ResolversTypes["DeleteTaskResponse"]
     | ResolversTypes["UpdateTaskResponse"]
     | ResolversTypes["UpdateTagResponse"]
+    | ResolversTypes["UpdateTagsResponse"]
     | ResolversTypes["SetActiveTagResponse"]
     | ResolversTypes["SetAllTagsVisibleResponse"];
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
@@ -393,6 +425,10 @@ export type ResolversTypes = {
   UpdateTaskResponse: ResolverTypeWrapper<UpdateTaskResponse>;
   UpdateTagInput: UpdateTagInput;
   UpdateTagResponse: ResolverTypeWrapper<UpdateTagResponse>;
+  TagWithStatus: ResolverTypeWrapper<TagWithStatus>;
+  UpdateTagsInput: UpdateTagsInput;
+  UpdateTagsResponse: ResolverTypeWrapper<UpdateTagsResponse>;
+  TagWithColor: ResolverTypeWrapper<TagWithColor>;
   SetActiveTagInput: SetActiveTagInput;
   SetActiveTagResponse: ResolverTypeWrapper<SetActiveTagResponse>;
   SetAllTagsVisibleResponse: ResolverTypeWrapper<SetAllTagsVisibleResponse>;
@@ -422,6 +458,7 @@ export type ResolversParentTypes = {
     | ResolversParentTypes["DeleteTaskResponse"]
     | ResolversParentTypes["UpdateTaskResponse"]
     | ResolversParentTypes["UpdateTagResponse"]
+    | ResolversParentTypes["UpdateTagsResponse"]
     | ResolversParentTypes["SetActiveTagResponse"]
     | ResolversParentTypes["SetAllTagsVisibleResponse"];
   LoginResponse: LoginResponse;
@@ -435,6 +472,10 @@ export type ResolversParentTypes = {
   UpdateTaskResponse: UpdateTaskResponse;
   UpdateTagInput: UpdateTagInput;
   UpdateTagResponse: UpdateTagResponse;
+  TagWithStatus: TagWithStatus;
+  UpdateTagsInput: UpdateTagsInput;
+  UpdateTagsResponse: UpdateTagsResponse;
+  TagWithColor: TagWithColor;
   SetActiveTagInput: SetActiveTagInput;
   SetActiveTagResponse: SetActiveTagResponse;
   SetAllTagsVisibleResponse: SetAllTagsVisibleResponse;
@@ -540,6 +581,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationUpdateTagArgs, "input">
   >;
+  updateTags?: Resolver<
+    Maybe<ResolversTypes["UpdateTagsResponse"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateTagsArgs, "input">
+  >;
   setActiveTag?: Resolver<
     Maybe<ResolversTypes["SetActiveTagResponse"]>,
     ParentType,
@@ -571,6 +618,7 @@ export type MutationResponseInterfaceResolvers<
     | "DeleteTaskResponse"
     | "UpdateTaskResponse"
     | "UpdateTagResponse"
+    | "UpdateTagsResponse"
     | "SetActiveTagResponse"
     | "SetAllTagsVisibleResponse",
     ParentType,
@@ -653,6 +701,24 @@ export type TagResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type TagWithColorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TagWithColor"] = ResolversParentTypes["TagWithColor"]
+> = {
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  color?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TagWithStatusResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["TagWithStatus"] = ResolversParentTypes["TagWithStatus"]
+> = {
+  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  isActive?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type TaskResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes["Task"] = ResolversParentTypes["Task"]
@@ -687,6 +753,22 @@ export type UpdateTagResponseResolvers<
   code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  tag?: Resolver<ResolversTypes["TagWithStatus"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UpdateTagsResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["UpdateTagsResponse"] = ResolversParentTypes["UpdateTagsResponse"]
+> = {
+  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  tags?: Resolver<
+    Array<ResolversTypes["TagWithColor"]>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -739,9 +821,12 @@ export type Resolvers<ContextType = any> = {
   SetActiveTagResponse?: SetActiveTagResponseResolvers<ContextType>;
   SetAllTagsVisibleResponse?: SetAllTagsVisibleResponseResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
+  TagWithColor?: TagWithColorResolvers<ContextType>;
+  TagWithStatus?: TagWithStatusResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
   UpdatePositionsResponse?: UpdatePositionsResponseResolvers<ContextType>;
   UpdateTagResponse?: UpdateTagResponseResolvers<ContextType>;
+  UpdateTagsResponse?: UpdateTagsResponseResolvers<ContextType>;
   UpdateTaskResponse?: UpdateTaskResponseResolvers<ContextType>;
   UploadedFileResponse?: UploadedFileResponseResolvers<ContextType>;
   UploadFile?: GraphQLScalarType;

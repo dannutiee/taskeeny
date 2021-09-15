@@ -1,4 +1,5 @@
 import { Tag as TagType } from "../../graphql/__generated__/typeDefs";
+import { getRandomAvailableColor } from "../tag/utils";
 
 type Tag = Omit<TagType, "id">;
 
@@ -46,16 +47,13 @@ export const getContentWithoutTagNames = (content: string): string => {
 };
 
 export const getArrayOfExistingTags = (allAvailableTags: TagsInputFormat[]) => {
-  const arrayOfExistingTags: string[] = [];
-  allAvailableTags.forEach((tag) => {
-    arrayOfExistingTags.push(tag.name);
-  });
-  return arrayOfExistingTags;
+  return allAvailableTags.map((tag) => tag.name);
 };
 
 interface TagsFromText {
   newTags: string[];
   existingTags: string[];
+  allRecognized: string[];
 }
 export const getTagsFromText = (
   text: string,
@@ -75,7 +73,23 @@ export const getTagsFromText = (
     }
   });
 
-  return { newTags, existingTags };
+  return {
+    newTags,
+    existingTags: [...new Set(existingTags)],
+    allRecognized: [...newTags, ...new Set(existingTags)],
+  };
+};
+
+export const getRandomColor = (
+  existingTagNamesWithColors: TagsInputFormat[],
+  allTagsInCurrentText: TagsInputFormat[]
+) => {
+  const colorsAlreadyInUse: string[] = [
+    ...existingTagNamesWithColors.map((tag) => tag.color),
+    ...allTagsInCurrentText.map((tag) => tag.color),
+  ];
+
+  return getRandomAvailableColor(colorsAlreadyInUse);
 };
 
 export const formatTagsToInputFormat = (

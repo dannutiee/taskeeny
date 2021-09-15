@@ -1,0 +1,13 @@
+mutation updateTags(
+ $input: UpdateTagsInput!
+) {
+  updateTags(input: $input) {
+    code
+    success
+    message
+    tags {
+        name
+        color
+    }
+  }
+}
