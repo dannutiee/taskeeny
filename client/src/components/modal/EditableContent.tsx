@@ -148,12 +148,12 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     tagToUpdate: TagsInputFormat,
     newName: string
   ) => {
-    const tagRecognized = existingTagNamesWithColors.find(
+    const knownTag = existingTagNamesWithColors.find(
       (el) => el.name === newName
     );
 
     // protect saved tags from overriding theirs colors
-    const isExistingTagNameUpdated = existingTagNamesWithColors.find(
+    const isKnownTagNameChanged = existingTagNamesWithColors.find(
       (el) => el.color === tagToUpdate.color
     );
 
@@ -161,15 +161,12 @@ export const EditableContent: React.FC<EditableContentProps> = ({
       existingTagNamesWithColors,
       tagsInContentState
     );
-    const useCurrentlyEditedTagColor = tagToUpdate.color;
-
-    const updatedTagColor = tagRecognized
-      ? tagRecognized.color
-      : isExistingTagNameUpdated
+    const useCurrentlyEditingTagColor = tagToUpdate.color;
+    const newTagNameColor = isKnownTagNameChanged
       ? useNewColor
-      : useCurrentlyEditedTagColor;
+      : useCurrentlyEditingTagColor;
 
-    return updatedTagColor;
+    return knownTag ? knownTag.color : newTagNameColor;
   };
 
   // ----- Events  ------
