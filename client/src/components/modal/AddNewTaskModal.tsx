@@ -5,6 +5,7 @@ import {
   GetTasksDocument,
   GetTagsDocument,
   TagInput,
+  useUpdateTagsMutation,
 } from "../../graphql/__generated__/typeDefs";
 import { AddNewTaskModalContainerProps } from "./interfaces";
 import { EditableContent } from "./EditableContent";
@@ -16,6 +17,10 @@ const AddNewTaskModalContainer: React.FC<AddNewTaskModalContainerProps> = ({
     refetchQueries: [{ query: GetTasksDocument }, { query: GetTagsDocument }],
     // awaitRefetchQueries: true,
   });
+  const [
+    updateTagsMutation,
+    { error: updateTagError },
+  ] = useUpdateTagsMutation();
 
   const addNewTask = (
     content: string,
@@ -33,7 +38,23 @@ const AddNewTaskModalContainer: React.FC<AddNewTaskModalContainerProps> = ({
     });
   };
 
-  return <EditableContent hide={hide} addNewTask={addNewTask} />;
+  const updateTags = async (tags: TagInput[]): Promise<void> => {
+    await updateTagsMutation({
+      variables: {
+        input: {
+          tags,
+        },
+      },
+    });
+  };
+
+  return (
+    <EditableContent
+      hide={hide}
+      addNewTask={addNewTask}
+      updateTags={updateTags}
+    />
+  );
 };
 
 export const AddNewTaskModal = AddNewTaskModalContainer;

@@ -1,7 +1,8 @@
 import { TagsInputFormat } from "../task/utils";
 import { mdColors } from "./colors";
 
-export const REG_EX_TAG = /^#\w+$/;
+// export const REG_EX_TAG = /^#\w+$/;
+export const REG_EX_TAG = /# *([^#]+)/;
 
 export const getRandomAvailableColor = (colorsAlreadyInUse: string[]) => {
   const colors = mdColors.filter(

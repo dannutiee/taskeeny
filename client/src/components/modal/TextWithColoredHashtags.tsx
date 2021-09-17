@@ -61,7 +61,7 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
     const isColorPickerOpen = name.substring(1) === currentColorPicker;
     return (
       <TagWrapper color={color} className="hashtag">
-        <span onClick={() => onClickTag(name.slice(1))}>{name} </span>
+        <span onClick={() => onClickTag(name.slice(1))}>{name}</span>
         {isColorPickerOpen && (
           <PickerWrapper>
             {" "}
@@ -73,7 +73,7 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
   };
 
   const colorHashtagsInText = () =>
-    text.split(" ").flatMap((word) => {
+    text.split(/(\s+)/).flatMap((word) => {
       const wordWithoutHashMark = word.slice(1);
       const defaultWordColor =
         theme === DARK_THEME
@@ -87,7 +87,7 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
       );
       return REG_EX_TAG.test(word)
         ? replaceWordWithTagComponent(newTagColor, word)
-        : `${word}` + " ";
+        : word;
     });
 
   return <>{textWithColoredHashtags}</>;

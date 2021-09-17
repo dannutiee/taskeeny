@@ -16,7 +16,7 @@ export interface EditableContentProps {
   hide: () => void;
   addNewTask?: any;
   updateTask?: any;
-  updateTags?: any;
+  updateTags: any;
   deleteTask?: any;
   content?: string;
   tags?: string[];

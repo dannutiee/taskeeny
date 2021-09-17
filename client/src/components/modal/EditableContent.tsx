@@ -232,6 +232,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
             onChange={onTextChange}
             defaultValue={content}
             ref={textarea}
+            maxLength={410}
           />
         </EditableArea>
       </EditContent>
@@ -251,6 +252,7 @@ export const TaskTextArea = styled.textarea`
   border-color: ${(p) => p.theme.modal.textarea.border};
   padding: 5px;
   resize: none;
+  overflow: hidden;
   color: ${(p) => p.theme.modal.textarea.color};
   &:focus-visible {
     outline: none;
