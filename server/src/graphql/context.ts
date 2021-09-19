@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server";
 import { ApolloServerExpressConfig } from "apollo-server-express";
 
-import { SECRET_KEY } from "../config";
 import { User } from "../models";
+const { SECRET_KEY } = require("../config");
 
 interface User {
   username: string;

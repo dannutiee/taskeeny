@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 import { ApolloServer } from "apollo-server-express";
-import { MONGODB } from "./config";
 import schema from "./graphql/schema";
+
+const {MONGODB} = require('./config');
 
 const app = express();
 app.use(

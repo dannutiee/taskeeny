@@ -6,7 +6,7 @@ import { UserInputError } from "apollo-server";
 
 import { User, Account } from "../../../models";
 import { MutationResolvers } from "../../__generated__/typeDefs";
-import { SECRET_KEY } from "../../../config";
+const { SECRET_KEY } = require("../../../config");
 import {
   validateRegisterInput,
   validateLoginInput,
