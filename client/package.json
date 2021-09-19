@@ -4,7 +4,8 @@
   "description": "Taskify is a BlueBee.app tool.",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open tsc --watch",
+    "start":"webpack-dev-server --content-base public",
+    "start:dev": "webpack-dev-server --open tsc --watch",
     "build": "webpack",
     "build:prod": "webpack -p --env production",
     "format:base": "prettier --parser typescript",
