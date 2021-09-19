@@ -6,11 +6,12 @@ import { ApolloServer } from "apollo-server-express";
 import schema from "./graphql/schema";
 
 const {MONGODB} = require('./config');
+var distDir =  process.env.production ? __dirname + "/dist/" : "/dist";
 
 const app = express();
 app.use(
   "/images",
-  express.static(path.join(__dirname, "../../../../../images"))
+  express.static(path.join(distDir, "../../../../../images"))
 );
 app.use(
   express.json({
@@ -21,7 +22,8 @@ app.use(
 const server = new ApolloServer(schema);
 const port = process.env.PORT || 8001;
 
-server.applyMiddleware({ app, path: "/graphql" });
+const graphqlDir = process.env.production ?  __dirname + "/graphql" : "/graphql"; 
+server.applyMiddleware({ app, path: graphqlDir });
 
 mongoose
   .connect(MONGODB, { useNewUrlParser: true })
