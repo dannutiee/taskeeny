@@ -4,10 +4,10 @@
   "description": "Taskify is a BlueBee.app tool.",
   "main": "index.js",
   "scripts": {
-    "start":"webpack-dev-server --content-base public",
+    "start":"set NODE_ENV=production && webpack-dev-server --content-base public",
     "start:dev": "webpack-dev-server --open tsc --watch",
-    "build": "webpack",
-    "build:prod": "webpack -p --env production",
+    "build": "webpack -p --env production",
+    "build:dev": "webpack",
     "format:base": "prettier --parser typescript",
     "format:check": "npm run format:base -- --list-different \"src/**/*.{ts,tsx,js}\"",
     "format": "npm run format:base -- --write \"src/**/*.{ts,tsx,js}\""
