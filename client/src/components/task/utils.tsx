@@ -106,6 +106,28 @@ export const formatTagsToInputFormat = (
   return tags;
 };
 
+export const getContentToDisplay = (text: string) => {
+  text = text.replace("&60;", "<");
+  text = text.replace("&62;", ">");
+  text = text.replace("&61;", "=");
+  text = text.replace("&42;", "*");
+  text = text.replace("&40;", "(");
+  text = text.replace("&41;", ")");
+  text = text.replace("|space|", " ");
+  return text;
+};
+
+export const getContentToSave = (text: string) => {
+  text = text.replace("<", "&60;");
+  text = text.replace(">", "&62;");
+  text = text.replace("=", "&61;");
+  text = text.replace("*", "&42;");
+  text = text.replace("(", "&40;");
+  text = text.replace(")", "&41;");
+  text = text.replace(/(\s+)/, "|space|");
+  return text;
+};
+
 export const getNewTags = (
   newTags: string[],
   newColors: string[]

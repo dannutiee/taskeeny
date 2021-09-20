@@ -19,6 +19,7 @@ const GREY = "#888888";
 const GREY_LIGHT_1 = "#e9e9ea";
 const GREY_MEDIUM = "#484646";
 const BLUE = "#79A7FF";
+const BLUE_HOVER = "#6395f5";
 const ERROR = "#ff0505";
 
 // LIGHT THEME
@@ -41,6 +42,7 @@ const GREY_COLD = "#6f77a2";
 export const COLORS = {
   BLACK,
   BLUE,
+  BLUE_HOVER,
   BLUE_DARK,
   BLUE_DARK_HOVER,
   BLUE_LIGHTER_DARK,

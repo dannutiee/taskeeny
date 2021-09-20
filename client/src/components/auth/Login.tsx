@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 
 import { useLoginMutation } from "../../graphql/__generated__/typeDefs";
 import { AuthContext } from "../../contexts/auth";
@@ -10,6 +11,7 @@ import { getErrors } from "../../utils";
 interface LoginErrors {
   email?: string;
   password?: string;
+  general?: string;
 }
 
 export interface LoginComponentProps {
@@ -67,12 +69,14 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
 
   return (
     <Form onSubmit={onSubmit} type={FormType.LOGIN}>
+      <ErrorInfo>{errors.general}</ErrorInfo>
       <Input
         name="email"
         value={values.email}
         onChange={onChange}
         label="Email address"
         error={errors.email}
+        type="email"
       />
       <Input
         name="password"
@@ -80,9 +84,17 @@ const LoginComponent: React.FC<LoginComponentProps> = ({
         onChange={onChange}
         label="Password"
         error={errors.password}
+        type="password"
       />
     </Form>
   );
 };
 
 export const Login = LoginContainer;
+
+const ErrorInfo = styled.span`
+  font-size: ${(p) => p.theme.font.size.small};
+  color: ${(p) => p.theme.font.error};
+  text-align: center;
+  padding-bottom: 15px;
+`;

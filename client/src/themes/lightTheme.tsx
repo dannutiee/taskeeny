@@ -10,6 +10,7 @@ export const lightTheme = {
   },
   font: {
     color: COLORS.BLACK,
+    error: COLORS.ERROR,
     placeholderColor: COLORS.GREY_LIGHT,
     emphasisColor: COLORS.BLUE,
     basic: {
@@ -52,6 +53,7 @@ export const lightTheme = {
     titleSize: FONT_SIZE.big,
     disabled: COLORS.DISABLED,
     nameColor: COLORS.GREY_LIGHT,
+    shadowHover: "0px 4px 10px rgb(0 0 0 / 10%)",
   },
   column: {
     background: COLORS.BLUE_LIGHT_1,
@@ -115,6 +117,9 @@ export const lightTheme = {
     background: COLORS.BLUE,
     borderRadius: "4px",
     textColor: COLORS.WHITE,
+    borderColorHover: COLORS.BLUE,
+    backgroundHover: COLORS.BLUE_HOVER,
+    shadowHover: "0px 8px 15px rgb(0 0 0 / 10%)",
   },
   auth: {
     bg: COLORS.BLUE,

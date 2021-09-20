@@ -5,14 +5,11 @@ const path = require("path");
 import { ApolloServer } from "apollo-server-express";
 import schema from "./graphql/schema";
 
-const {MONGODB} = require('./config');
-var distDir =  process.env.production ? __dirname + "/dist/" : "/dist";
+const { MONGODB } = require("./config");
+var distDir = process.env.production ? __dirname + "/dist/" : "/dist";
 
 const app = express();
-app.use(
-  "/images",
-  express.static(path.join(distDir, "../../../../../images"))
-);
+app.use("/images", express.static(path.join(distDir, "../../../../../images")));
 app.use(
   express.json({
     limit: "5mb",
@@ -22,7 +19,7 @@ app.use(
 const server = new ApolloServer(schema);
 const port = process.env.PORT || 8001;
 
-const graphqlDir = process.env.production ?  __dirname + "/graphql" : "/graphql"; 
+const graphqlDir = process.env.production ? __dirname + "/graphql" : "/graphql";
 server.applyMiddleware({ app, path: graphqlDir });
 
 mongoose

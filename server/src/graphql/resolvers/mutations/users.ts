@@ -114,8 +114,8 @@ export const resolveLogin: ResolveLoginUser = async (
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    errors.general = "Wrong credentials";
-    throw new UserInputError("Wrong credentials", { errors });
+    errors.general = "Sorry 🥺 Such account doesn't exist 🙈";
+    throw new UserInputError("Sorry :( Such account doesn't exist", { errors });
   }
 
   const token = generateToken({

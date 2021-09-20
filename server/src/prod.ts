@@ -1,5 +1,5 @@
 module.exports = {
-    MONGODB: process.env.MONGODB,
-    SECRET_KEY: process.env.SECRET_KEY,
-    IMGBB_KEY: process.env.IMGBB_KEY
-  };
+  MONGODB: process.env.MONGODB,
+  SECRET_KEY: process.env.SECRET_KEY,
+  IMGBB_KEY: process.env.IMGBB_KEY,
+};

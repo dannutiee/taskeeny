@@ -14,6 +14,7 @@ import {
 import { EditableContentProps } from "./interfaces";
 import { Header } from "./Header";
 import { TextWithColoredHashtags } from "./TextWithColoredHashtags";
+import { getContentToDisplay, getContentToSave } from "../task/utils";
 
 export const EditableContent: React.FC<EditableContentProps> = ({
   hide,
@@ -30,7 +31,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 }) => {
   const history = useHistory();
   const textarea = useRef("") as any;
-  const { existingTagNamesWithColors, tags: tagi } = useContext(TagsContext);
+  const { existingTagNamesWithColors } = useContext(TagsContext);
 
   const [currentContent, setCurrentContent] = useState("");
   const [newTaskStatus, setNewTaskStatus] = useState(status);
@@ -195,7 +196,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
   const onTextChange = (e: any) => {
     e.persist();
-    setCurrentContent(e.target.value);
+    setCurrentContent(getContentToSave(e.target.value));
   };
 
   const handleTagColorChange = (name: string, color: string) => {
@@ -223,14 +224,14 @@ export const EditableContent: React.FC<EditableContentProps> = ({
         <EditableArea>
           <TextareaVisibleResult>
             <TextWithColoredHashtags
-              text={currentContent}
+              text={getContentToDisplay(currentContent)}
               allTags={[...tagsInContentState]}
               updateTagColorInState={handleTagColorChange}
             />
           </TextareaVisibleResult>
           <InvisibleTextArea
             onChange={onTextChange}
-            defaultValue={content}
+            defaultValue={getContentToDisplay(content)}
             ref={textarea}
             maxLength={410}
           />

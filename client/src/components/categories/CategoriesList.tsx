@@ -125,11 +125,15 @@ const SingleCategory = styled.div<SingleCategoryProps>`
   border-radius: 20px;
   margin-bottom: 15px;
   cursor: pointer;
+  transform: scale(0.95);
   opacity: ${(p) => p.theme.hoverable.opacity};
   color: ${(p) => (p.disabled ? p.theme.categories.disabled : p.color)};
   border-color: ${(p) => (p.disabled ? p.theme.categories.disabled : p.color)};
   :hover {
     opacity: ${(p) => p.theme.hoverable.onHover.opacity};
+    box-shadow: ${(p) => p.theme.categories.shadowHover};
+    transform: scale(1);
+    transition: all 0.1s;
   }
 `;
 

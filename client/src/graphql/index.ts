@@ -7,8 +7,11 @@ import {
 import { createUploadLink } from "apollo-upload-client";
 // import { onError } from "@apollo/client/link/error";
 
-console.log('env', process.env.NODE_ENV)
-const API_URL = process.env.NODE_ENV === "production" ? "https://taskeeny-api.herokuapp.com/graphql" : "http://localhost:8001/graphql";
+console.log("env", process.env.NODE_ENV);
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://taskeeny-api.herokuapp.com/graphql"
+    : "http://localhost:8001/graphql";
 
 const httpLink = new HttpLink({
   uri: API_URL,

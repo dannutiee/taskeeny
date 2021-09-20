@@ -12,7 +12,11 @@ import {
 import { useModal } from "../../hooks/useModal";
 import { EditTaskModal } from "../modal";
 import { TagBorder } from "./TagBorder";
-import { isEditModalOpend, getContentWithoutTagNames } from "./utils";
+import {
+  isEditModalOpend,
+  getContentWithoutTagNames,
+  getContentToDisplay,
+} from "./utils";
 
 import { Dropdown } from "../dropdown";
 
@@ -87,7 +91,9 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     <>
       <TagBorder tags={task.tags} />
       <TaskPreviewContent>
-        <ClampedText>{getContentWithoutTagNames(task.content)}</ClampedText>
+        <ClampedText>
+          {getContentWithoutTagNames(getContentToDisplay(task.content))}
+        </ClampedText>
       </TaskPreviewContent>
       <TaskFooter>
         <TagsWrapper>

@@ -38,4 +38,12 @@ const ButtonComponent = styled.button<ButtonComponentProps>`
   width: ${(p) => (p.width ? p.width : "100%")};
   border-radius: ${(p) => p.theme.formButton.borderRadius};
   color: ${(p) => (p.basic ? "initial" : p.theme.formButton.textColor)};
+  :hover {
+    color: ${(p) => p.basic && p.theme.formButton.borderColorHover};
+    border-color: ${(p) => p.basic && p.theme.formButton.borderColorHover};
+    transition: all 0.4s;
+    box-shadow: ${(p) => p.theme.formButton.shadowHover};
+    background: ${(p) =>
+      p.basic ? "transparent" : p.theme.formButton.backgroundHover};
+  }
 `;

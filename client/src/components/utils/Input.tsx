@@ -7,6 +7,7 @@ interface InputProps {
   onChange: (e: any) => void;
   label: string;
   error?: string;
+  type: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -15,6 +16,7 @@ export const Input: React.FC<InputProps> = ({
   onChange,
   label,
   error,
+  type,
 }) => {
   const [inputError, setInputError] = useState(false);
 
@@ -40,6 +42,7 @@ export const Input: React.FC<InputProps> = ({
         error={inputError}
         onFocus={onInputFocus}
         onBlur={onInputBlur}
+        type={type}
       />
     </div>
   );

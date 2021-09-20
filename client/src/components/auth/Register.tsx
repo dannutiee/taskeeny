@@ -92,6 +92,7 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
         onChange={onChange}
         label="Name"
         error={errors.name}
+        type="text"
       />
       <Input
         name="surname"
@@ -99,6 +100,7 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
         onChange={onChange}
         label="Surname"
         error={errors.surname}
+        type="text"
       />
       <Input
         name="email"
@@ -106,6 +108,7 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
         onChange={onChange}
         label="E-mail"
         error={errors.email}
+        type="email"
       />
       <Input
         name="password"
@@ -113,6 +116,7 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
         onChange={onChange}
         label="Password"
         error={errors.password}
+        type="password"
       />
       <Input
         name="confirmPassword"
@@ -120,6 +124,7 @@ const RegisterComponent: React.FC<RegisterComponentProps> = ({
         onChange={onChange}
         label="Confirm password"
         error={errors.confirmPassword}
+        type="password"
       />
     </Form>
   );

@@ -30,6 +30,7 @@ export const darkTheme = {
     color: COLORS.BLUE,
     nameColor: COLORS.GREY_COLD,
     disabled: COLORS.BLUE_LIGHTER_DARK,
+    shadowHover: "0px 4px 10px rgb(204 213 230 / 12%)",
   },
   column: {
     ...lightTheme.column,
