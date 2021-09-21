@@ -95,7 +95,7 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
 
 const TagWrapper = styled.div`
   color: ${(p) => p.color};
-  z-index: 100;
+  z-index: 50;
   position: relative;
   display: inline-block;
 `;

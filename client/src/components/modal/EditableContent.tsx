@@ -31,6 +31,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 }) => {
   const history = useHistory();
   const textarea = useRef("") as any;
+  const textareaResultDiv = useRef("") as any;
   const { existingTagNamesWithColors } = useContext(TagsContext);
 
   const [currentContent, setCurrentContent] = useState("");
@@ -38,11 +39,18 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   const [tagsInContentState, setTagsInContentState] = useState<
     TagsInputFormat[]
   >([]);
+  const [scrollTopPosition, setScrollTopPosition] = useState(
+    textareaResultDiv.current.scrollTop
+  );
 
   useEffect(() => {
     if (!!addNewTask) textarea.current.focus();
     setCurrentContent(content);
   }, []);
+
+  useEffect(() => {
+    textareaResultDiv.current.scrollTop = scrollTopPosition;
+  }, [scrollTopPosition]);
 
   useEffect(() => {
     const savedTagsInContent = existingTagNamesWithColors.filter((el) =>
@@ -209,6 +217,11 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     }
   };
 
+  const handleOnScroll = (event: any) => {
+    const target = event.nativeEvent.target;
+    setScrollTopPosition(target.scrollTop);
+  };
+
   console.log("state all", tagsInContentState);
 
   return (
@@ -222,7 +235,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
       <TagBorder tags={tags} isModalMode={true} />
       <EditContent>
         <EditableArea>
-          <TextareaVisibleResult>
+          <TextareaVisibleResult ref={textareaResultDiv}>
             <TextWithColoredHashtags
               text={getContentToDisplay(currentContent)}
               allTags={[...tagsInContentState]}
@@ -233,16 +246,26 @@ export const EditableContent: React.FC<EditableContentProps> = ({
             onChange={onTextChange}
             defaultValue={getContentToDisplay(content)}
             ref={textarea}
-            maxLength={410}
+            maxLength={600}
+            onScroll={handleOnScroll}
+            spellCheck="false"
           />
+          <CharactersCount> {currentContent.length}/ 600</CharactersCount>
         </EditableArea>
       </EditContent>
     </Modal>
   );
 };
 
+const CharactersCount = styled.div`
+  text-align: right;
+  color: #d6d6d6;
+  font-size: 14px;
+`;
+
 export const EditContent = styled.div`
   padding: 20px;
+  box-sizing: border-box;
   font-size: ${(p) => p.theme.font.size.big};
 `;
 
@@ -253,8 +276,9 @@ export const TaskTextArea = styled.textarea`
   border-color: ${(p) => p.theme.modal.textarea.border};
   padding: 5px;
   resize: none;
-  overflow: hidden;
+  box-sizing: border-box;
   color: ${(p) => p.theme.modal.textarea.color};
+  -webkit-text-fill-color: transparent;
   &:focus-visible {
     outline: none;
     border-color: ${(p) => p.theme.modal.textarea.borderFocus};
@@ -265,16 +289,17 @@ export const TaskTextArea = styled.textarea`
 
 export const EditableArea = styled.div`
   position: relative;
-  padding: 6px;
 `;
 
 export const TextareaVisibleResult = styled.div`
   width: 100%;
-  height: 100%;
+  height: 200px;
+  box-sizing: border-box;
   padding: 6px;
   position: absolute;
-  color: transparent;
+  color: ${(p) => p.theme.modal.textarea.color};
   white-space: pre-wrap;
+  overflow: scroll;
   .hashtag:hover {
     cursor: pointer;
   }
