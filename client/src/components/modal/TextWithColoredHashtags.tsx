@@ -59,8 +59,9 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
 
   const replaceWordWithTagComponent = (color: string, name: string) => {
     const isColorPickerOpen = name.substring(1) === currentColorPicker;
+
     return (
-      <TagWrapper color={color} className="hashtag">
+      <TagWrapper color={color} className="hashtag" isThisTagPickerOpen={isColorPickerOpen}>
         <span onClick={() => onClickTag(name.slice(1))}>{name}</span>
         {isColorPickerOpen && (
           <PickerWrapper>
@@ -93,9 +94,13 @@ export const TextWithColoredHashtags: React.FC<TextWithColoredHashtagsProps> = (
   return <>{textWithColoredHashtags}</>;
 };
 
-const TagWrapper = styled.div`
+interface TagPickerProps {
+  isThisTagPickerOpen: boolean;
+}
+
+const TagWrapper = styled.div<TagPickerProps>`
   color: ${(p) => p.color};
-  z-index: 50;
+  z-index: ${p=> p.isThisTagPickerOpen ? "51": "50"}; 
   position: relative;
   display: inline-block;
 `;

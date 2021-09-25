@@ -71,6 +71,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   };
 
   const onClickEdit = () => {
+    console.log('edit')
     history.push(`/edit?id=${task.id}`);
     toggle();
   };
@@ -90,7 +91,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   return (
     <>
       <TagBorder tags={task.tags} />
-      <TaskPreviewContent>
+      <TaskPreviewContent onClick={onClickEdit}>
         <ClampedText>
           {getContentWithoutTagNames(getContentToDisplay(task.content))}
         </ClampedText>
