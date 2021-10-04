@@ -90,7 +90,7 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
   return (
     <>
       <TagBorder tags={task.tags} />
-      <TaskPreviewContent>
+      <TaskPreviewContent onClick={onClickEdit}>
         <ClampedText>
           {getContentWithoutTagNames(getContentToDisplay(task.content))}
         </ClampedText>
