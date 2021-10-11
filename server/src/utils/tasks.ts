@@ -3,14 +3,14 @@ import { Tag as TagObject } from "../models";
 
 export const getOnlyNewTags = (inputTags: TagInput[], existingTags: Tag[]) => {
   for (let newTag of existingTags) {
-    inputTags = inputTags.filter((el: any) => el.name !== newTag.name);
+    inputTags = inputTags.filter((el: TagInput) => el.name !== newTag.name);
   }
   return inputTags;
 };
 
 export const getArrOfTagNames = (tagsInput: TagInput[]) => {
   const stringTags: String[] = [];
-  tagsInput.forEach((el: any) => {
+  tagsInput.forEach((el: TagInput) => {
     stringTags.push(el.name);
   });
   return [...stringTags];

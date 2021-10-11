@@ -34,7 +34,7 @@ export const taskStatus = {
   },
 };
 
-export const getExistingTagColor = (tags: any, tagName: string): string => {
+export const getExistingTagColor = (tags: Tag[], tagName: string): string => {
   return tags.find((tag: Tag) => tag.name === tagName)?.color || "";
 };
 
@@ -97,10 +97,10 @@ export const formatTagsToInputFormat = (
 ): TagsInputFormat[] => {
   const tags: TagsInputFormat[] = [];
 
-  tagsFromContext.forEach((el: any) => {
+  tagsFromContext.forEach((tag: TagsInputFormat) => {
     tags.push({
-      name: el.name,
-      color: el.color,
+      name: tag.name,
+      color: tag.color,
     });
   });
   return tags;
@@ -133,9 +133,9 @@ export const getNewTags = (
   newColors: string[]
 ): TagsInputFormat[] => {
   const tagsArray: TagsInputFormat[] = [];
-  newTags.forEach((el: any, i = 0) => {
+  newTags.forEach((tagName: string, i = 0) => {
     tagsArray.push({
-      name: el,
+      name: tagName,
       color: newColors[i],
     });
     i++;

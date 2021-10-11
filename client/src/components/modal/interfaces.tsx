@@ -1,3 +1,5 @@
+import { TagsInputFormat } from "../task/utils";
+
 export interface EditTaskModalContainerProps {
   hide: () => void;
   tags: string[];
@@ -14,10 +16,19 @@ export interface AddNewTaskModalContainerProps {
 
 export interface EditableContentProps {
   hide: () => void;
-  addNewTask?: any;
-  updateTask?: any;
-  updateTags: any;
-  deleteTask?: any;
+  addNewTask?: (
+    currentContent: string,
+    tagsInContentState: TagsInputFormat[],
+    newTaskStatus: string
+  ) => void;
+  updateTask?: (
+    taskId: string,
+    newTaskStatus: string,
+    currentContent: string,
+    tagsInContentState: TagsInputFormat[]
+  ) => void;
+  updateTags: (tagsInContentState: TagsInputFormat[]) => void;
+  deleteTask?: (id: string) => void;
   content?: string;
   tags?: string[];
   status?: string;

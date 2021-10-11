@@ -1,5 +1,5 @@
 import { Account } from "../../../models";
-import { MutationResolvers } from "../../__generated__/typeDefs";
+import { MutationResolvers, Position } from "../../__generated__/typeDefs";
 
 type ResolveAddPositions = MutationResolvers["updatePositions"];
 
@@ -13,7 +13,7 @@ export const resolveUpdatePositions: ResolveAddPositions = async (
     const currentAccount = await Account.findOne({ user_id: user.id });
 
     const column = currentAccount.positions.find(
-      (el: any) => el.status === status
+      (el: Position) => el.status === status
     );
     if (column) {
       column.tasksOrder = tasksOrder;

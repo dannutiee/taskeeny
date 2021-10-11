@@ -5,7 +5,7 @@ interface ButtonProps extends React.ComponentProps<"button"> {
   label: string;
   basic?: boolean;
   width?: string;
-  onClick?: any;
+  onClick?: () => void;
 }
 export const Button: React.FC<ButtonProps> = ({
   label,

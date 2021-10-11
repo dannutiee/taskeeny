@@ -1,10 +1,7 @@
 import { initialTagsState } from "./TagsContext";
-import { TagsReducerAction, TagsState } from "./interfaces";
+import { TagsReducerAction } from "./interfaces";
 
-const reducer = (
-  state = initialTagsState,
-  action: TagsReducerAction
-): TagsState => {
+const reducer = (state = initialTagsState, action: TagsReducerAction) => {
   switch (action.type) {
     case "RESET_TAGS":
       return {

@@ -7,14 +7,19 @@ import {
   TagsInputFormat,
 } from "../../components/task/utils";
 
-export const initialTagsState: any = {
+interface TagsContextInterface {
+  tags: Tag[];
+  existingTagNamesWithColors: TagsInputFormat[];
+  resetTags?: (tagsData: Tag[]) => void;
+}
+export const initialTagsState: TagsContextInterface = {
   tags: [],
   existingTagNamesWithColors: [],
 };
 
-const TagsContext = createContext({
-  tags: {} as Tag[],
-  existingTagNamesWithColors: [] as TagsInputFormat[],
+const TagsContext = createContext<TagsContextInterface>({
+  tags: [],
+  existingTagNamesWithColors: [],
   resetTags: (tagsData: Tag[]): void => {},
 });
 

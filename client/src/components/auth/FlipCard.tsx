@@ -55,12 +55,13 @@ export const FlipCard: React.FC = () => {
   };
 
   const isFlipped = authType === AuthType.REGISTER;
+  const flipClassname = isFlipped ? "is-flipped" : "";
 
   return (
     <FlipCardWrapper>
       <Scene>
-        <CardContent className={isFlipped ? "is-flipped" : ""}>
-          <CardFaceFront>
+        <CardContent className={flipClassname}>
+          <CardFaceFront className={flipClassname}>
             <CardFaceComponent
               text={"-- or if you don't have an account yet --"}
               onButtonClick={onCardClick}
@@ -68,7 +69,7 @@ export const FlipCard: React.FC = () => {
               buttonText={"Create an account"}
             />
           </CardFaceFront>
-          <CardFaceBack>
+          <CardFaceBack className={flipClassname}>
             <CardFaceComponent
               text={"-- or if you already have an account --"}
               onButtonClick={onCardClick}
@@ -97,6 +98,10 @@ const CardFaceFront = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
+  z-index: 10;
+  &.is-flipped {
+    z-indes: 0;
+  }
 `;
 
 const CardFaceBack = styled.div`
@@ -105,6 +110,10 @@ const CardFaceBack = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  z-index: 0;
+  &.is-flipped {
+    z-indes: 10;
+  }
 `;
 
 const CardContent = styled.div`

@@ -4,7 +4,7 @@ import styled from "styled-components";
 interface InputProps {
   value: string;
   name: string;
-  onChange: (e: any) => void;
+  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
   label: string;
   error?: string;
   type: string;

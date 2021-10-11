@@ -21,7 +21,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   tags = [],
   content = "",
   status = Status.todo,
-  taskId,
+  taskId = "",
   addNewTask,
   updateTask,
   deleteTask,
@@ -30,26 +30,26 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   updateTags,
 }) => {
   const history = useHistory();
-  const textarea = useRef("") as any;
-  const textareaResultDiv = useRef("") as any;
+  const textarea = useRef<HTMLTextAreaElement | null>(null);
+  const textareaResultDiv = useRef<HTMLDivElement | null>(null);
   const { existingTagNamesWithColors } = useContext(TagsContext);
 
-  const [currentContent, setCurrentContent] = useState("");
+  const [currentContent, setCurrentContent] = useState<string>("");
   const [newTaskStatus, setNewTaskStatus] = useState(status);
   const [tagsInContentState, setTagsInContentState] = useState<
     TagsInputFormat[]
   >([]);
-  const [scrollTopPosition, setScrollTopPosition] = useState(
-    textareaResultDiv.current.scrollTop
-  );
+  const [scrollTopPosition, setScrollTopPosition] = useState<number>(0);
 
   useEffect(() => {
-    if (!!addNewTask) textarea.current.focus();
+    if (!!addNewTask) textarea.current?.focus();
     setCurrentContent(content);
   }, []);
 
   useEffect(() => {
-    textareaResultDiv.current.scrollTop = scrollTopPosition;
+    if (textareaResultDiv.current) {
+      textareaResultDiv.current.scrollTop = scrollTopPosition ?? 0;
+    }
   }, [scrollTopPosition]);
 
   useEffect(() => {
@@ -197,12 +197,14 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   };
 
   const onClickDelete = () => {
-    deleteTask(taskId);
+    if (deleteTask) {
+      deleteTask(taskId);
+    }
     history.push(`/`);
     hide();
   };
 
-  const onTextChange = (e: any) => {
+  const onTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.persist();
     setCurrentContent(getContentToSave(e.target.value));
   };
@@ -217,9 +219,9 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     }
   };
 
-  const handleOnScroll = (event: any) => {
-    const target = event.nativeEvent.target;
-    setScrollTopPosition(target.scrollTop);
+  const handleOnScroll = (event: React.UIEvent<HTMLElement>) => {
+    const { scrollTop } = event.currentTarget;
+    setScrollTopPosition(scrollTop);
   };
 
   console.log("state all", tagsInContentState);

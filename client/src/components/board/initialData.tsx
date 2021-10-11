@@ -1,7 +1,8 @@
+import { Task, Position } from "../../graphql/__generated__/typeDefs";
 import { taskStatus } from "../task/utils";
 import { getTasksInOrder, getTasksFilteredByStatus } from "./utils";
 
-export const getBoardInitialData = (tasks: any, positions: any) => ({
+export const getBoardInitialData = (tasks: Task[], positions: Position[]) => ({
   todo: {
     title: taskStatus.todo.label,
     items: getTasksInOrder(

@@ -3,6 +3,7 @@ import { Account } from "../../../models";
 import {
   TaskResolvers,
   AuthtenticatedUserResolvers,
+  Task,
 } from "../../__generated__/typeDefs";
 
 type ResolveTagsForTask = TaskResolvers["tags"];
@@ -15,7 +16,7 @@ export const resolveTagsForTask: ResolveTagsForTask = async (
   if (isAuth) {
     try {
       const account = await Account.findOne({ user_id: user.id });
-      let task = account.tasks.find((el: any) => el.id === id);
+      let task = account.tasks.find((el: Task) => el.id === id);
       return task.tags;
     } catch (err) {
       throw new Error(err);

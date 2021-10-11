@@ -9,7 +9,7 @@ export enum FormType {
 }
 
 export interface FormProps {
-  onSubmit: (e: any) => void;
+  onSubmit: (e: React.FormEvent) => void;
   type: FormType;
 }
 

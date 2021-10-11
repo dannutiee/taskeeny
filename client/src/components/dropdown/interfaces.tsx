@@ -1,4 +1,4 @@
-import { ReactNode, ReactChildren } from "react";
+import { ReactNode } from "react";
 import { DropdownItem } from "./DropdownButton";
 
 export interface DropdownProps {
@@ -6,7 +6,7 @@ export interface DropdownProps {
   button?: boolean;
   options?: Option[];
   value?: string;
-  onSelectOption?: (value: string) => any;
+  onSelectOption?: (value: string) => void;
 }
 
 export interface Option {
@@ -29,17 +29,17 @@ export interface MenuProps {
 }
 
 export interface DropdownButtonProps extends MenuProps {
-  setMenuVisible: (isVisible: boolean) => any;
+  setMenuVisible: (isVisible: boolean) => void;
   menuVisible: boolean;
 }
 
 export interface SelectionProps {
-  setCurrentValue: (status: string) => any;
+  setCurrentValue: (status: string) => void;
   options: Option[];
 }
 
 export interface DropdownSelectProps extends SelectionProps {
-  setMenuVisible: (isVisible: boolean) => any;
+  setMenuVisible: (isVisible: boolean) => void;
   menuVisible: boolean;
   currentValue: string;
 }
