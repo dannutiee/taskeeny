@@ -151,7 +151,7 @@ const TaskFooter = styled.div`
 
 const TagLink = styled.a`
   text-decoration: none;
-  padding: 5px;
+  padding: 0px 5px;
   display: inline-block;
   font-size: ${(p) => p.theme.font.size.tiny};
   color: ${(p) => p.theme.categories.nameColor};

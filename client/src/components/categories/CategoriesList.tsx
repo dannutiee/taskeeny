@@ -33,6 +33,7 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
   tags,
 }) => {
   const tagsContext = useContext(TagsContext);
+  const areAllTagsVisible = !tags.find((tag: Tag) => tag.isActive === false);
 
   useEffect(() => {
     tagsContext.resetTags(tags);
@@ -66,7 +67,7 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
     });
   };
 
-  const setAllTagsActive = async (): Promise<void> => {
+  const setAllTagsVisability = async (): Promise<void> => {
     await setAllTagsVisibleMutation();
   };
 
@@ -76,7 +77,7 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
   };
 
   const onShowAllClick = () => {
-    setAllTagsActive();
+    setAllTagsVisability();
   };
 
   console.log("tagsContext", tagsContext);
@@ -88,7 +89,7 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
       <SectionTitle>
         Categories
         <ShowAll onClick={onShowAllClick}>
-          Set All Visible
+          {areAllTagsVisible ? "Disable all categories" : "Set All Visible"}
           <Icon className="material-icons-outlined">visibility</Icon>
         </ShowAll>
       </SectionTitle>

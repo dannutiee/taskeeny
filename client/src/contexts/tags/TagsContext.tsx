@@ -10,11 +10,12 @@ import {
 interface TagsContextInterface {
   tags: Tag[];
   existingTagNamesWithColors: TagsInputFormat[];
-  resetTags?: (tagsData: Tag[]) => void;
+  resetTags: (tagsData: Tag[]) => void;
 }
 export const initialTagsState: TagsContextInterface = {
   tags: [],
   existingTagNamesWithColors: [],
+  resetTags: () => {},
 };
 
 const TagsContext = createContext<TagsContextInterface>({

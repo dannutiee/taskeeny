@@ -79,6 +79,9 @@ const ColumnTitle = styled.div`
   z-index: 1;
   height: 40px;
   padding-top: 25px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
   border: 5px solid ${(p) => p.theme.column.background};
   background: ${(p) => p.theme.column.background};
   color: ${(p) => p.theme.column.titleColor};

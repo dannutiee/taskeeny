@@ -80,13 +80,14 @@ const ActionButton = styled.button<ActionButtonProps>`
   margin-left: 5px;
   border-radius: 3px;
   cursor: pointer;
-  opacity: 0.9;
+  opacity: 1;
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.medium};
-  background: ${(p) => (p.primary ? "#90b9fc" : p.theme.modal.secondaryBtn.bg)};
-  color: ${(p) => (p.primary ? "white" : "#cacbce")};
+  background: ${(p) =>
+    p.primary ? p.theme.button.color : p.theme.modal.secondaryBtn.bg};
+  color: ${(p) => (p.primary ? "white" : p.theme.font.color)};
   :hover {
-    opacity: 1;
+    opacity: 0.8;
   }
 `;
 

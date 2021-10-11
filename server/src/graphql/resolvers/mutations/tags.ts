@@ -138,8 +138,15 @@ export const resolveSetAllTagsVisible: ResolveSetAllTagsVisible = async (
     const currentAccount = await Account.findOne({ user_id: user.id });
 
     // set all active
+    const areAllVisible = !currentAccount.tags.find(
+      (tag: TagInterface) => tag.isActive === false
+    );
     currentAccount.tags.map((tag: TagInterface) => {
-      tag.isActive = true;
+      if (areAllVisible) {
+        tag.isActive = false;
+      } else {
+        tag.isActive = true;
+      }
     });
 
     const result = await currentAccount.save((err: any) => {
