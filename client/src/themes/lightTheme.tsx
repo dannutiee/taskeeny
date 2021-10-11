@@ -35,7 +35,7 @@ export const lightTheme = {
     bg: COLORS.WHITE,
     borderColor: COLORS.WHITE,
     shadow: SHADOWS.primary,
-    width: "290px",
+    width: "250px",
     userName: {
       color: COLORS.BLACK,
       size: FONT_SIZE.big,

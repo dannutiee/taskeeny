@@ -25,7 +25,7 @@ export const SideNavigation: React.FC = () => {
     <SideNavWrapper>
       <UserSection>
         <div>
-          <Avatar userId={authContext.user!.id} />
+          <Avatar />
           <UserName>
             {authContext.user!.name} {authContext.user!.surname}
           </UserName>

@@ -4,7 +4,6 @@ import {
   InMemoryCache,
   ApolloLink,
 } from "@apollo/client";
-import { createUploadLink } from "apollo-upload-client";
 // import { onError } from "@apollo/client/link/error";
 
 console.log("env", process.env.NODE_ENV);
@@ -17,8 +16,6 @@ const httpLink = new HttpLink({
   uri: API_URL,
   credentials: "same-origin",
 });
-
-const uploadLink = createUploadLink({ uri: API_URL });
 
 //TODO  try to connect onErrorLinks
 
@@ -54,7 +51,7 @@ const authLink = new ApolloLink((operation, forward) => {
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  link: ApolloLink.from([authLink, httpLink, uploadLink]),
+  link: authLink.concat(httpLink),
   cache,
 });
 

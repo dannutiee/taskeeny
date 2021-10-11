@@ -41,6 +41,7 @@ const DraggableTaskWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-width: 300px;
     background: ${(p) => p.theme.task.bg};
     box-shadow: ${(p) => p.theme.task.shadow};
     :hover {

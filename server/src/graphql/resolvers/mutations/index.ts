@@ -8,7 +8,6 @@ import {
   resolveSetActiveTag,
   resolveSetAllTagsVisible,
 } from "./tags";
-import { resolveUploadFile } from "./uploadFile";
 
 export const resolvers: Resolvers = {
   Mutation: {
@@ -22,6 +21,5 @@ export const resolvers: Resolvers = {
     updateTags: resolveUpdateTags,
     setActiveTag: resolveSetActiveTag,
     setAllTagsVisible: resolveSetAllTagsVisible,
-    uploadFile: resolveUploadFile,
   },
 };

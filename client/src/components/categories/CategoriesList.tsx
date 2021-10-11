@@ -100,6 +100,7 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
               color={tag.color}
               disabled={!tag.isActive}
               onClick={() => onCategoryClick(tag.name, tag.isActive)}
+              title={tag.name}
             >
               {tag.name}
             </SingleCategory>
@@ -126,6 +127,9 @@ const SingleCategory = styled.div<SingleCategoryProps>`
   margin-bottom: 15px;
   cursor: pointer;
   transform: scale(0.95);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   opacity: ${(p) => p.theme.hoverable.opacity};
   color: ${(p) => (p.disabled ? p.theme.categories.disabled : p.color)};
   border-color: ${(p) => (p.disabled ? p.theme.categories.disabled : p.color)};
