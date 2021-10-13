@@ -25,7 +25,7 @@ server.applyMiddleware({ app, path: graphqlDir });
 mongoose
   .connect(MONGODB, { useNewUrlParser: true })
   .then(() => {
-    console.log("Mongo is connected");
+    console.log("Database is connected");
     return app.listen({ port: port });
   })
   .then(() => {

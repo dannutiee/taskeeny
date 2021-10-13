@@ -85,8 +85,6 @@ export const SingleTask: React.FC<SingleTaskProps> = ({ task }) => {
     toggle();
   };
 
-  console.log("task------->", task);
-
   return (
     <>
       <TagBorder tags={task.tags} />

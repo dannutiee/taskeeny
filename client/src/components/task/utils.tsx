@@ -113,7 +113,6 @@ export const getContentToDisplay = (text: string) => {
   text = text.replace("&42;", "*");
   text = text.replace("&40;", "(");
   text = text.replace("&41;", ")");
-  text = text.replace("|space|", " ");
   return text;
 };
 
@@ -124,7 +123,6 @@ export const getContentToSave = (text: string) => {
   text = text.replace("*", "&42;");
   text = text.replace("(", "&40;");
   text = text.replace(")", "&41;");
-  text = text.replace(/(\s+)/, "|space|");
   return text;
 };
 

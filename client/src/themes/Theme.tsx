@@ -8,7 +8,6 @@ import { GlobalStyle } from "./globalStyle";
 
 const Theme: React.FC = ({ children }) => {
   const { theme } = useContext(ThemeContext);
-  console.log("theme", theme);
   const currentTheme = theme === LIGHT_THEME ? lightTheme : darkTheme;
 
   return (

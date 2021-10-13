@@ -80,8 +80,6 @@ const CategoriesListComponent: React.FC<CategoriesListContainerProps> = ({
     setAllTagsVisability();
   };
 
-  console.log("tagsContext", tagsContext);
-  console.log("tags", tags);
   const sortedTags = [...tags].sort((a, b) => (a.name > b.name ? 1 : -1));
   //TODO finish this component
   return (

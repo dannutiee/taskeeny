@@ -23,8 +23,6 @@ export const DashboardContainer: React.FC = () => {
     return null;
   }
 
-  console.log("data", data?.user.tasks);
-
   return (
     <DashboardComponent
       tasks={data?.user.tasks || []}

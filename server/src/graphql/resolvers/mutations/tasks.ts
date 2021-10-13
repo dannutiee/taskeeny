@@ -188,7 +188,7 @@ export const resolveUpdateTask: ResolveUpdateTask = async (
       // TODO - sometimes it crashes in the backbground - it needs to be change to update() propably
       const result = await currentAccount.save((err: any) => {
         if (err) {
-          console.log("errrrorrr in task", err);
+          console.log("error in task", err);
           return {
             success: false,
             message: err.errors,

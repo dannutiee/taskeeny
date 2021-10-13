@@ -229,8 +229,6 @@ export const EditableContent: React.FC<EditableContentProps> = ({
     setScrollTopPosition(scrollTop);
   };
 
-  console.log("state all", tagsInContentState);
-
   return (
     <Modal
       hide={hide}

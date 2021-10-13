@@ -14,8 +14,6 @@ const App: React.FC = () => {
     return <Redirect to="/login" />;
   }
 
-  console.log("authContext", authContext, "initialAuthState", initialAuthState);
-
   return (
     <TagsContextProvider>
       <AppWrapper>

@@ -6,7 +6,6 @@ import {
 } from "@apollo/client";
 // import { onError } from "@apollo/client/link/error";
 
-console.log("env", process.env.NODE_ENV);
 const API_URL =
   process.env.NODE_ENV === "production"
     ? "https://taskeeny-api.herokuapp.com/graphql"

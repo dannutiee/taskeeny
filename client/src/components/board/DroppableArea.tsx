@@ -70,8 +70,6 @@ export const DroppableArea: React.FC<DroppableAreaProps> = ({ data }) => {
   const success = updateData?.updateTask?.success || false;
   const errorMessage = updateData?.updateTask?.message || error?.name || "";
 
-  console.log("boardData", boardData);
-
   const updateInSingleColumn = (
     source: DraggableLocation,
     destination: DraggableLocation

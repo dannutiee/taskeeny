@@ -29,7 +29,7 @@ export const darkTheme = {
     ...lightTheme.categories,
     color: COLORS.BLUE,
     nameColor: COLORS.GREY_COLD,
-    disabled: COLORS.BLUE_LIGHTER_DARK,
+    disabled: "#747aa4",
     shadowHover: "0px 4px 10px rgb(204 213 230 / 12%)",
   },
   column: {
