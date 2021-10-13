@@ -303,7 +303,7 @@ export const TaskTextArea = styled.textarea<TextAreaProps>`
   -webkit-text-fill-color: transparent;
   -webkit-text-fill-color: ${(p) =>
     p.displayPlaceholder ? p.theme.modal.textarea.placeholder : "transparent"};
-  &:focus-visible {
+  &:focus{
     outline: none;
     border-color: ${(p) => p.theme.modal.textarea.borderFocus};
   }
