@@ -53,6 +53,7 @@ export const darkTheme = {
       border: COLORS.BLUE_LIGHTER_DARK,
       borderFocus: COLORS.BLUE_LIGHTER_DARK_FOCUS,
       color: COLORS.DIRTY_WHITE,
+      placeholder: COLORS.GREY_COLD,
     },
   },
   task: {

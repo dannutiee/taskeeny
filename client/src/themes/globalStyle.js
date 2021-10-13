@@ -27,6 +27,7 @@ const BLUE_MILK = "rgb(238 242 252 / 66%)";
 const GREY_LIGHT = "#bdc0c6";
 const BLUE_LIGHT_1 = "#f6f7fc";
 const DISABLED = "#e1e1e1";
+const GREY_DISABLED = "#d6d6d6";
 
 //DARK THEME
 const GREY_DARK = "#24272c";
@@ -58,6 +59,7 @@ export const COLORS = {
   GREY_MEDIUM,
   GREY_COLD,
   GREY_DARK,
+  GREY_DISABLED,
   WHITE,
   DIRTY_WHITE,
   GREY_TRANSPARENT,

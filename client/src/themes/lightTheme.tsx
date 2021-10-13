@@ -80,6 +80,7 @@ export const lightTheme = {
       border: COLORS.WHITE,
       borderFocus: "#f1f4fc",
       color: COLORS.BLACK,
+      placeholder: COLORS.GREY_DISABLED,
     },
   },
   task: {

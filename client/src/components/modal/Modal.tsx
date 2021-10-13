@@ -7,6 +7,7 @@ interface ModalProps {
   hide?: () => void;
   onSave?: () => void;
   onDelete?: () => void;
+  isSaveDisabled: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -14,6 +15,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   onSave,
   onDelete,
+  isSaveDisabled,
 }) => {
   const history = useHistory();
   const isEditTaskModalOpened = history.location.pathname !== "/new";
@@ -40,7 +42,12 @@ export const Modal: React.FC<ModalProps> = ({
             {isEditTaskModalOpened && (
               <ActionButton onClick={onDelete}>Delete</ActionButton>
             )}
-            <ActionButton primary onClick={onSave}>
+            <ActionButton
+              primary
+              onClick={onSave}
+              disabled={isSaveDisabled}
+              title={"Use at least one #hashtag in text to enable save"}
+            >
               Save
             </ActionButton>
           </ActionButtonsWrapper>
@@ -71,6 +78,7 @@ const ActionButtonsWrapper = styled.div`
 
 interface ActionButtonProps {
   primary?: boolean;
+  disabled?: boolean;
 }
 const ActionButton = styled.button<ActionButtonProps>`
   text-transform: uppercase;
@@ -80,14 +88,14 @@ const ActionButton = styled.button<ActionButtonProps>`
   margin-left: 5px;
   border-radius: 3px;
   cursor: pointer;
-  opacity: 1;
+  opacity: ${(p) => (p.disabled ? "0.4" : "1")};
   font-family: ${(p) => p.theme.font.basic.family};
   font-size: ${(p) => p.theme.font.size.medium};
   background: ${(p) =>
     p.primary ? p.theme.button.color : p.theme.modal.secondaryBtn.bg};
   color: ${(p) => (p.primary ? "white" : p.theme.font.color)};
   :hover {
-    opacity: 0.8;
+    opacity: ${(p) => (p.disabled ? "0.4" : "0.8")};
   }
 `;
 

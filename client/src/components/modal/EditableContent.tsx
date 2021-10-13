@@ -181,6 +181,11 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   // ----- Events  ------
 
   const onCickSave = async () => {
+    if (tagsInContentState.length === 0) {
+      console.error("text must contains at least one #hashtag");
+      return null;
+    }
+
     if (updateTask) {
       await updateTask(taskId, newTaskStatus, currentContent, [
         ...tagsInContentState,
@@ -227,7 +232,14 @@ export const EditableContent: React.FC<EditableContentProps> = ({
   console.log("state all", tagsInContentState);
 
   return (
-    <Modal hide={hide} onSave={onCickSave} onDelete={onClickDelete}>
+    <Modal
+      hide={hide}
+      onSave={onCickSave}
+      onDelete={onClickDelete}
+      isSaveDisabled={
+        currentContent.length === 0 || tagsInContentState.length === 0
+      }
+    >
       <Header
         status={status}
         setNewStatus={setNewTaskStatus}
@@ -250,7 +262,11 @@ export const EditableContent: React.FC<EditableContentProps> = ({
             ref={textarea}
             maxLength={600}
             onScroll={handleOnScroll}
+            placeholder={
+              "Use at least one #hashtag to categorize this tasks ..."
+            }
             spellCheck="false"
+            displayPlaceholder={currentContent.length === 0}
           />
           <CharactersCount> {currentContent.length}/ 600</CharactersCount>
         </EditableArea>
@@ -261,7 +277,7 @@ export const EditableContent: React.FC<EditableContentProps> = ({
 
 const CharactersCount = styled.div`
   text-align: right;
-  color: #d6d6d6;
+  color: ${(p) => p.theme.modal.textarea.placeholder};
   font-size: 14px;
 `;
 
@@ -271,7 +287,11 @@ export const EditContent = styled.div`
   font-size: ${(p) => p.theme.font.size.big};
 `;
 
-export const TaskTextArea = styled.textarea`
+interface TextAreaProps {
+  displayPlaceholder: boolean;
+}
+
+export const TaskTextArea = styled.textarea<TextAreaProps>`
   width: 100%;
   height: 200px;
   border: 1px solid;
@@ -281,6 +301,8 @@ export const TaskTextArea = styled.textarea`
   box-sizing: border-box;
   color: ${(p) => p.theme.modal.textarea.color};
   -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: ${(p) =>
+    p.displayPlaceholder ? p.theme.modal.textarea.placeholder : "transparent"};
   &:focus-visible {
     outline: none;
     border-color: ${(p) => p.theme.modal.textarea.borderFocus};
