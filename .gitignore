@@ -9,4 +9,5 @@ dist
 #others
 schema.graphql
 .DS_Store
+.netlify
 dev.ts
