@@ -49,7 +49,7 @@ From the **/client directory** run command:
  3. type **public** in the command line
  4. Netlify will return the link to stg. Check it and if your changes work on it  then run the command returned from netlify to push your changes on production.
 
- Changes should be visilbe on: https://taskeeny.netlify.app/login
+ Changes should be visilbe on: https://taskeeny.netlify.app
 
 
 
