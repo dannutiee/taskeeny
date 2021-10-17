@@ -44,7 +44,7 @@ export const resolveUpdateTag: ResolveUpdateTag = async (
         };
       }
     });
-  
+
     return {
       ...result,
       code: "200",

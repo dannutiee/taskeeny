@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useLoginMutation } from "../../graphql/__generated__/typeDefs";
 import { AuthContext } from "../../contexts/auth";
-import { useForm } from "../../utils/useForm";
+import { useForm } from "../../hooks/useForm";
 import { Input, Form, FormType } from "../utils";
 import { getErrors } from "../../utils";
 

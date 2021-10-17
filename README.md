@@ -1,14 +1,18 @@
 
+Node version: v14.17.6
+NPM version: v6.14.15
+
 ## To start with client go to /client
 - ```npm install```
-- ```npm start```
+- ```npm start:dev```
 
 Client runs on: http://localhost:3000/
 
 
 ## To start with server go to /server
 - ```npm install```
-- ```npm start```
+- Then you need to copy **dev.example.ts** file to **dev.ts** replacing the placeholders values with real ones. 
+- ```npm start:dev"```
 
 Server runs on: http://localhost:8001/graphql
 
@@ -34,6 +38,8 @@ Before commit to the repository code should be formatted
 ## Deploy 
 
 **Server**
+Server is hosted on heroku.
+
 From the **root directory** of project run command: 
 ```git subtree push --prefix server heroku master```
 
@@ -43,6 +49,8 @@ tip:  if the changes require **force** push then run:
 Changes should be visible on: https://taskeeny-api.herokuapp.com/graphql
 
 **Client**
+Client is hosted on netlify.
+
 From the **/client directory** run command: 
  1. ```npm run build```
  2. ```netlify deploy ```

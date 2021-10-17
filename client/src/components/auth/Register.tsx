@@ -5,7 +5,8 @@ import {
   useRegisterMutation,
   RegisterInput,
 } from "../../graphql/__generated__/typeDefs";
-import { useForm, getErrors } from "../../utils";
+import { getErrors } from "../../utils";
+import { useForm } from "../../hooks";
 import { Input, Form, FormType } from "../utils";
 
 interface RegisterErrors {

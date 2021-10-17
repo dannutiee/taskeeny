@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HTML_INJECTION_REGEXP } from "./regexp";
+import { HTML_INJECTION_REGEXP } from "../utils/regexp";
 
 export const useForm = (
   callback: () => void,
