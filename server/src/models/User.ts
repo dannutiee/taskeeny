@@ -1,4 +1,4 @@
-const { model, Schema } = require("mongoose");
+import { model, Schema } from "mongoose";
 
 export const userSchema = new Schema({
   _id: Schema.Types.ObjectId,
