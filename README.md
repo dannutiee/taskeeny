@@ -59,7 +59,8 @@ From the **root directory** of project run command:
 tip: if the changes require **force** push then run:
 `` git push heroku `git subtree split --prefix server master`:master --force ``
 
-Changes should be visible on: https://taskeeny-api.herokuapp.com/graphql
+Changes should be visible on: 
+https://taskeeny-api-98e51814f9e4.herokuapp.com/graphql
 
 **Client**
 
@@ -72,7 +73,7 @@ From the **/client directory** run command:
 3.  type **public** in the command line
 4.  Netlify will return the link to stg. Check it and if your changes work on it then run the command returned from netlify to push your changes on production.
 
-Changes should be visilbe on: https://taskeeny.netlify.app
+Changes should be visilbe on: https://taskeeny.netlify.app/
 
 ## Enjoy
 
