@@ -1,20 +1,22 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { Modal } from "./Modal";
-import { TagBorder } from "../task/TagBorder";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+
 import { TagsContext } from "../../contexts/tags";
+import { TagBorder } from "../task/TagBorder";
 import {
+  getContentToDisplay,
+  getContentToSave,
+  getRandomColor,
   getTagsFromText,
   Status,
   TagsInputFormat,
-  getRandomColor,
 } from "../task/utils";
-import { EditableContentProps } from "./interfaces";
 import { Header } from "./Header";
+import { EditableContentProps } from "./interfaces";
+import { Modal } from "./Modal";
 import { TextWithColoredHashtags } from "./TextWithColoredHashtags";
-import { getContentToDisplay, getContentToSave } from "../task/utils";
 
 export const EditableContent: React.FC<EditableContentProps> = ({
   hide,
@@ -321,7 +323,7 @@ export const TextareaVisibleResult = styled.div`
   position: absolute;
   color: ${(p) => p.theme.modal.textarea.color};
   white-space: pre-wrap;
-  overflow: scroll;
+  overflow: auto;
   .hashtag:hover {
     cursor: pointer;
   }

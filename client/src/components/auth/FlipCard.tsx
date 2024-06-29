@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 
 import { Button } from "../utils";
 import { Login } from "./Login";
@@ -128,7 +129,6 @@ const CardContent = styled.div`
 `;
 
 const Scene = styled.div`
-  height: 100%;
   perspective: 600px;
   width: ${(p) => p.theme.auth.card.width};
 `;

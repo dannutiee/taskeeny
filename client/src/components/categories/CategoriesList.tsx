@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from "react";
+
 import styled from "styled-components";
 
-import { useGetTagsQuery, Tag as TagType } from "../../graphql";
 import { TagsContext } from "../../contexts/tags";
+import { Tag as TagType, useGetTagsQuery } from "../../graphql";
 import {
-  useUpdateTagMutation,
-  useSetAllTagsVisibleMutation,
   GetTagsDocument,
+  useSetAllTagsVisibleMutation,
+  useUpdateTagMutation,
 } from "../../graphql/__generated__/typeDefs";
 
 type Tag = Omit<TagType, "id">;
@@ -154,7 +155,7 @@ const CategoriesWrapper = styled.div`
 
 const Scrollable = styled.div`
   height: calc(100% - 100px);
-  overflow: scroll;
+  overflow: auto;
 `;
 
 const ShowAll = styled.span`
