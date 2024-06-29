@@ -1,14 +1,15 @@
 import {
   ApolloClient,
+  ApolloLink,
   HttpLink,
   InMemoryCache,
-  ApolloLink,
-} from "@apollo/client";
+} from '@apollo/client';
+
 // import { onError } from "@apollo/client/link/error";
 
 const API_URL =
   process.env.NODE_ENV === "production"
-    ? "https://taskeeny-api.herokuapp.com/graphql"
+    ? "https://taskeeny-api-98e51814f9e4.herokuapp.com/graphql"
     : "http://localhost:8001/graphql";
 
 const httpLink = new HttpLink({
