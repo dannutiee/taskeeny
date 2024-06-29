@@ -13,7 +13,7 @@ export const resolvePositions: ResolvePositions = async (
       const account = await Account.findOne({ user_id: user.id });
       return account.positions;
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err as any);
     }
   }
 };

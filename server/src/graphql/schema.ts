@@ -1,15 +1,16 @@
-import { ApolloServerExpressConfig } from "apollo-server-express";
+import { createContext } from "./context";
 import { resolvers } from "./resolvers";
 import typeDefs from "./typeDefs";
 
-import { createContext } from "./context";
-
-const schema: ApolloServerExpressConfig = {
+const schema = {
   typeDefs,
   resolvers: resolvers as any, // workaround
   context: createContext,
   introspection: true,
   playground: true,
+  resolverValidationOptions: {
+    requireResolversForResolveType: false,
+  },
 };
 
 export default schema;

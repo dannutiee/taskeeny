@@ -19,7 +19,7 @@ export const resolveTagsForTask: ResolveTagsForTask = async (
       let task = account.tasks.find((el: Task) => el.id === id);
       return task.tags;
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err as any);
     }
   }
 };
@@ -35,7 +35,7 @@ export const resolveTagsForUser: ResolveTagsForUser = async (
       const account = await Account.findOne({ user_id: user.id });
       return account.tags;
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err as any);
     }
   }
 };

@@ -13,7 +13,7 @@ export const resolveTasks: ResolveTask = async (
       const account = await Account.findOne({ user_id: user.id });
       return account.tasks;
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err as any);
     }
   }
 };

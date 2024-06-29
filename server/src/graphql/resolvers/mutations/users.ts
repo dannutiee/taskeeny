@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
-
+import { UserInputError } from "apollo-server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { UserInputError } from "apollo-server";
+import mongoose from "mongoose";
 
-import { User, Account } from "../../../models";
-import { MutationResolvers } from "../../__generated__/typeDefs";
-const { SECRET_KEY } = require("../../../config");
+import { Account, User } from "../../../models";
 import {
-  validateRegisterInput,
   validateLoginInput,
+  validateRegisterInput,
 } from "../../../utils/validators";
+import { MutationResolvers } from "../../__generated__/typeDefs";
+
+const { SECRET_KEY } = require("../../../config");
 
 type ResolveRegisterUser = MutationResolvers["registerUser"];
 type ResolveLoginUser = MutationResolvers["login"];

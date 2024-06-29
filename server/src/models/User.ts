@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import { Document } from "mongoose";
 
 export const userSchema = new Schema({
   _id: Schema.Types.ObjectId,
@@ -9,4 +10,13 @@ export const userSchema = new Schema({
   createdAt: String,
 });
 
-export const User = model("User", userSchema);
+type User = {
+  id: string;
+  name: string;
+  surname: string;
+  password: string;
+  email: string;
+  createdAt: string;
+};
+
+export const User = model<User & Document>("User", userSchema);

@@ -1,12 +1,7 @@
-import { GraphQLResolveInfo } from "graphql";
+import { GraphQLResolveInfo } from 'graphql';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type RequireFields<T, K extends keyof T> = {
-  [X in Exclude<keyof T, K>]?: T[X];
-} &
-  { [P in K]-?: NonNullable<T[P]> };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -17,49 +12,49 @@ export type Scalars = {
 };
 
 export type AddTaskInput = {
-  content: Scalars["String"];
+  content: Scalars['String'];
   tags: Array<TagInput>;
-  status?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars['String']>;
 };
 
 export type AddTaskResponse = MutationResponseInterface & {
-  __typename?: "AddTaskResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'AddTaskResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
 };
 
 export type AuthtenticatedUser = {
-  __typename?: "AuthtenticatedUser";
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  surname: Scalars["String"];
-  password: Scalars["String"];
-  email: Scalars["String"];
-  createdAt: Scalars["String"];
-  token: Scalars["String"];
+  __typename?: 'AuthtenticatedUser';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  surname: Scalars['String'];
+  password: Scalars['String'];
+  email: Scalars['String'];
+  createdAt: Scalars['String'];
+  token: Scalars['String'];
   tasks: Array<Task>;
   tags: Array<Tag>;
   positions?: Maybe<Array<Position>>;
 };
 
 export type DeleteTaskResponse = MutationResponseInterface & {
-  __typename?: "DeleteTaskResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'DeleteTaskResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
 };
 
 export type LoginResponse = MutationResponseInterface & {
-  __typename?: "LoginResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'LoginResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
   user: User;
 };
 
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   registerUser?: Maybe<RegisterUserResponse>;
   login?: Maybe<LoginResponse>;
   addTask?: Maybe<AddTaskResponse>;
@@ -72,154 +67,163 @@ export type Mutation = {
   setAllTagsVisible?: Maybe<SetAllTagsVisibleResponse>;
 };
 
+
 export type MutationRegisterUserArgs = {
   input: RegisterInput;
 };
 
+
 export type MutationLoginArgs = {
-  email: Scalars["String"];
-  password: Scalars["String"];
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
+
 
 export type MutationAddTaskArgs = {
   input: AddTaskInput;
 };
 
+
 export type MutationUpdatePositionsArgs = {
   input: UpdatePositionsInput;
 };
 
+
 export type MutationDeleteTaskArgs = {
-  taskId: Scalars["ID"];
+  taskId: Scalars['ID'];
 };
+
 
 export type MutationUpdateTaskArgs = {
   input: UpdateTaskInput;
 };
 
+
 export type MutationUpdateTagArgs = {
   input: UpdateTagInput;
 };
 
+
 export type MutationUpdateTagsArgs = {
   input: UpdateTagsInput;
 };
+
 
 export type MutationSetActiveTagArgs = {
   input: SetActiveTagInput;
 };
 
 export type MutationResponseInterface = {
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
 };
 
 export type Position = {
-  __typename?: "Position";
-  status: Scalars["String"];
-  tasksOrder: Array<Maybe<Scalars["String"]>>;
+  __typename?: 'Position';
+  status: Scalars['String'];
+  tasksOrder: Array<Maybe<Scalars['String']>>;
 };
 
 export type Query = {
-  __typename?: "Query";
+  __typename?: 'Query';
   users?: Maybe<Array<Maybe<User>>>;
   user: AuthtenticatedUser;
 };
 
 export type RegisterInput = {
-  email: Scalars["String"];
-  name: Scalars["String"];
-  surname: Scalars["String"];
-  password: Scalars["String"];
-  confirmPassword: Scalars["String"];
+  email: Scalars['String'];
+  name: Scalars['String'];
+  surname: Scalars['String'];
+  password: Scalars['String'];
+  confirmPassword: Scalars['String'];
 };
 
 export type RegisterUserResponse = MutationResponseInterface & {
-  __typename?: "RegisterUserResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'RegisterUserResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
   user: User;
 };
 
 export type SetActiveTagInput = {
-  activeTag: Scalars["String"];
+  activeTag: Scalars['String'];
 };
 
 export type SetActiveTagResponse = MutationResponseInterface & {
-  __typename?: "SetActiveTagResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'SetActiveTagResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
 };
 
 export type SetAllTagsVisibleResponse = MutationResponseInterface & {
-  __typename?: "SetAllTagsVisibleResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'SetAllTagsVisibleResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
 };
 
 export type Tag = {
-  __typename?: "Tag";
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  color: Scalars["String"];
-  isActive: Scalars["Boolean"];
-  tasks: Array<Scalars["String"]>;
+  __typename?: 'Tag';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  color: Scalars['String'];
+  isActive: Scalars['Boolean'];
+  tasks: Array<Scalars['String']>;
 };
 
 export type TagInput = {
-  name: Scalars["String"];
-  color: Scalars["String"];
+  name: Scalars['String'];
+  color: Scalars['String'];
 };
 
 export type TagWithColor = {
-  __typename?: "TagWithColor";
-  name: Scalars["String"];
-  color: Scalars["String"];
+  __typename?: 'TagWithColor';
+  name: Scalars['String'];
+  color: Scalars['String'];
 };
 
 export type TagWithStatus = {
-  __typename?: "TagWithStatus";
-  name: Scalars["String"];
-  isActive: Scalars["Boolean"];
+  __typename?: 'TagWithStatus';
+  name: Scalars['String'];
+  isActive: Scalars['Boolean'];
 };
 
 export type Task = {
-  __typename?: "Task";
-  id: Scalars["ID"];
-  content: Scalars["String"];
-  status: Scalars["String"];
-  createdAt: Scalars["String"];
-  completedAt?: Maybe<Scalars["String"]>;
-  tags: Array<Scalars["String"]>;
+  __typename?: 'Task';
+  id: Scalars['ID'];
+  content: Scalars['String'];
+  status: Scalars['String'];
+  createdAt: Scalars['String'];
+  completedAt?: Maybe<Scalars['String']>;
+  tags: Array<Scalars['String']>;
 };
 
 export type UpdatePositionsInput = {
-  status: Scalars["String"];
-  tasksOrder: Array<Scalars["String"]>;
+  status: Scalars['String'];
+  tasksOrder: Array<Scalars['String']>;
 };
 
 export type UpdatePositionsResponse = MutationResponseInterface & {
-  __typename?: "UpdatePositionsResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'UpdatePositionsResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
 };
 
 export type UpdateTagInput = {
-  name: Scalars["String"];
-  isActive?: Maybe<Scalars["Boolean"]>;
-  color?: Maybe<Scalars["String"]>;
+  name: Scalars['String'];
+  isActive?: Maybe<Scalars['Boolean']>;
+  color?: Maybe<Scalars['String']>;
 };
 
 export type UpdateTagResponse = MutationResponseInterface & {
-  __typename?: "UpdateTagResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'UpdateTagResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
   tag: TagWithStatus;
 };
 
@@ -228,38 +232,41 @@ export type UpdateTagsInput = {
 };
 
 export type UpdateTagsResponse = MutationResponseInterface & {
-  __typename?: "UpdateTagsResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'UpdateTagsResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
   tags: Array<TagWithColor>;
 };
 
 export type UpdateTaskInput = {
-  taskId: Scalars["ID"];
-  content?: Maybe<Scalars["String"]>;
+  taskId: Scalars['ID'];
+  content?: Maybe<Scalars['String']>;
   tags?: Maybe<Array<TagInput>>;
-  status?: Maybe<Scalars["String"]>;
+  status?: Maybe<Scalars['String']>;
 };
 
 export type UpdateTaskResponse = MutationResponseInterface & {
-  __typename?: "UpdateTaskResponse";
-  code: Scalars["String"];
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  __typename?: 'UpdateTaskResponse';
+  code: Scalars['String'];
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
 };
 
 export type User = {
-  __typename?: "User";
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  surname: Scalars["String"];
-  email: Scalars["String"];
-  createdAt: Scalars["String"];
-  token: Scalars["String"];
+  __typename?: 'User';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  surname: Scalars['String'];
+  email: Scalars['String'];
+  createdAt: Scalars['String'];
+  token: Scalars['String'];
 };
 
+
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
+
 
 export type LegacyStitchingResolver<TResult, TParent, TContext, TArgs> = {
   fragment: string;
@@ -270,9 +277,7 @@ export type NewStitchingResolver<TResult, TParent, TContext, TArgs> = {
   selectionSet: string;
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type StitchingResolver<TResult, TParent, TContext, TArgs> =
-  | LegacyStitchingResolver<TResult, TParent, TContext, TArgs>
-  | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
+export type StitchingResolver<TResult, TParent, TContext, TArgs> = LegacyStitchingResolver<TResult, TParent, TContext, TArgs> | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
   | ResolverFn<TResult, TParent, TContext, TArgs>
   | StitchingResolver<TResult, TParent, TContext, TArgs>;
@@ -298,25 +303,9 @@ export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs
-> {
-  subscribe: SubscriptionSubscribeFn<
-    { [key in TKey]: TResult },
-    TParent,
-    TContext,
-    TArgs
-  >;
-  resolve?: SubscriptionResolveFn<
-    TResult,
-    { [key in TKey]: TResult },
-    TContext,
-    TArgs
-  >;
+export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -324,26 +313,12 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs
-> =
+export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<
-  TResult,
-  TKey extends string,
-  TParent = {},
-  TContext = {},
-  TArgs = {}
-> =
-  | ((
-      ...args: any[]
-    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
@@ -352,20 +327,11 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
-  obj: T,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<
-  TResult = {},
-  TParent = {},
-  TContext = {},
-  TArgs = {}
-> = (
+export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
@@ -377,27 +343,17 @@ export type DirectiveResolverFn<
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
-  ID: ResolverTypeWrapper<Scalars["ID"]>;
-  String: ResolverTypeWrapper<Scalars["String"]>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   AuthtenticatedUser: ResolverTypeWrapper<AuthtenticatedUser>;
   Task: ResolverTypeWrapper<Task>;
   Tag: ResolverTypeWrapper<Tag>;
-  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Position: ResolverTypeWrapper<Position>;
   Mutation: ResolverTypeWrapper<{}>;
   RegisterInput: RegisterInput;
   RegisterUserResponse: ResolverTypeWrapper<RegisterUserResponse>;
-  MutationResponseInterface:
-    | ResolversTypes["RegisterUserResponse"]
-    | ResolversTypes["LoginResponse"]
-    | ResolversTypes["AddTaskResponse"]
-    | ResolversTypes["UpdatePositionsResponse"]
-    | ResolversTypes["DeleteTaskResponse"]
-    | ResolversTypes["UpdateTaskResponse"]
-    | ResolversTypes["UpdateTagResponse"]
-    | ResolversTypes["UpdateTagsResponse"]
-    | ResolversTypes["SetActiveTagResponse"]
-    | ResolversTypes["SetAllTagsVisibleResponse"];
+  MutationResponseInterface: ResolversTypes['RegisterUserResponse'] | ResolversTypes['LoginResponse'] | ResolversTypes['AddTaskResponse'] | ResolversTypes['UpdatePositionsResponse'] | ResolversTypes['DeleteTaskResponse'] | ResolversTypes['UpdateTaskResponse'] | ResolversTypes['UpdateTagResponse'] | ResolversTypes['UpdateTagsResponse'] | ResolversTypes['SetActiveTagResponse'] | ResolversTypes['SetAllTagsVisibleResponse'];
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
@@ -422,27 +378,17 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Query: {};
   User: User;
-  ID: Scalars["ID"];
-  String: Scalars["String"];
+  ID: Scalars['ID'];
+  String: Scalars['String'];
   AuthtenticatedUser: AuthtenticatedUser;
   Task: Task;
   Tag: Tag;
-  Boolean: Scalars["Boolean"];
+  Boolean: Scalars['Boolean'];
   Position: Position;
   Mutation: {};
   RegisterInput: RegisterInput;
   RegisterUserResponse: RegisterUserResponse;
-  MutationResponseInterface:
-    | ResolversParentTypes["RegisterUserResponse"]
-    | ResolversParentTypes["LoginResponse"]
-    | ResolversParentTypes["AddTaskResponse"]
-    | ResolversParentTypes["UpdatePositionsResponse"]
-    | ResolversParentTypes["DeleteTaskResponse"]
-    | ResolversParentTypes["UpdateTaskResponse"]
-    | ResolversParentTypes["UpdateTagResponse"]
-    | ResolversParentTypes["UpdateTagsResponse"]
-    | ResolversParentTypes["SetActiveTagResponse"]
-    | ResolversParentTypes["SetAllTagsVisibleResponse"];
+  MutationResponseInterface: ResolversParentTypes['RegisterUserResponse'] | ResolversParentTypes['LoginResponse'] | ResolversParentTypes['AddTaskResponse'] | ResolversParentTypes['UpdatePositionsResponse'] | ResolversParentTypes['DeleteTaskResponse'] | ResolversParentTypes['UpdateTaskResponse'] | ResolversParentTypes['UpdateTagResponse'] | ResolversParentTypes['UpdateTagsResponse'] | ResolversParentTypes['SetActiveTagResponse'] | ResolversParentTypes['SetAllTagsVisibleResponse'];
   LoginResponse: LoginResponse;
   AddTaskInput: AddTaskInput;
   TagInput: TagInput;
@@ -463,309 +409,163 @@ export type ResolversParentTypes = {
   SetAllTagsVisibleResponse: SetAllTagsVisibleResponse;
 };
 
-export type AddTaskResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["AddTaskResponse"] = ResolversParentTypes["AddTaskResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type AddTaskResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AddTaskResponse'] = ResolversParentTypes['AddTaskResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type AuthtenticatedUserResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["AuthtenticatedUser"] = ResolversParentTypes["AuthtenticatedUser"]
-> = {
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  surname?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  password?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  tasks?: Resolver<Array<ResolversTypes["Task"]>, ParentType, ContextType>;
-  tags?: Resolver<Array<ResolversTypes["Tag"]>, ParentType, ContextType>;
-  positions?: Resolver<
-    Maybe<Array<ResolversTypes["Position"]>>,
-    ParentType,
-    ContextType
-  >;
+export type AuthtenticatedUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthtenticatedUser'] = ResolversParentTypes['AuthtenticatedUser']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  surname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tasks?: Resolver<Array<ResolversTypes['Task']>, ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes['Tag']>, ParentType, ContextType>;
+  positions?: Resolver<Maybe<Array<ResolversTypes['Position']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type DeleteTaskResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["DeleteTaskResponse"] = ResolversParentTypes["DeleteTaskResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type DeleteTaskResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteTaskResponse'] = ResolversParentTypes['DeleteTaskResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type LoginResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["LoginResponse"] = ResolversParentTypes["LoginResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+export type LoginResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
-> = {
-  registerUser?: Resolver<
-    Maybe<ResolversTypes["RegisterUserResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationRegisterUserArgs, "input">
-  >;
-  login?: Resolver<
-    Maybe<ResolversTypes["LoginResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationLoginArgs, "email" | "password">
-  >;
-  addTask?: Resolver<
-    Maybe<ResolversTypes["AddTaskResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationAddTaskArgs, "input">
-  >;
-  updatePositions?: Resolver<
-    Maybe<ResolversTypes["UpdatePositionsResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdatePositionsArgs, "input">
-  >;
-  deleteTask?: Resolver<
-    Maybe<ResolversTypes["DeleteTaskResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeleteTaskArgs, "taskId">
-  >;
-  updateTask?: Resolver<
-    Maybe<ResolversTypes["UpdateTaskResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateTaskArgs, "input">
-  >;
-  updateTag?: Resolver<
-    Maybe<ResolversTypes["UpdateTagResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateTagArgs, "input">
-  >;
-  updateTags?: Resolver<
-    Maybe<ResolversTypes["UpdateTagsResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateTagsArgs, "input">
-  >;
-  setActiveTag?: Resolver<
-    Maybe<ResolversTypes["SetActiveTagResponse"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationSetActiveTagArgs, "input">
-  >;
-  setAllTagsVisible?: Resolver<
-    Maybe<ResolversTypes["SetAllTagsVisibleResponse"]>,
-    ParentType,
-    ContextType
-  >;
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  registerUser?: Resolver<Maybe<ResolversTypes['RegisterUserResponse']>, ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
+  login?: Resolver<Maybe<ResolversTypes['LoginResponse']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
+  addTask?: Resolver<Maybe<ResolversTypes['AddTaskResponse']>, ParentType, ContextType, RequireFields<MutationAddTaskArgs, 'input'>>;
+  updatePositions?: Resolver<Maybe<ResolversTypes['UpdatePositionsResponse']>, ParentType, ContextType, RequireFields<MutationUpdatePositionsArgs, 'input'>>;
+  deleteTask?: Resolver<Maybe<ResolversTypes['DeleteTaskResponse']>, ParentType, ContextType, RequireFields<MutationDeleteTaskArgs, 'taskId'>>;
+  updateTask?: Resolver<Maybe<ResolversTypes['UpdateTaskResponse']>, ParentType, ContextType, RequireFields<MutationUpdateTaskArgs, 'input'>>;
+  updateTag?: Resolver<Maybe<ResolversTypes['UpdateTagResponse']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'input'>>;
+  updateTags?: Resolver<Maybe<ResolversTypes['UpdateTagsResponse']>, ParentType, ContextType, RequireFields<MutationUpdateTagsArgs, 'input'>>;
+  setActiveTag?: Resolver<Maybe<ResolversTypes['SetActiveTagResponse']>, ParentType, ContextType, RequireFields<MutationSetActiveTagArgs, 'input'>>;
+  setAllTagsVisible?: Resolver<Maybe<ResolversTypes['SetAllTagsVisibleResponse']>, ParentType, ContextType>;
 };
 
-export type MutationResponseInterfaceResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["MutationResponseInterface"] = ResolversParentTypes["MutationResponseInterface"]
-> = {
-  __resolveType: TypeResolveFn<
-    | "RegisterUserResponse"
-    | "LoginResponse"
-    | "AddTaskResponse"
-    | "UpdatePositionsResponse"
-    | "DeleteTaskResponse"
-    | "UpdateTaskResponse"
-    | "UpdateTagResponse"
-    | "UpdateTagsResponse"
-    | "SetActiveTagResponse"
-    | "SetAllTagsVisibleResponse",
-    ParentType,
-    ContextType
-  >;
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type MutationResponseInterfaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['MutationResponseInterface'] = ResolversParentTypes['MutationResponseInterface']> = {
+  __resolveType: TypeResolveFn<'RegisterUserResponse' | 'LoginResponse' | 'AddTaskResponse' | 'UpdatePositionsResponse' | 'DeleteTaskResponse' | 'UpdateTaskResponse' | 'UpdateTagResponse' | 'UpdateTagsResponse' | 'SetActiveTagResponse' | 'SetAllTagsVisibleResponse', ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
-export type PositionResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Position"] = ResolversParentTypes["Position"]
-> = {
-  status?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  tasksOrder?: Resolver<
-    Array<Maybe<ResolversTypes["String"]>>,
-    ParentType,
-    ContextType
-  >;
+export type PositionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Position'] = ResolversParentTypes['Position']> = {
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tasksOrder?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
-> = {
-  users?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["User"]>>>,
-    ParentType,
-    ContextType
-  >;
-  user?: Resolver<
-    ResolversTypes["AuthtenticatedUser"],
-    ParentType,
-    ContextType
-  >;
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['AuthtenticatedUser'], ParentType, ContextType>;
 };
 
-export type RegisterUserResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["RegisterUserResponse"] = ResolversParentTypes["RegisterUserResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+export type RegisterUserResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['RegisterUserResponse'] = ResolversParentTypes['RegisterUserResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SetActiveTagResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["SetActiveTagResponse"] = ResolversParentTypes["SetActiveTagResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type SetActiveTagResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SetActiveTagResponse'] = ResolversParentTypes['SetActiveTagResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SetAllTagsVisibleResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["SetAllTagsVisibleResponse"] = ResolversParentTypes["SetAllTagsVisibleResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type SetAllTagsVisibleResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SetAllTagsVisibleResponse'] = ResolversParentTypes['SetAllTagsVisibleResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TagResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Tag"] = ResolversParentTypes["Tag"]
-> = {
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  color?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  isActive?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  tasks?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
+export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  isActive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  tasks?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TagWithColorResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["TagWithColor"] = ResolversParentTypes["TagWithColor"]
-> = {
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  color?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type TagWithColorResolvers<ContextType = any, ParentType extends ResolversParentTypes['TagWithColor'] = ResolversParentTypes['TagWithColor']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TagWithStatusResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["TagWithStatus"] = ResolversParentTypes["TagWithStatus"]
-> = {
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  isActive?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+export type TagWithStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['TagWithStatus'] = ResolversParentTypes['TagWithStatus']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  isActive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type TaskResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Task"] = ResolversParentTypes["Task"]
-> = {
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  content?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  status?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  completedAt?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  tags?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
+export type TaskResolvers<ContextType = any, ParentType extends ResolversParentTypes['Task'] = ResolversParentTypes['Task']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  completedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UpdatePositionsResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["UpdatePositionsResponse"] = ResolversParentTypes["UpdatePositionsResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type UpdatePositionsResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdatePositionsResponse'] = ResolversParentTypes['UpdatePositionsResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UpdateTagResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["UpdateTagResponse"] = ResolversParentTypes["UpdateTagResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  tag?: Resolver<ResolversTypes["TagWithStatus"], ParentType, ContextType>;
+export type UpdateTagResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdateTagResponse'] = ResolversParentTypes['UpdateTagResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tag?: Resolver<ResolversTypes['TagWithStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UpdateTagsResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["UpdateTagsResponse"] = ResolversParentTypes["UpdateTagsResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  tags?: Resolver<
-    Array<ResolversTypes["TagWithColor"]>,
-    ParentType,
-    ContextType
-  >;
+export type UpdateTagsResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdateTagsResponse'] = ResolversParentTypes['UpdateTagsResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes['TagWithColor']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UpdateTaskResponseResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["UpdateTaskResponse"] = ResolversParentTypes["UpdateTaskResponse"]
-> = {
-  code?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type UpdateTaskResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdateTaskResponse'] = ResolversParentTypes['UpdateTaskResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
-> = {
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  surname?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  token?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  surname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -791,6 +591,7 @@ export type Resolvers<ContextType = any> = {
   UpdateTaskResponse?: UpdateTaskResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
+
 
 /**
  * @deprecated

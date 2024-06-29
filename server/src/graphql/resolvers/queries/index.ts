@@ -6,8 +6,8 @@ import { Resolvers } from "../../__generated__/typeDefs";
 
 export const resolvers: Resolvers = {
   Query: {
-    users: resolveUsers,
-    user: resolveUser,
+    users: resolveUsers as any,
+    user: resolveUser as any,
   },
   AuthtenticatedUser: {
     tasks: resolveTasks,
