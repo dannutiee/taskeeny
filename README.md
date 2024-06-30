@@ -1,20 +1,78 @@
-### EDIT: this project is not maintained anymore as for 2023+
+# TasKeeny 🎯
 
-node version: 14.17.6
+This project is a task management application that features a unique category segregation mechanism based on hashtag recognition. It is designed to help users organize and manage their tasks efficiently by categorizing them with hashtags.
 
-npm version: 6.14.15
+## Project Overview
 
-## To start with client go to /client
+### User Onboarding:
+
+- **Account Creation**: Users need to sign up via the /register panel to create an account.
+- **Login**: After registration, users can log in to the application using the /login page.
+
+### Key Features:
+
+- **Task Creation:** Users can create tasks with a detailed description and a status indicator (TO DO, IN PROGRESS, COMPLETED
+- **Hashtag-Based Categorization:** Each task must include at least one hashtag in its description to assign it to a specific category. Multiple hashtags (categories) can be used for a single task.
+- **Filtering:** Users can filter the board view by enabling or disabling specific hashtags to focus on certain categories of tasks.
+
+### Tags Management:
+
+- Hashtags cannot be deleted outright.
+- A hashtag/category is automatically removed if there are no tasks associated with it on the board.
+- Hashtags can be disabled when not in use.
+
+### Task Deletion:
+
+- Users can delete tasks as needed.
+
+### Theme Customization:
+
+- The application allows users to switch between light and dark themes for a personalized user experience.
+
+## Technical Stack and Architecture
+
+### Technologies used:
+
+- **Frontend:** React, TypeScript, Styled Components
+- **Backend:** Node.js, Express.js, GraphQL
+- **Database:** MongoDB (Atlas)
+- **Deployment:** Netlify (Frontend), Heroku (Backend)
+
+### Infrastructure Diagram:
+
+![Infrastructure Diagram](designs/diagram.png)
+
+# Getting Started
+
+- **node version:** 14.17.6
+- **npm version:** 6.14.15
+
+## Client
+
+Go to client:
+
+- `cd client`
+
+Run application in dev mode:
 
 - `npm install`
 - `npm run start:dev`
 
 Client runs on: http://localhost:3000/
 
-## To start with server go to /server
+## Server
+
+Go to server:
+
+- `cd server`
+
+**Setup environment variables:** You need to copy **dev.example.ts** file and rename the copy to **dev.ts**. Create database in mongoDB and once created replace the placeholders values with your MONGODB and SECRET_KEY.
+
+<a href="https://www.mongodb.com/lp/cloud/atlas/try4?utm_source=google&utm_campaign=search_gs_pl_evergreen_atlas_general_prosp-brand_gic-null_emea-pl_ps-all_desktop_eng_lead&utm_term=mongo%20db%20tutorial&utm_medium=cpc_paid_search&utm_ad=p&utm_ad_campaign_id=10947982926&adgroup=108885991393&cq_cmp=10947982926&gad_source=1&gclid=CjwKCAjw4f6zBhBVEiwATEHFVvTUfSupVh47ZyYwe8JOEj728Fzn1ysU7Ca3A7n0SLnTrQdScJPswRoC3RIQAvD_BwE">MongoDB</a>
+
+Run application in dev mode:
 
 - `npm install`
-- Then you need to copy **dev.example.ts** file to **dev.ts** replacing the placeholders values with real ones.
 - `npm run start:dev`
 
 Server runs on: http://localhost:8001/graphql
@@ -40,30 +98,24 @@ Before commit to the repository code should be formatted
 
 - `npm run format`
 
-Server uses mongoDB as database so to play with this app you need to have an account on MongoDB.
-
-<a href="https://www.mongodb.com/lp/cloud/atlas/try4?utm_source=google&utm_campaign=search_gs_pl_evergreen_atlas_general_prosp-brand_gic-null_emea-pl_ps-all_desktop_eng_lead&utm_term=mongo%20db%20tutorial&utm_medium=cpc_paid_search&utm_ad=p&utm_ad_campaign_id=10947982926&adgroup=108885991393&cq_cmp=10947982926&gad_source=1&gclid=CjwKCAjw4f6zBhBVEiwATEHFVvTUfSupVh47ZyYwe8JOEj728Fzn1ysU7Ca3A7n0SLnTrQdScJPswRoC3RIQAvD_BwE">MongoDB</a>
-
-Once you have an account you need to create a cluster and get the connection string and secret-key which you need to use in dev.ts file.
-Please find dev.example.ts file in this repo, copy it and change the name to dev.ts. Replace MONGODB,SECRET_KEY values with the onces that you get from your cluster.
-
 ## Deploy
 
 **Server**
 
-- Server is hosted on heroku.
+- Server is hosted on **heroku**.
 
-From the **root directory** of project run command:
+From the **root directory** of project run command:\
 `git subtree push --prefix server heroku master`
 
-tip: if the changes require **force** push then run:
+tip: if the changes require **force** push then run:\
 `` git push heroku `git subtree split --prefix server master`:master --force ``
 
-Changes should be visible on: https://taskeeny-api.herokuapp.com/graphql
+Changes should be visible on:\
+https://taskeeny-api-98e51814f9e4.herokuapp.com/graphql
 
 **Client**
 
-- Client is hosted on netlify.
+- Client is hosted on **netlify**.
 
 From the **/client directory** run command:
 
@@ -72,8 +124,30 @@ From the **/client directory** run command:
 3.  type **public** in the command line
 4.  Netlify will return the link to stg. Check it and if your changes work on it then run the command returned from netlify to push your changes on production.
 
-Changes should be visilbe on: https://taskeeny.netlify.app
+Changes should be visilbe on: https://taskeeny.netlify.app/
 
-## Enjoy
+# UI & Design
 
-https://user-images.githubusercontent.com/24780078/137640816-7d6028e5-f8e2-4bc3-b7de-a5af7af49c62.mov
+### Register
+
+![Register](designs/register.png)
+
+### Login
+
+![Login](designs/login.png)
+
+### Dashboard light theme
+
+![Register](designs/board.png)
+
+### Dashboard with filtering
+
+![Register](designs/board-with-filtering.png)
+
+### Dashboard dark theme
+
+![Register](designs/board-dark.png)
+
+### Edit Task
+
+![Register](designs/edit-view.png)
