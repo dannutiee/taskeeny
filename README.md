@@ -38,7 +38,22 @@ This project is a task management application that features a unique category se
 - **Database:** MongoDB (Atlas)
 - **Deployment:** Netlify (Frontend), Heroku (Backend)
 
-### Infrastructure Diagram:
+### Architecure decisions:
+
+- **Adopted a React-based frontend with TypeScript** for type safety and scalability. TypeScript helps catch errors early in the development process and makes the codebase easier to maintain.
+- **Used styled-components for CSS-in-JS** to maintain modular and scoped styling, allowing for dynamic styling based on props and state.
+- **Implemented React Router** for handling client-side routing, enabling.
+- **Leveraged the Context API for state management** across components, providing a way to share state globally without prop drilling.
+- **Used GraphQL for Data Fetching and Mutations:** to efficiently query and mutate data, allowing for precise data fetching and reducing over-fetching of data. This provides flexibility for the frontend to request exactly what it needs.
+- **Backend with Node.js and Express:** Built the server using Node.js and Express for a robust and scalable backend.
+- **MongoDB as the Database:** Selected MongoDB for its flexible schema design and scalability, which is well-suited for handling dynamic and hierarchical data structures.
+- **Mongoose for MongoDB Integration:** Utilized Mongoose as the ODM (Object Data Modeling) library to provide schema validation and a straightforward way to interact with MongoDB.
+- **Code Generation with GraphQL Code Generator:** Integrated GraphQL Code Generator to automate the generation of TypeScript types and GraphQL operations, ensuring type safety and reducing manual coding effort.
+- **User Authentication:** Implemented user authentication using JSON Web Tokens (JWT) for secure and stateless authentication, ensuring that user sessions are protected and easily manageable.
+- **Formatting:** Adopted Prettier for consistent code style and quality, ensuring the codebase remains clean and maintainable.
+- **Deployment with Netlify and Heroku:** Deployed the frontend on Netlify for its simplicity, and the backend on Heroku for its ease of setup.
+
+### Simple Architecture Diagram:
 
 ![Infrastructure Diagram](designs/diagram.png)
 
