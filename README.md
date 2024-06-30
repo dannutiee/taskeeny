@@ -20,6 +20,7 @@ This project is a task management application that features a unique category se
 - Hashtags cannot be deleted outright.
 - A hashtag/category is automatically removed if there are no tasks associated with it on the board.
 - Hashtags can be disabled when not in use.
+- Color of hashtag can be change from edit task view. User can change the color by clicking on hashtag and choosing the color from palette displayed on popup. User can provide custom hex color value.
 
 ### Task Deletion:
 
